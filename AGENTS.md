@@ -236,3 +236,21 @@ Before implementation work:
 - Do not add a dependency unless the task requires it; explain dependency changes before making them.
 - Match new code to the repository's current structure while moving toward the target structure incrementally.
 - If the repository remains an empty starter, use this document as the starting standard and create only the directories needed by the current task.
+
+## Riverpod Code Generation Rules
+
+- Use Riverpod code generation for providers.
+- Use `riverpod_annotation` and the `@riverpod` annotation.
+- Stateful ViewModels must extend generated classes such as
+  `_$AuthViewModel`.
+- Every generated provider source file must include a matching
+  `part '<file_name>.g.dart';` declaration.
+- Never manually edit `.g.dart` files.
+- Do not manually declare `Provider`, `NotifierProvider`, or
+  `AsyncNotifierProvider` when an annotated provider is appropriate.
+- Use `@Riverpod(keepAlive: true)` only for application-wide state.
+- Use `ref.watch` for reactive dependencies.
+- Use `ref.read` for user actions and one-time access.
+- After modifying annotated providers, run:
+  `dart run build_runner build --delete-conflicting-outputs`
+- Run `dart format`, `flutter analyze`, and `flutter test` after generation.

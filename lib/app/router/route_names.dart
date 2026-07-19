@@ -1,1 +1,21 @@
-
+abstract final class RouteNames {
+  static const splash = 'splash';
+  static const login = 'login';
+  static const register = 'register';
+  static const forgotPassword = 'forgotPassword';
+  static const home = 'home';
+  static const search = 'search';
+  static const wishlist = 'wishlist';
+  static const tourDetail = 'tourDetail';
+  static const bookings = 'bookings';
+  static const bookingDetail = 'bookingDetail';
+  static const profile = 'profile';
+  static const settings = 'settings';
+  static const adminDashboard = 'adminDashboard';
+  static const adminTours = 'adminTours';
+  static const adminCategories = 'adminCategories';
+  static const adminBookings = 'adminBookings';
+  static const adminUsers = 'adminUsers';
+  static const adminReviews = 'adminReviews';
+  static const adminSettings = 'adminSettings';
+}

@@ -22,9 +22,9 @@ The project uses:
 - Riverpod
 - go_router
 - Firebase Authentication
-- Cloud Firestore
+- Cloud Firestore (optional for future synchronization)
 - SharedPreferences
-- Optional SQLite
+- SQLite through `sqflite_common_ffi` for local application data
 - Stitch MCP for UI generation
 
 ## 2. Architecture Summary
@@ -334,7 +334,9 @@ Admin:
 
 Firebase Authentication is used for register, login, logout, auth state, and optional Google Sign-In.
 
-Cloud Firestore is used for shared application data:
+Cloud Firestore is not the primary data source for the current offline-first
+implementation. It may be introduced later when cross-device synchronization
+is required, for example for:
 
 ```text
 users
@@ -380,11 +382,17 @@ Do not use SharedPreferences for tour lists, booking history, complex relational
 
 ### 9.2 SQLite
 
-SQLite is optional. Use it only when the course requires local database usage, structured offline cache is needed, data must be queried locally, or the team has enough time to maintain it.
+SQLite is the primary local data source for tours, bookings, and profile data
+in the current Windows application. Repositories must access it through their
+feature data sources; Views and ViewModels must never query SQLite directly.
 
-If the application only targets Android and iOS, prefer `sqflite`. Use `sqflite_common_ffi` only when desktop or Dart VM database testing is required.
+Because the current application targets Windows, use `sqflite_common_ffi`.
+If Android or iOS support is added later, the repository interface should stay
+unchanged while the platform-specific SQLite initialization is adapted.
 
-SQLite must not be the primary source for data that Admin and Customer need to share across devices.
+The current SQLite data is local to one installation. If Admin and Customer
+must share data across devices later, add a remote data source such as
+Firestore and let repositories coordinate local persistence and synchronization.
 
 ## 10. UI Architecture and Stitch MCP
 
@@ -449,13 +457,13 @@ Primary data source: Firebase Authentication.
 
 Responsible for home tour sections, search, filtering, details, categories, and wishlist presentation.
 
-Primary data source: Cloud Firestore.
+Primary data source: SQLite through `sqflite_common_ffi`.
 
 ### Bookings
 
 Responsible for traveler information, checkout, payment selection, booking creation, booking history, booking detail, and booking status.
 
-Primary data source: Cloud Firestore.
+Primary data source: SQLite through `sqflite_common_ffi`.
 
 For a simple course project, payment can be simulated. Do not integrate a real payment gateway unless explicitly required.
 
@@ -463,7 +471,9 @@ For a simple course project, payment can be simulated. Do not integrate a real p
 
 Responsible for viewing and editing profile, avatar, settings, theme, language, and notification preferences.
 
-Data sources: Firestore for profile data and SharedPreferences for local settings.
+Primary data source: SQLite through `sqflite_common_ffi`. SharedPreferences is
+used only for simple local settings such as theme and language. Firebase may be
+added later if profile synchronization across devices is required.
 
 ### Reviews
 
@@ -655,9 +665,9 @@ TourViewModel
   ↓
 TourRepository
   ↓
-FirestoreTourDataSource
+SQLiteTourDataSource
   ↓
-Cloud Firestore
+SQLite through `sqflite_common_ffi`
   ↓
 TourViewModel updates state
   ↓
@@ -752,7 +762,7 @@ Cloud Firestore
 +
 SharedPreferences
 +
-Optional SQLite
+SQLite (`sqflite_common_ffi`) for tours, bookings, and profile
 +
 Stitch MCP for presentation UI
 ```
