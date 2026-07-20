@@ -38,19 +38,36 @@ class TravelerInfo extends Equatable {
 
   @override
   List<Object?> get props => [
-        contactName,
-        contactPhone,
-        adultCount,
-        childCount,
-        selectedDate,
-        specialNotes,
-      ];
+    contactName,
+    contactPhone,
+    adultCount,
+    childCount,
+    selectedDate,
+    specialNotes,
+  ];
 }
 
-enum PaymentMethodType {
-  creditCard,
-  eWallet,
-  bankTransfer,
+enum PaymentMethodType { creditCard, eWallet, bankTransfer }
+
+extension PaymentMethodTypeValue on PaymentMethodType {
+  String get databaseValue => switch (this) {
+    PaymentMethodType.creditCard => 'credit_card',
+    PaymentMethodType.eWallet => 'e_wallet',
+    PaymentMethodType.bankTransfer => 'bank_transfer',
+  };
+
+  String get displayName => switch (this) {
+    PaymentMethodType.creditCard => 'Thẻ tín dụng / Ghi nợ',
+    PaymentMethodType.eWallet => 'Ví điện tử',
+    PaymentMethodType.bankTransfer => 'Chuyển khoản ngân hàng',
+  };
+}
+
+class BookingStartArgs {
+  const BookingStartArgs({required this.tourId, required this.basePrice});
+
+  final int tourId;
+  final double basePrice;
 }
 
 class BookingDraft extends Equatable {
@@ -70,13 +87,16 @@ class BookingDraft extends Equatable {
     this.discountAmount = 0,
   });
 
-  double get subtotal => (travelerInfo.adultCount * basePrice) + (travelerInfo.childCount * basePrice * 0.7);
+  double get subtotal =>
+      (travelerInfo.adultCount * basePrice) +
+      (travelerInfo.childCount * basePrice * 0.7);
   double get totalCost => subtotal - discountAmount;
 
   BookingDraft copyWith({
     TravelerInfo? travelerInfo,
     PaymentMethodType? paymentMethod,
     String? promoCode,
+    bool clearPromoCode = false,
     double? discountAmount,
   }) {
     return BookingDraft(
@@ -84,27 +104,27 @@ class BookingDraft extends Equatable {
       basePrice: basePrice,
       travelerInfo: travelerInfo ?? this.travelerInfo,
       paymentMethod: paymentMethod ?? this.paymentMethod,
-      promoCode: promoCode ?? this.promoCode,
+      promoCode: clearPromoCode ? null : promoCode ?? this.promoCode,
       discountAmount: discountAmount ?? this.discountAmount,
     );
   }
 
   @override
   List<Object?> get props => [
-        tourId,
-        basePrice,
-        travelerInfo,
-        paymentMethod,
-        promoCode,
-        discountAmount,
-      ];
+    tourId,
+    basePrice,
+    travelerInfo,
+    paymentMethod,
+    promoCode,
+    discountAmount,
+  ];
 }
 
 class BookingRequest {
   final BookingDraft draft;
   final int userId;
 
-  BookingRequest({required this.draft, required this.userId});
+  const BookingRequest({required this.draft, required this.userId});
 }
 
 class BookingResult extends Equatable {

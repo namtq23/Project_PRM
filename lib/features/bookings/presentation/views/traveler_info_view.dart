@@ -7,7 +7,9 @@ import '../../models/booking_flow_models.dart';
 import '../../../../app/router/route_paths.dart';
 
 class TravelerInfoView extends ConsumerStatefulWidget {
-  const TravelerInfoView({super.key});
+  const TravelerInfoView({super.key, this.startArgs});
+
+  final BookingStartArgs? startArgs;
 
   @override
   ConsumerState<TravelerInfoView> createState() => _TravelerInfoViewState();
@@ -18,14 +20,34 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
   late TextEditingController _notesController;
+  bool _showDateError = false;
 
   @override
   void initState() {
     super.initState();
+    final startArgs = widget.startArgs;
+    if (startArgs != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        ref
+            .read(bookingViewModelProvider.notifier)
+            .startBooking(
+              tourId: startArgs.tourId,
+              basePrice: startArgs.basePrice,
+            );
+      });
+    }
     final draft = ref.read(bookingViewModelProvider);
-    _nameController = TextEditingController(text: draft.travelerInfo.contactName);
-    _phoneController = TextEditingController(text: draft.travelerInfo.contactPhone);
-    _notesController = TextEditingController(text: draft.travelerInfo.specialNotes);
+    final initialTraveler = startArgs == null
+        ? draft.travelerInfo
+        : const TravelerInfo();
+    _nameController = TextEditingController(text: initialTraveler.contactName);
+    _phoneController = TextEditingController(
+      text: initialTraveler.contactPhone,
+    );
+    _notesController = TextEditingController(
+      text: initialTraveler.specialNotes,
+    );
   }
 
   @override
@@ -37,9 +59,13 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
   }
 
   void _onContinue() {
-    if (_formKey.currentState!.validate()) {
-      final draft = ref.read(bookingViewModelProvider);
-      ref.read(bookingViewModelProvider.notifier).updateTravelerInfo(
+    final draft = ref.read(bookingViewModelProvider);
+    final hasSelectedDate = draft.travelerInfo.selectedDate != null;
+    setState(() => _showDateError = !hasSelectedDate);
+    if (_formKey.currentState!.validate() && hasSelectedDate) {
+      ref
+          .read(bookingViewModelProvider.notifier)
+          .updateTravelerInfo(
             draft.travelerInfo.copyWith(
               contactName: _nameController.text,
               contactPhone: _phoneController.text,
@@ -56,9 +82,7 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
     final travelerInfo = draft.travelerInfo;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thông tin người đi'),
-      ),
+      appBar: AppBar(title: const Text('Thông tin người đi')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -78,7 +102,9 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person_outline),
                 ),
-                validator: (value) => (value == null || value.isEmpty) ? 'Vui lòng nhập tên' : null,
+                validator: (value) => (value == null || value.isEmpty)
+                    ? 'Vui lòng nhập tên'
+                    : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
@@ -90,8 +116,12 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
                 ),
                 keyboardType: TextInputType.phone,
                 validator: (value) {
-                  if (value == null || value.isEmpty) return 'Vui lòng nhập SĐT';
-                  if (!RegExp(r'^\d{10,11}$').hasMatch(value)) return 'SĐT không hợp lệ';
+                  if (value == null || value.isEmpty) {
+                    return 'Vui lòng nhập SĐT';
+                  }
+                  if (!RegExp(r'^\d{10,11}$').hasMatch(value)) {
+                    return 'SĐT không hợp lệ';
+                  }
                   return null;
                 },
               ),
@@ -104,16 +134,16 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
               _buildCounter(
                 'Người lớn',
                 travelerInfo.adultCount,
-                (val) => ref.read(bookingViewModelProvider.notifier).updateTravelerInfo(
-                      travelerInfo.copyWith(adultCount: val),
-                    ),
+                (val) => ref
+                    .read(bookingViewModelProvider.notifier)
+                    .updateTravelerInfo(travelerInfo.copyWith(adultCount: val)),
               ),
               _buildCounter(
                 'Trẻ em (Dưới 12 tuổi)',
                 travelerInfo.childCount,
-                (val) => ref.read(bookingViewModelProvider.notifier).updateTravelerInfo(
-                      travelerInfo.copyWith(childCount: val),
-                    ),
+                (val) => ref
+                    .read(bookingViewModelProvider.notifier)
+                    .updateTravelerInfo(travelerInfo.copyWith(childCount: val)),
                 min: 0,
               ),
               const SizedBox(height: 24),
@@ -126,12 +156,17 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
                 onTap: () async {
                   final date = await showDatePicker(
                     context: context,
-                    initialDate: travelerInfo.selectedDate ?? DateTime.now().add(const Duration(days: 1)),
+                    initialDate:
+                        travelerInfo.selectedDate ??
+                        DateTime.now().add(const Duration(days: 1)),
                     firstDate: DateTime.now(),
                     lastDate: DateTime.now().add(const Duration(days: 365)),
                   );
                   if (date != null) {
-                    ref.read(bookingViewModelProvider.notifier).updateTravelerInfo(
+                    setState(() => _showDateError = false);
+                    ref
+                        .read(bookingViewModelProvider.notifier)
+                        .updateTravelerInfo(
                           travelerInfo.copyWith(selectedDate: date),
                         );
                   }
@@ -143,11 +178,21 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
                   ),
                   child: Text(
                     travelerInfo.selectedDate != null
-                        ? DateFormat('dd/MM/yyyy').format(travelerInfo.selectedDate!)
+                        ? DateFormat(
+                            'dd/MM/yyyy',
+                          ).format(travelerInfo.selectedDate!)
                         : 'Chọn ngày khởi hành',
                   ),
                 ),
               ),
+              if (_showDateError)
+                const Padding(
+                  padding: EdgeInsets.only(top: 6, left: 12),
+                  child: Text(
+                    'Vui lòng chọn ngày khởi hành',
+                    style: TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
               const SizedBox(height: 24),
               TextFormField(
                 controller: _notesController,
@@ -174,7 +219,12 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
     );
   }
 
-  Widget _buildCounter(String label, int value, ValueChanged<int> onChanged, {int min = 1}) {
+  Widget _buildCounter(
+    String label,
+    int value,
+    ValueChanged<int> onChanged, {
+    int min = 1,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -187,7 +237,10 @@ class _TravelerInfoViewState extends ConsumerState<TravelerInfoView> {
                 onPressed: value > min ? () => onChanged(value - 1) : null,
                 icon: const Icon(Icons.remove_circle_outline),
               ),
-              SizedBox(width: 30, child: Text('$value', textAlign: TextAlign.center)),
+              SizedBox(
+                width: 30,
+                child: Text('$value', textAlign: TextAlign.center),
+              ),
               IconButton(
                 onPressed: () => onChanged(value + 1),
                 icon: const Icon(Icons.add_circle_outline),

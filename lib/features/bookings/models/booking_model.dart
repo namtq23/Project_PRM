@@ -12,8 +12,10 @@ class BookingModel extends Equatable {
   final String? specialNotes;
   final String? promoCode;
   final String? confirmationCode;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
-  const BookingModel({
+  BookingModel({
     this.bookingId,
     required this.userId,
     required this.tourId,
@@ -25,14 +27,17 @@ class BookingModel extends Equatable {
     this.specialNotes,
     this.promoCode,
     this.confirmationCode,
-  });
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) : createdAt = createdAt ?? DateTime.now().toUtc(),
+       updatedAt = updatedAt ?? DateTime.now().toUtc();
 
-  Map<String, dynamic> toMap() {
-    return {
-      'booking_id': bookingId,
+  Map<String, Object?> toMap({bool includeId = true}) {
+    return <String, Object?>{
+      if (includeId) 'id': bookingId,
       'user_id': userId,
       'tour_id': tourId,
-      'booking_date': bookingDate.toIso8601String(),
+      'booking_date': bookingDate.toUtc().toIso8601String(),
       'total_cost': totalCost,
       'payment_method': paymentMethod,
       'status': status,
@@ -40,12 +45,14 @@ class BookingModel extends Equatable {
       'special_notes': specialNotes,
       'promo_code': promoCode,
       'confirmation_code': confirmationCode,
+      'created_at': createdAt.toUtc().toIso8601String(),
+      'updated_at': updatedAt.toUtc().toIso8601String(),
     };
   }
 
-  factory BookingModel.fromMap(Map<String, dynamic> map) {
+  factory BookingModel.fromMap(Map<String, Object?> map) {
     return BookingModel(
-      bookingId: map['booking_id'] as int?,
+      bookingId: (map['id'] ?? map['booking_id']) as int?,
       userId: map['user_id'] as int,
       tourId: map['tour_id'] as int,
       bookingDate: DateTime.parse(map['booking_date'] as String),
@@ -56,21 +63,25 @@ class BookingModel extends Equatable {
       specialNotes: map['special_notes'] as String?,
       promoCode: map['promo_code'] as String?,
       confirmationCode: map['confirmation_code'] as String?,
+      createdAt: DateTime.parse(map['created_at']! as String),
+      updatedAt: DateTime.parse(map['updated_at']! as String),
     );
   }
 
   @override
   List<Object?> get props => [
-        bookingId,
-        userId,
-        tourId,
-        bookingDate,
-        totalCost,
-        paymentMethod,
-        status,
-        passengerQuantity,
-        specialNotes,
-        promoCode,
-        confirmationCode,
-      ];
+    bookingId,
+    userId,
+    tourId,
+    bookingDate,
+    totalCost,
+    paymentMethod,
+    status,
+    passengerQuantity,
+    specialNotes,
+    promoCode,
+    confirmationCode,
+    createdAt,
+    updatedAt,
+  ];
 }

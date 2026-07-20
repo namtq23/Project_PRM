@@ -4,15 +4,19 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../view_models/booking_view_model.dart';
 import '../../../../app/router/route_paths.dart';
+import '../../models/booking_flow_models.dart';
+import '../widgets/booking_currency.dart';
 
 class CheckoutConfirmationView extends ConsumerStatefulWidget {
   const CheckoutConfirmationView({super.key});
 
   @override
-  ConsumerState<CheckoutConfirmationView> createState() => _CheckoutConfirmationViewState();
+  ConsumerState<CheckoutConfirmationView> createState() =>
+      _CheckoutConfirmationViewState();
 }
 
-class _CheckoutConfirmationViewState extends ConsumerState<CheckoutConfirmationView> {
+class _CheckoutConfirmationViewState
+    extends ConsumerState<CheckoutConfirmationView> {
   final _promoController = TextEditingController();
   bool _isSubmitting = false;
 
@@ -24,15 +28,16 @@ class _CheckoutConfirmationViewState extends ConsumerState<CheckoutConfirmationV
 
   Future<void> _onConfirm() async {
     setState(() => _isSubmitting = true);
-    final result = await ref.read(bookingViewModelProvider.notifier).submitBooking();
+    final result = await ref
+        .read(bookingViewModelProvider.notifier)
+        .submitBooking();
+    if (!mounted) return;
     setState(() => _isSubmitting = false);
 
-    if (mounted) {
-      if (result.success) {
-        context.go(RoutePaths.bookingSuccess, extra: result);
-      } else {
-        context.push(RoutePaths.bookingFailed, extra: result.message);
-      }
+    if (result.success) {
+      context.go(RoutePaths.bookingSuccess, extra: result);
+    } else {
+      context.push(RoutePaths.bookingFailed, extra: result.message);
     }
   }
 
@@ -41,9 +46,7 @@ class _CheckoutConfirmationViewState extends ConsumerState<CheckoutConfirmationV
     final draft = ref.watch(bookingViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thanh toán & Xác nhận'),
-      ),
+      appBar: AppBar(title: const Text('Thanh toán & Xác nhận')),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -53,7 +56,10 @@ class _CheckoutConfirmationViewState extends ConsumerState<CheckoutConfirmationV
               children: [
                 _buildSummaryCard(context, draft),
                 const SizedBox(height: 24),
-                Text('Mã giảm giá', style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  'Mã giảm giá',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -69,12 +75,13 @@ class _CheckoutConfirmationViewState extends ConsumerState<CheckoutConfirmationV
                     const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () async {
-                        final res = await ref.read(bookingViewModelProvider.notifier).applyPromoCode(_promoController.text);
-                        if (mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(res.message ?? '')),
-                          );
-                        }
+                        final res = await ref
+                            .read(bookingViewModelProvider.notifier)
+                            .applyPromoCode(_promoController.text);
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(res.message ?? '')),
+                        );
                       },
                       child: const Text('Áp dụng'),
                     ),
@@ -86,8 +93,7 @@ class _CheckoutConfirmationViewState extends ConsumerState<CheckoutConfirmationV
               ],
             ),
           ),
-          if (_isSubmitting)
-            const Center(child: CircularProgressIndicator()),
+          if (_isSubmitting) const Center(child: CircularProgressIndicator()),
         ],
       ),
       bottomSheet: Container(
@@ -110,27 +116,40 @@ class _CheckoutConfirmationViewState extends ConsumerState<CheckoutConfirmationV
     );
   }
 
-  Widget _buildSummaryCard(BuildContext context, dynamic draft) {
+  Widget _buildSummaryCard(BuildContext context, BookingDraft draft) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Tóm tắt đơn hàng', style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Tóm tắt đơn hàng',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const Divider(),
             _buildRow('Tour ID:', '#${draft.tourId}'),
-            _buildRow('Ngày đi:', draft.travelerInfo.selectedDate != null ? DateFormat('dd/MM/yyyy').format(draft.travelerInfo.selectedDate!) : '-'),
-            _buildRow('Khách:', '${draft.travelerInfo.adultCount} người lớn, ${draft.travelerInfo.childCount} trẻ em'),
+            _buildRow(
+              'Ngày đi:',
+              draft.travelerInfo.selectedDate != null
+                  ? DateFormat(
+                      'dd/MM/yyyy',
+                    ).format(draft.travelerInfo.selectedDate!)
+                  : '-',
+            ),
+            _buildRow(
+              'Khách:',
+              '${draft.travelerInfo.adultCount} người lớn, ${draft.travelerInfo.childCount} trẻ em',
+            ),
             _buildRow('Liên hệ:', draft.travelerInfo.contactName),
-            _buildRow('PTTT:', draft.paymentMethod.toString().split('.').last),
+            _buildRow('PTTT:', draft.paymentMethod?.displayName ?? '-'),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPriceBreakdown(BuildContext context, dynamic draft) {
+  Widget _buildPriceBreakdown(BuildContext context, BookingDraft draft) {
     return Column(
       children: [
         _buildPriceRow('Tạm tính:', draft.subtotal),
@@ -147,24 +166,39 @@ class _CheckoutConfirmationViewState extends ConsumerState<CheckoutConfirmationV
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(label), Text(value, style: const TextStyle(fontWeight: FontWeight.bold))],
+        children: [
+          Text(label),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+        ],
       ),
     );
   }
 
-  Widget _buildPriceRow(String label, double value, {bool isDiscount = false, bool isTotal = false}) {
+  Widget _buildPriceRow(
+    String label,
+    double value, {
+    bool isDiscount = false,
+    bool isTotal = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: isTotal ? const TextStyle(fontWeight: FontWeight.bold, fontSize: 18) : null),
           Text(
-            '${value > 0 && !isTotal ? '+' : ''}${value.toStringAsFixed(0)} USD',
+            label,
+            style: isTotal
+                ? const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
+                : null,
+          ),
+          Text(
+            formatBookingCurrency(value),
             style: TextStyle(
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
               fontSize: isTotal ? 18 : 16,
-              color: isDiscount ? Colors.green : (isTotal ? Theme.of(context).colorScheme.primary : null),
+              color: isDiscount
+                  ? Colors.green
+                  : (isTotal ? Theme.of(context).colorScheme.primary : null),
             ),
           ),
         ],

@@ -2,34 +2,44 @@ import 'package:flutter/material.dart';
 
 class TourPreview {
   const TourPreview({
+    required this.tourId,
     required this.title,
     required this.location,
     required this.price,
+    required this.basePrice,
     required this.image,
   });
+  final int tourId;
   final String title;
   final String location;
   final String price;
+  final double basePrice;
   final String image;
 }
 
 const featuredTours = [
   TourPreview(
+    tourId: 1,
     title: 'Trải nghiệm nghỉ dưỡng 5 sao Sunset Sanato',
     location: 'Phú Quốc, Kiên Giang',
     price: '3.500.000đ / người',
+    basePrice: 3500000,
     image: 'assets/images/tours/phu_quoc.jpg',
   ),
   TourPreview(
+    tourId: 2,
     title: 'Khám phá Cầu Vàng Bà Nà Hills & Phố cổ Hội An',
     location: 'Đà Nẵng',
     price: '1.250.000đ / người',
+    basePrice: 1250000,
     image: 'assets/images/tours/da_nang.jpg',
   ),
   TourPreview(
+    tourId: 3,
     title: 'Mùa lúa chín Mù Cang Chải - Kỳ quan ruộng bậc thang',
     location: 'Yên Bái',
     price: '2.800.000đ / người',
+    basePrice: 2800000,
     image: 'assets/images/tours/mu_cang_chai.jpg',
   ),
 ];
@@ -156,8 +166,9 @@ class _CategoryChip extends StatelessWidget {
 }
 
 class TourCard extends StatelessWidget {
-  const TourCard({required this.tour, super.key});
+  const TourCard({required this.tour, required this.onBook, super.key});
   final TourPreview tour;
+  final VoidCallback onBook;
   @override
   Widget build(BuildContext context) => Card(
     elevation: 0,
@@ -229,7 +240,7 @@ class TourCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  TextButton(onPressed: () {}, child: const Text('Chi tiết')),
+                  TextButton(onPressed: onBook, child: const Text('Đặt ngay')),
                 ],
               ),
             ],

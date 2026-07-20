@@ -17,11 +17,17 @@ class BookingSuccessView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.check_circle_outline, size: 100, color: Colors.green),
+              const Icon(
+                Icons.check_circle_outline,
+                size: 100,
+                color: Colors.green,
+              ),
               const SizedBox(height: 24),
               Text(
                 'Đặt tour thành công!',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -45,16 +51,26 @@ class BookingSuccessView extends StatelessWidget {
                       children: [
                         Text(
                           result.confirmationCode ?? '-',
-                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         IconButton(
                           icon: const Icon(Icons.copy, size: 20),
                           onPressed: () {
-                            Clipboard.setData(ClipboardData(text: result.confirmationCode ?? ''));
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã sao chép mã')));
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: result.confirmationCode ?? '',
+                              ),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Đã sao chép mã')),
+                            );
                           },
-                        )
+                        ),
                       ],
                     ),
                   ],

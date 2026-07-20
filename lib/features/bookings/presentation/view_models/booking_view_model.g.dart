@@ -9,53 +9,6 @@ part of 'booking_view_model.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(bookingRepository)
-final bookingRepositoryProvider = BookingRepositoryProvider._();
-
-final class BookingRepositoryProvider
-    extends
-        $FunctionalProvider<
-          BookingRepository,
-          BookingRepository,
-          BookingRepository
-        >
-    with $Provider<BookingRepository> {
-  BookingRepositoryProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'bookingRepositoryProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$bookingRepositoryHash();
-
-  @$internal
-  @override
-  $ProviderElement<BookingRepository> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  BookingRepository create(Ref ref) {
-    return bookingRepository(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(BookingRepository value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<BookingRepository>(value),
-    );
-  }
-}
-
-String _$bookingRepositoryHash() => r'c50446247cfcc99090a4f2046a1000740b0a533c';
-
 @ProviderFor(BookingViewModel)
 final bookingViewModelProvider = BookingViewModelProvider._();
 
@@ -67,7 +20,7 @@ final class BookingViewModelProvider
         argument: null,
         retry: null,
         name: r'bookingViewModelProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -88,7 +41,7 @@ final class BookingViewModelProvider
   }
 }
 
-String _$bookingViewModelHash() => r'a17abd9cbcb60c379853bfa124ae4a975288c2c8';
+String _$bookingViewModelHash() => r'b4d5a8f4c7748ea721836e0c67f6ac72480df112';
 
 abstract class _$BookingViewModel extends $Notifier<BookingDraft> {
   BookingDraft build();
@@ -112,7 +65,8 @@ abstract class _$BookingViewModel extends $Notifier<BookingDraft> {
 final bookingHistoryViewModelProvider = BookingHistoryViewModelProvider._();
 
 final class BookingHistoryViewModelProvider
-    extends $AsyncNotifierProvider<BookingHistoryViewModel, List<dynamic>> {
+    extends
+        $AsyncNotifierProvider<BookingHistoryViewModel, List<BookingModel>> {
   BookingHistoryViewModelProvider._()
     : super(
         from: null,
@@ -133,23 +87,116 @@ final class BookingHistoryViewModelProvider
 }
 
 String _$bookingHistoryViewModelHash() =>
-    r'ba2046db6652d4febfb2d80cfa58123313477ae4';
+    r'4e8e3df4cc799a0245f715dd557a8b8990ad4d45';
 
-abstract class _$BookingHistoryViewModel extends $AsyncNotifier<List<dynamic>> {
-  FutureOr<List<dynamic>> build();
+abstract class _$BookingHistoryViewModel
+    extends $AsyncNotifier<List<BookingModel>> {
+  FutureOr<List<BookingModel>> build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<List<dynamic>>, List<dynamic>>;
+    final ref =
+        this.ref as $Ref<AsyncValue<List<BookingModel>>, List<BookingModel>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<List<dynamic>>, List<dynamic>>,
-              AsyncValue<List<dynamic>>,
+              AnyNotifier<AsyncValue<List<BookingModel>>, List<BookingModel>>,
+              AsyncValue<List<BookingModel>>,
               Object?,
               Object?
             >;
     return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(BookingDetailViewModel)
+final bookingDetailViewModelProvider = BookingDetailViewModelFamily._();
+
+final class BookingDetailViewModelProvider
+    extends $AsyncNotifierProvider<BookingDetailViewModel, BookingModel?> {
+  BookingDetailViewModelProvider._({
+    required BookingDetailViewModelFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'bookingDetailViewModelProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$bookingDetailViewModelHash();
+
+  @override
+  String toString() {
+    return r'bookingDetailViewModelProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  BookingDetailViewModel create() => BookingDetailViewModel();
+
+  @override
+  bool operator ==(Object other) {
+    return other is BookingDetailViewModelProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$bookingDetailViewModelHash() =>
+    r'02a0d79f6a57da66510c74371d173393bc2b0709';
+
+final class BookingDetailViewModelFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          BookingDetailViewModel,
+          AsyncValue<BookingModel?>,
+          BookingModel?,
+          FutureOr<BookingModel?>,
+          int
+        > {
+  BookingDetailViewModelFamily._()
+    : super(
+        retry: null,
+        name: r'bookingDetailViewModelProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  BookingDetailViewModelProvider call(int bookingId) =>
+      BookingDetailViewModelProvider._(argument: bookingId, from: this);
+
+  @override
+  String toString() => r'bookingDetailViewModelProvider';
+}
+
+abstract class _$BookingDetailViewModel extends $AsyncNotifier<BookingModel?> {
+  late final _$args = ref.$arg as int;
+  int get bookingId => _$args;
+
+  FutureOr<BookingModel?> build(int bookingId);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<BookingModel?>, BookingModel?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<BookingModel?>, BookingModel?>,
+              AsyncValue<BookingModel?>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
   }
 }
 
@@ -185,7 +232,7 @@ final class ReviewViewModelProvider
   }
 }
 
-String _$reviewViewModelHash() => r'cca2084be148f4e6056133820ab3a6942e33f7c3';
+String _$reviewViewModelHash() => r'6a91ca39d6148919b68a0fcc02e9115ab15aa486';
 
 abstract class _$ReviewViewModel extends $Notifier<AsyncValue<bool?>> {
   AsyncValue<bool?> build();

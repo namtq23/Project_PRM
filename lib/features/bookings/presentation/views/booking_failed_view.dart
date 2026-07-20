@@ -19,11 +19,14 @@ class BookingFailedView extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               'Rất tiếc, đã có lỗi xảy ra',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Text(
-              error ?? 'Giao dịch của bạn không thể hoàn tất vào lúc này. Vui lòng thử lại hoặc chọn phương thức thanh toán khác.',
+              error ??
+                  'Giao dịch của bạn không thể hoàn tất vào lúc này. Vui lòng thử lại hoặc chọn phương thức thanh toán khác.',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.grey),
             ),

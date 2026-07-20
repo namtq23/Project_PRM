@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../view_models/booking_view_model.dart';
-import '../../models/booking_flow_models.dart';
+
 import '../../models/booking_model.dart';
+import '../view_models/booking_view_model.dart';
 
 class ReviewTourView extends ConsumerStatefulWidget {
+  const ReviewTourView({required this.bookingId, this.booking, super.key});
+
   final int bookingId;
   final BookingModel? booking;
-  const ReviewTourView({super.key, required this.bookingId, this.booking});
 
   @override
   ConsumerState<ReviewTourView> createState() => _ReviewTourViewState();
 }
 
 class _ReviewTourViewState extends ConsumerState<ReviewTourView> {
-  int _rating = 5;
+  int _rating = 0;
   final _commentController = TextEditingController();
 
   @override
@@ -24,26 +25,32 @@ class _ReviewTourViewState extends ConsumerState<ReviewTourView> {
     super.dispose();
   }
 
-  void _submit() async {
-    final request = ReviewRequest(
-      bookingId: widget.bookingId,
-      tourId: widget.booking?.tourId ?? 0,
-      userId: 1, // Mock
-      rating: _rating,
-      comment: _commentController.text,
-    );
+  Future<void> _submit() async {
+    await ref
+        .read(reviewViewModelProvider.notifier)
+        .submitReview(
+          bookingId: widget.bookingId,
+          tourId: widget.booking?.tourId ?? 0,
+          rating: _rating,
+          comment: _commentController.text,
+        );
 
-    await ref.read(reviewViewModelProvider.notifier).submitReview(request);
-    
-    if (mounted) {
-      final state = ref.read(reviewViewModelProvider);
-      if (state.value == true) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Cảm ơn bạn đã đánh giá!')));
-        context.pop();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gửi đánh giá thất bại. Vui lòng thử lại.')));
-      }
+    if (!mounted) return;
+    final state = ref.read(reviewViewModelProvider);
+    if (state.value == true) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Cảm ơn bạn đã đánh giá!')));
+      context.pop();
+      return;
     }
+
+    final message = state.hasError
+        ? state.error.toString()
+        : 'Gửi đánh giá thất bại. Vui lòng thử lại.';
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -63,7 +70,10 @@ class _ReviewTourViewState extends ConsumerState<ReviewTourView> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text('Vui lòng chia sẻ cảm nhận của bạn để chúng tôi phục vụ tốt hơn'),
+            const Text(
+              'Hãy chia sẻ cảm nhận để chúng tôi phục vụ tốt hơn.',
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

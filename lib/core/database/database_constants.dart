@@ -1,6 +1,6 @@
 abstract final class DatabaseConstants {
   static const databaseName = 'tour_booking.db';
-  static const databaseVersion = 1;
+  static const databaseVersion = 2;
 
   // Table Names
   static const usersTable = 'users';
@@ -11,7 +11,7 @@ abstract final class DatabaseConstants {
 
   // Create Table SQLs
   static const createUsersTable = '''
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firebase_uid TEXT UNIQUE,
   email TEXT NOT NULL UNIQUE,
@@ -28,7 +28,7 @@ CREATE TABLE users (
 ''';
 
   static const createCategoriesTable = '''
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   title TEXT NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE categories (
 ''';
 
   static const createToursTable = '''
-CREATE TABLE tours (
+CREATE TABLE IF NOT EXISTS tours (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   category_id INTEGER,
@@ -55,7 +55,7 @@ CREATE TABLE tours (
 ''';
 
   static const createBookingsTable = '''
-CREATE TABLE bookings (
+CREATE TABLE IF NOT EXISTS bookings (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   user_id INTEGER NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE bookings (
 ''';
 
   static const createReviewsTable = '''
-CREATE TABLE reviews (
+CREATE TABLE IF NOT EXISTS reviews (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   user_id INTEGER NOT NULL,
@@ -96,5 +96,33 @@ CREATE TABLE reviews (
     createToursTable,
     createBookingsTable,
     createReviewsTable,
+  ];
+
+  static const createBookingsUserIndex = '''
+CREATE INDEX IF NOT EXISTS idx_bookings_user_created
+ON bookings (user_id, created_at DESC)
+''';
+
+  static const createBookingsTourDateIndex = '''
+CREATE INDEX IF NOT EXISTS idx_bookings_tour_date
+ON bookings (tour_id, booking_date)
+''';
+
+  static const createConfirmationCodeIndex = '''
+CREATE UNIQUE INDEX IF NOT EXISTS idx_bookings_confirmation_code
+ON bookings (confirmation_code)
+WHERE confirmation_code IS NOT NULL
+''';
+
+  static const createReviewsUserTourIndex = '''
+CREATE INDEX IF NOT EXISTS idx_reviews_user_tour
+ON reviews (user_id, tour_id)
+''';
+
+  static const List<String> allIndexes = [
+    createBookingsUserIndex,
+    createBookingsTourDateIndex,
+    createConfirmationCodeIndex,
+    createReviewsUserTourIndex,
   ];
 }
