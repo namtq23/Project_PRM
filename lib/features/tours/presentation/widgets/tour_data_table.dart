@@ -296,7 +296,7 @@ class _TourRow extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${tour.description.length > 30 ? tour.description.substring(0, 30) : tour.description} • ${tour.durationDays} Ngày',
+                  '${(tour.description ?? '').length > 30 ? (tour.description ?? '').substring(0, 30) : (tour.description ?? '')} • ${tour.durationDays} Ngày',
                   style: TextStyle(color: ToursTheme.onSurfaceVariant.withOpacity(0.7), fontSize: 12),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -315,7 +315,7 @@ class _TourRow extends StatelessWidget {
                 borderRadius: BorderRadius.circular(ToursTheme.radiusDefault),
               ),
               child: Text(
-                _getCategoryName(tour.categoryId),
+                _getCategoryName(tour.categoryId?.toString()),
                 style: const TextStyle(
                   color: ToursTheme.onSecondaryContainer,
                   fontSize: 10,

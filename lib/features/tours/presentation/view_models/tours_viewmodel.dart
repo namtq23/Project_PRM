@@ -65,7 +65,7 @@ class ToursViewModel extends _$ToursViewModel {
         price: price,
         durationDays: durationDays,
         status: status,
-        categoryId: categoryId,
+        categoryId: categoryId != null ? int.tryParse(categoryId) : null,
         firestoreId: firestoreId,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -91,20 +91,20 @@ class ToursViewModel extends _$ToursViewModel {
     required String status,
     String? categoryId,
     String? firestoreId,
-    required DateTime createdAt,
+    DateTime? createdAt,
   }) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       final updatedTour = TourModel(
-        id: id,
+        tourId: id,
         title: title.trim(),
         description: description.trim(),
         price: price,
         durationDays: durationDays,
         status: status,
-        categoryId: categoryId,
+        categoryId: categoryId != null ? int.tryParse(categoryId) : null,
         firestoreId: firestoreId,
-        createdAt: createdAt,
+        createdAt: createdAt ?? DateTime.now(),
         updatedAt: DateTime.now(),
       );
       await ref.read(tourRepositoryProvider).updateTour(updatedTour);

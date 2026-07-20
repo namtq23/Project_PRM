@@ -38,9 +38,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
     final authState = ref.read(authViewModelProvider).value;
     if (authState is AuthAuthenticated) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const TourManagementScreen()),
-      );
+      context.goNamed(RouteNames.home);
     }
   }
 
@@ -49,9 +47,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
     final authState = ref.read(authViewModelProvider).value;
     if (authState is AuthAuthenticated) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const TourManagementScreen()),
-      );
+      context.goNamed(RouteNames.home);
     }
   }
 

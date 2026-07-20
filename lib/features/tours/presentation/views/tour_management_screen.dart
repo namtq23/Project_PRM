@@ -90,7 +90,7 @@ class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
                 const SizedBox(height: 16),
                 _DetailRow(label: 'Tên tour', value: tour.title),
                 _DetailRow(label: 'Thời lượng', value: '${tour.durationDays} Ngày'),
-                _DetailRow(label: 'Danh mục', value: _getCategoryName(tour.categoryId)),
+                _DetailRow(label: 'Danh mục', value: _getCategoryName(tour.categoryId?.toString())),
                 _DetailRow(label: 'Giá (VNĐ)', value: '${priceFormat.format(tour.price).replaceAll(',', '.')} đ'),
                 _DetailRow(
                   label: 'Trạng thái',
@@ -100,9 +100,9 @@ class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
                           ? 'Nháp'
                           : 'Ngưng hoạt động',
                 ),
-                _DetailRow(label: 'Mô tả', value: tour.description),
-                _DetailRow(label: 'Ngày tạo', value: tour.createdAt.toLocal().toString().split('.').first),
-                _DetailRow(label: 'Ngày cập nhật', value: tour.updatedAt.toLocal().toString().split('.').first),
+                _DetailRow(label: 'Mô tả', value: tour.description ?? ''),
+                _DetailRow(label: 'Ngày tạo', value: tour.createdAt != null ? tour.createdAt!.toLocal().toString().split('.').first : ''),
+                _DetailRow(label: 'Ngày cập nhật', value: tour.updatedAt != null ? tour.updatedAt!.toLocal().toString().split('.').first : ''),
               ],
             ),
           ),
@@ -120,8 +120,8 @@ class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
       if (_searchQuery.trim().isEmpty) return true;
       final query = _searchQuery.toLowerCase();
       return tour.title.toLowerCase().contains(query) ||
-          tour.description.toLowerCase().contains(query) ||
-          (tour.categoryId ?? '').toLowerCase().contains(query);
+          (tour.description ?? '').toLowerCase().contains(query) ||
+          (tour.categoryId?.toString() ?? '').toLowerCase().contains(query);
     }).toList();
 
     return Theme(
@@ -513,7 +513,7 @@ class _ToursGrid extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${tour.durationDays} Ngày • ${_getCategoryName(tour.categoryId)}',
+                      '${tour.durationDays} Ngày • ${_getCategoryName(tour.categoryId?.toString())}',
                       style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12),
                     ),
                     const SizedBox(height: 8),

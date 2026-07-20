@@ -38,7 +38,7 @@ class _EditTourScreenState extends ConsumerState<EditTourScreen> {
     _imageCtrl = TextEditingController(text: t.firestoreId ?? '');
 
     _status = t.status;
-    final catId = t.categoryId;
+    final catId = t.categoryId?.toString();
     if (catId == '1' || catId == 'Thám Hiểm Sang Trọng' || catId == 'Luxury Expedition') {
       _category = '1';
     } else if (catId == '2' || catId == 'Thành Thị Thượng Lưu' || catId == 'Urban Elite') {
