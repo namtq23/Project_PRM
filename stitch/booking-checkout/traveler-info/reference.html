@@ -1,0 +1,350 @@
+<!DOCTYPE html><html class="light" lang="vi"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Thông tin hành khách - Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "on-background": "#171c20",
+                    "danger": "#EF4444",
+                    "on-primary-fixed": "#001e2f",
+                    "secondary": "#006b5f",
+                    "on-tertiary-fixed-variant": "#693c00",
+                    "on-secondary-fixed": "#00201c",
+                    "primary-fixed": "#c9e6ff",
+                    "tertiary-fixed-dim": "#ffb86e",
+                    "surface-tint": "#006591",
+                    "text-main": "#0F172A",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#0ea5e9",
+                    "on-secondary-fixed-variant": "#005048",
+                    "on-surface": "#171c20",
+                    "surface": "#FFFFFF",
+                    "tertiary": "#8a5100",
+                    "accent": "#F59E0B",
+                    "surface-bright": "#f6faff",
+                    "on-tertiary": "#ffffff",
+                    "outline": "#6e7881",
+                    "outline-variant": "#bec8d2",
+                    "on-primary-fixed-variant": "#004c6e",
+                    "text-muted": "#64748B",
+                    "secondary-fixed": "#71f8e4",
+                    "primary-fixed-dim": "#89ceff",
+                    "on-surface-variant": "#3e4850",
+                    "surface-container-low": "#f0f4fa",
+                    "background": "#F8FAFC",
+                    "surface-container-highest": "#dee3e9",
+                    "secondary-fixed-dim": "#4fdbc8",
+                    "on-error": "#ffffff",
+                    "warning": "#F59E0B",
+                    "inverse-primary": "#89ceff",
+                    "on-secondary-container": "#006f64",
+                    "inverse-surface": "#2c3135",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eaeef4",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#dee3e9",
+                    "secondary-container": "#6df5e1",
+                    "inverse-on-surface": "#edf1f7",
+                    "tertiary-fixed": "#ffdcbd",
+                    "on-tertiary-container": "#4d2b00",
+                    "success": "#22C55E",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#003751",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#2c1600",
+                    "tertiary-container": "#de8712",
+                    "surface-container-high": "#e4e8ee",
+                    "surface-dim": "#d6dae0",
+                    "primary": "#006591"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "16px",
+                    "xl": "24px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "1rem",
+                    "container-max": "1280px",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2.5rem",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-xl": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .stepper-active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #006591;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  <style type="text/css">#tudienjp * :not(svg,path){all:revert}#tudienjp svg{width:auto!important}#tudienjp{font-size:18px!important;font-family:Arial,ヒラギノ角ゴ Pro W3,Hiragino Kaku Gothic Pro,Osaka,メイリオ,Meiryo,ＭＳ Ｐゴシック,MS PGothic,sans-serif!important;color:#000!important;line-height:1.5!important;text-align:left!important}#tudienjp .o-result-item{line-height:1.5;display:block;margin-right:0;cursor:pointer}#tudienjp .o-result-item:hover{border-color:#c6d6ef!important}#tudienjp .o-selected-result{max-height:300px;overflow-y:scroll}#tudienjp .o-selected-result::-webkit-scrollbar{width:13px}#tudienjp .o-selected-result::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 3px 0 0 3px #fff;background:rgba(0,0,0,.2)}#tudienjp .o-pop-nav div{font-size:14px;padding:3.2px 8px}#tudienjp .o-pop-speak{margin-top:5px;margin-right:8px;font-size:16px;cursor:pointer}#tudienjp .o-search-mobile{z-index:2147483647;position:absolute;cursor:pointer;display:none}#tudienjp .o-popup-tag{z-index:99999;position:absolute;display:none;padding:10px 5px 10px 10px}#tudienjp .o-bg-white{background-color:#fff!important}#tudienjp .o-border{border:1px solid #dee2e6!important}#tudienjp .o-rounded{border-radius:4px!important}#tudienjp .o-shadow{box-shadow:0 8px 16px rgba(0,0,0,.15)!important}#tudienjp .o-btn-close{box-sizing:content-box;width:16px;height:16px;padding:4px 4px;color:#000;background:transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3E%3C/svg%3E") 50%/16px auto no-repeat;border:0;border-radius:4px;opacity:.5;cursor:pointer}#tudienjp .o-btn-close:hover{opacity:.75}#tudienjp .o-me-1{margin-right:4px!important}#tudienjp .o-end-0{right:0!important}#tudienjp .o-top-0{top:0!important}#tudienjp .o-position-absolute{position:absolute!important}#tudienjp ul{padding-left:32px;display:block;list-style-type:disc;-webkit-margin-before:16px;margin-block-start:16px;-webkit-margin-after:16px;margin-block-end:16px;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:0;margin-inline-end:0;-webkit-padding-start:40px;padding-inline-start:40px}#tudienjp .o-pt-1{padding-top:4px!important}#tudienjp .mark,#tudienjp mark{padding:0!important;background:linear-gradient(transparent 60%,#ff6 0)!important}#tudienjp .o-mt-1{margin-top:4px!important}#tudienjp .o-p-2{padding:8px!important}#tudienjp .o-mb-1{margin-bottom:4px!important}#tudienjp .o-border-3{border-width:3px!important}#tudienjp .o-text-secondary{color:#6c757d!important}#tudienjp .o-text-primary{cursor:pointer;color:#0d6efd}#tudienjp .o-text-primary:hover{text-decoration:underline}#tudienjp .o-w-100{width:100%!important}#tudienjp .o-link-danger{color:#dc3545}#tudienjp .o-link-danger:hover{color:#0d6efd}#tudienjp .o-link-ah:hover{color:#dc3545}#tudienjp .o-text-decoration-none{text-decoration:none!important}#tudienjp .o-fs-6,#tudienjp .o-small{font-size:16px!important}#tudienjp .o-ms-1{margin-left:4px!important}#tudienjp .o-mt-2{margin-top:8px!important}#tudienjp .o-float-start{float:left!important}#tudienjp label{display:inline-block}#tudienjp .o-float-end{float:right!important}#tudienjp .o-link-secondary{color:#6c757d!important}#tudienjp .o-result-item .o-inflect{font-size:14px;color:#666;overflow:hidden;text-overflow:ellipsis}#tudienjp .o-nav-tabs{border-bottom:1px solid #dee2e6}#tudienjp .o-nav{display:flex;flex-wrap:wrap;padding-left:0;margin-bottom:0;list-style:none}#tudienjp ul{margin-top:0;margin-bottom:16px}#tudienjp li{display:list-item;text-align:-webkit-match-parent}#tudienjp .o-nav-tabs .o-nav-item.show .o-nav-link,#tudienjp .o-nav-tabs .o-nav-link.o-active{color:#495057;background-color:#fff;border-color:#dee2e6 #dee2e6 #fff}#tudienjp .o-nav-link{display:block;padding:8px 16px;color:#0d6efd;text-decoration:none;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;cursor:pointer}#tudienjp .o-nav-tabs .o-nav-link{margin-bottom:-1px;background:0 0;border:1px solid transparent;border-top-left-radius:4px;border-top-right-radius:4px;line-height:1.5}#tudienjp svg:not(:host).o-svg-inline--fa,#tudienjp svg:not(:root).o-svg-inline--fa{overflow:visible;box-sizing:content-box}#tudienjp .o-svg-inline--fa{display:inline-block;height:16px;overflow:visible;vertical-align:-2px}#tudienjp .o-form-check{font-size:16px;font-weight:400;line-height:1.5;color:#212529;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;box-sizing:border-box;display:block;min-height:1.5rem;padding-left:1.5em;margin-bottom:0}#tudienjp .o-form-check-input{box-sizing:border-box;margin:0;font-family:inherit;font-size:inherit;line-height:inherit;width:1em;height:1em;margin-top:.25em;vertical-align:top;background-color:#fff;background-repeat:no-repeat;background-position:50%;background-size:contain;border:1px solid rgba(0,0,0,.25);-webkit-appearance:none;-moz-appearance:none;appearance:none;-webkit-print-color-adjust:exact;float:left;margin-left:-1.5em;border-radius:.25em}#tudienjp .o-form-check-input:before{content:""}#tudienjp .o-form-check-input:checked[type=checkbox]{background-color:#0d6efd;border-color:#0d6efd;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3 6-6'/%3E%3C/svg%3E")}#tudienjp del{color:#6c757d!important}</style></head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- Top Navigation Bar -->
+<header class="w-full top-0 sticky z-40 shadow-sm bg-surface flex justify-between items-center px-4 h-16">
+<button class="active:scale-95 transition-transform p-2 hover:bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-on-surface text-center flex-1">Thông tin đặt chỗ</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<!-- Progressive Stepper -->
+<nav class="bg-surface px-4 py-3 flex items-center justify-between shadow-sm sticky top-16 z-30 overflow-x-auto no-scrollbar">
+<div class="flex items-center space-x-6 min-w-max mx-auto">
+<div class="flex items-center text-primary font-bold relative pb-1">
+<span class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-[10px] mr-2">1</span>
+<span class="text-label-md font-label-md">Hành khách</span>
+<div class="absolute -bottom-3 left-0 w-full h-0.5 bg-primary rounded-full"></div>
+</div>
+<div class="flex items-center text-on-surface-variant/50">
+<span class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-[10px] mr-2">2</span>
+<span class="text-label-md font-label-md">Thanh toán</span>
+</div>
+<div class="flex items-center text-on-surface-variant/50">
+<span class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-[10px] mr-2">3</span>
+<span class="text-label-md font-label-md">Hoàn tất</span>
+</div>
+</div>
+</nav>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Form Section -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Contact Information Section -->
+<section class="bg-surface rounded-lg p-6 shadow-sm border border-surface-container-highest">
+<div class="flex items-center mb-6">
+<span class="material-symbols-outlined text-primary mr-3">contact_mail</span>
+<h2 class="font-headline-sm text-headline-sm">Thông tin liên hệ</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col space-y-2">
+<label class="text-label-md font-label-md text-on-surface-variant">Họ và tên</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-body-md font-body-md" placeholder="Nhập họ và tên đầy đủ" required="" type="text">
+</div>
+<div class="flex flex-col space-y-2">
+<label class="text-label-md font-label-md text-on-surface-variant">Số điện thoại</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-body-md font-body-md" placeholder="+84 000 000 000" required="" type="tel">
+</div>
+<div class="flex flex-col space-y-2 md:col-span-2">
+<label class="text-label-md font-label-md text-on-surface-variant">Địa chỉ Email</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-body-md font-body-md" placeholder="example@email.com" required="" type="email">
+<p class="text-[11px] text-text-muted mt-1 italic">Chúng tôi sẽ gửi vé điện tử và thông tin xác nhận qua email này.</p>
+</div>
+</div>
+</section>
+<!-- Passenger Count Selection (Bento Style) -->
+<section class="bg-surface rounded-lg p-6 shadow-sm border border-surface-container-highest">
+<div class="flex items-center mb-6">
+<span class="material-symbols-outlined text-primary mr-3">groups</span>
+<h2 class="font-headline-sm text-headline-sm">Số lượng hành khách</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Adults Stepper -->
+<div class="p-4 rounded-xl bg-surface-container-low flex items-center justify-between border border-surface-container-high transition-hover hover:border-primary/30">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Người lớn</h3>
+<p class="text-body-sm text-text-muted">Từ 12 tuổi trở lên</p>
+</div>
+<div class="flex items-center space-x-4">
+<button class="w-10 h-10 rounded-full bg-surface border border-outline-variant flex items-center justify-center active:scale-90 transition-all text-primary hover:bg-primary hover:text-white" onclick="updateValue('adults', -1)">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<span class="font-headline-sm text-headline-sm w-6 text-center" id="adults-count">2</span>
+<button class="w-10 h-10 rounded-full bg-surface border border-outline-variant flex items-center justify-center active:scale-90 transition-all text-primary hover:bg-primary hover:text-white" onclick="updateValue('adults', 1)">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Children Stepper -->
+<div class="p-4 rounded-xl bg-surface-container-low flex items-center justify-between border border-surface-container-high transition-hover hover:border-primary/30">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Trẻ em</h3>
+<p class="text-body-sm text-text-muted">Từ 2 - 11 tuổi</p>
+</div>
+<div class="flex items-center space-x-4">
+<button class="w-10 h-10 rounded-full bg-surface border border-outline-variant flex items-center justify-center active:scale-90 transition-all text-primary hover:bg-primary hover:text-white" onclick="updateValue('children', -1)">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<span class="font-headline-sm text-headline-sm w-6 text-center" id="children-count">0</span>
+<button class="w-10 h-10 rounded-full bg-surface border border-outline-variant flex items-center justify-center active:scale-90 transition-all text-primary hover:bg-primary hover:text-white" onclick="updateValue('children', 1)">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Special Requests -->
+<section class="bg-surface rounded-lg p-6 shadow-sm border border-surface-container-highest">
+<div class="flex items-center mb-4">
+<span class="material-symbols-outlined text-primary mr-3">edit_note</span>
+<h2 class="font-headline-sm text-headline-sm">Ghi chú đặc biệt</h2>
+</div>
+<textarea class="w-full p-4 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-body-md font-body-md resize-none" placeholder="Bạn có yêu cầu đặc biệt nào không? (Ví dụ: Chế độ ăn uống, hỗ trợ xe lăn...)" rows="4"></textarea>
+</section>
+</div>
+<!-- Order Summary Sidebar (Desktop Only Sticky) -->
+<aside class="lg:col-span-4">
+<div class="sticky top-40 space-y-4">
+<div class="bg-surface rounded-xl overflow-hidden shadow-md border border-surface-container-highest">
+<div class="h-48 relative">
+<img class="w-full h-full object-cover" data-alt="A breathtaking panoramic view of Ha Long Bay in Vietnam, featuring emerald waters and towering limestone karsts under a clear blue sky. The scene is shot with high-end photography techniques, capturing the vibrant green of the vegetation and the shimmering reflection on the water. The overall aesthetic is clean, premium, and serene, fitting a high-end travel booking platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8e-KcbVnmQKDXmUJUyXr3I3qMhtcanfHWA9YE4B3zEOWquJFx_mPzrSjSkaXbipoi1RSe2uhR90yfMyN8elFiVOvCKm0Djk8sxGUWzO8plnnSodr6spUBAbCtjQtdljc2psW6Tp6fx4cJwKVrIETL5pstYRMVuN0J50LEl6XvKwA7uGMcm_NFoq-BGnkjPJ9eSTXTjKmG-8octLmpbLIKHqEVc26_bwBi0PZZtthLc0bkE7M8UlaP">
+<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+<h3 class="text-white font-headline-sm text-headline-sm">Tour Khám Phá Vịnh Hạ Long 2 Ngày 1 Đêm</h3>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<div class="flex items-center text-text-muted text-body-sm">
+<span class="material-symbols-outlined text-sm mr-1">calendar_month</span>
+<span>Khởi hành: 25 Th08, 2024</span>
+</div>
+<div class="flex items-center text-text-muted text-body-sm">
+<span class="material-symbols-outlined text-sm mr-1">location_on</span>
+<span>Hạ Long, Việt Nam</span>
+</div>
+</div>
+</div>
+<hr class="border-surface-container-highest">
+<div class="space-y-2">
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Người lớn (x2)</span>
+<span class="font-medium">5,200,000₫</span>
+</div>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Phí dịch vụ</span>
+<span class="font-medium"> Miễn phí</span>
+</div>
+</div>
+<hr class="border-surface-container-highest">
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm">Tổng cộng</span>
+<span class="text-primary font-headline-md text-headline-md">5,200,000₫</span>
+</div>
+</div>
+</div>
+<div class="bg-primary-container/10 p-4 rounded-xl border border-primary-container/20 flex items-start space-x-3">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<p class="text-body-sm text-on-primary-container">Giá đã bao gồm toàn bộ thuế và phí. Không phát sinh chi phí ẩn.</p>
+</div>
+</div>
+</aside>
+</main>
+<!-- Fixed Bottom Action Bar (Mobile Only Style) -->
+<footer class="fixed bottom-0 left-0 right-0 bg-surface px-margin-mobile py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-50 flex items-center justify-between md:hidden">
+<div>
+<p class="text-body-sm text-text-muted">Tổng cộng</p>
+<p class="text-primary font-headline-sm text-headline-sm">5,200,000₫</p>
+</div>
+<button class="bg-primary text-white h-12 px-8 rounded-lg font-label-md text-label-md active:scale-95 transition-transform flex items-center">
+            Tiếp tục
+            <span class="material-symbols-outlined ml-2">chevron_right</span>
+</button>
+</footer>
+<!-- Desktop Footer Navigation (Hidden on Mobile) -->
+<div class="hidden md:flex fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-md border-t border-surface-container-high px-margin-desktop h-20 items-center justify-between z-50">
+<div class="max-w-container-max mx-auto w-full flex items-center justify-between">
+<button class="flex items-center text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined mr-2">arrow_back</span>
+<span class="font-label-md text-label-md">Quay lại</span>
+</button>
+<div class="flex items-center space-x-8">
+<div class="text-right">
+<p class="text-body-sm text-text-muted">Tổng số tiền thanh toán</p>
+<p class="text-primary font-headline-md text-headline-md">5,200,000₫</p>
+</div>
+<button class="bg-primary text-on-primary h-14 px-12 rounded-lg font-label-md text-label-md hover:bg-primary/90 active:scale-95 transition-all shadow-md flex items-center group">
+                    Tiếp tục thanh toán
+                    <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+        function updateValue(type, change) {
+            const countElement = document.getElementById(`${type}-count`);
+            let currentValue = parseInt(countElement.innerText);
+            
+            // Minimum limits
+            if (type === 'adults' && currentValue + change < 1) return;
+            if (type === 'children' && currentValue + change < 0) return;
+            
+            // Maximum limit (example)
+            if (currentValue + change > 10) return;
+
+            countElement.innerText = currentValue + change;
+            
+            // Add subtle animation
+            countElement.classList.add('scale-110', 'text-primary');
+            setTimeout(() => {
+                countElement.classList.remove('scale-110', 'text-primary');
+            }, 150);
+        }
+
+        // Simple form validation micro-interaction
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                if(input.value.length > 0) {
+                    input.classList.add('border-success/50');
+                } else {
+                    input.classList.remove('border-success/50');
+                }
+            });
+        });
+    </script>
+</body></html>

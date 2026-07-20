@@ -1,0 +1,348 @@
+<!DOCTYPE html><html class="light" lang="vi"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Phương thức thanh toán</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Shared Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "on-background": "#171c20",
+                    "danger": "#EF4444",
+                    "on-primary-fixed": "#001e2f",
+                    "secondary": "#006b5f",
+                    "on-tertiary-fixed-variant": "#693c00",
+                    "on-secondary-fixed": "#00201c",
+                    "primary-fixed": "#c9e6ff",
+                    "tertiary-fixed-dim": "#ffb86e",
+                    "surface-tint": "#006591",
+                    "text-main": "#0F172A",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#0ea5e9",
+                    "on-secondary-fixed-variant": "#005048",
+                    "on-surface": "#171c20",
+                    "surface": "#FFFFFF",
+                    "tertiary": "#8a5100",
+                    "accent": "#F59E0B",
+                    "surface-bright": "#f6faff",
+                    "on-tertiary": "#ffffff",
+                    "outline": "#6e7881",
+                    "outline-variant": "#bec8d2",
+                    "on-primary-fixed-variant": "#004c6e",
+                    "text-muted": "#64748B",
+                    "secondary-fixed": "#71f8e4",
+                    "primary-fixed-dim": "#89ceff",
+                    "on-surface-variant": "#3e4850",
+                    "surface-container-low": "#f0f4fa",
+                    "background": "#F8FAFC",
+                    "surface-container": "#eaeef4",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#dee3e9",
+                    "secondary-container": "#6df5e1",
+                    "inverse-on-surface": "#edf1f7",
+                    "tertiary-fixed": "#ffdcbd",
+                    "on-tertiary-container": "#4d2b00",
+                    "success": "#22C55E",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#003751",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#2c1600",
+                    "tertiary-container": "#de8712",
+                    "surface-container-high": "#e4e8ee",
+                    "surface-dim": "#d6dae0",
+                    "primary": "#006591"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "16px",
+                    "xl": "24px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "1rem",
+                    "container-max": "1280px",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2.5rem",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-xl": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .payment-method-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .payment-method-card:hover {
+            transform: translateY(-2px);
+        }
+        .selected-ring {
+            box-shadow: 0 0 0 2px var(--tw-primary);
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  <style type="text/css">#tudienjp * :not(svg,path){all:revert}#tudienjp svg{width:auto!important}#tudienjp{font-size:18px!important;font-family:Arial,ヒラギノ角ゴ Pro W3,Hiragino Kaku Gothic Pro,Osaka,メイリオ,Meiryo,ＭＳ Ｐゴシック,MS PGothic,sans-serif!important;color:#000!important;line-height:1.5!important;text-align:left!important}#tudienjp .o-result-item{line-height:1.5;display:block;margin-right:0;cursor:pointer}#tudienjp .o-result-item:hover{border-color:#c6d6ef!important}#tudienjp .o-selected-result{max-height:300px;overflow-y:scroll}#tudienjp .o-selected-result::-webkit-scrollbar{width:13px}#tudienjp .o-selected-result::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 3px 0 0 3px #fff;background:rgba(0,0,0,.2)}#tudienjp .o-pop-nav div{font-size:14px;padding:3.2px 8px}#tudienjp .o-pop-speak{margin-top:5px;margin-right:8px;font-size:16px;cursor:pointer}#tudienjp .o-search-mobile{z-index:2147483647;position:absolute;cursor:pointer;display:none}#tudienjp .o-popup-tag{z-index:99999;position:absolute;display:none;padding:10px 5px 10px 10px}#tudienjp .o-bg-white{background-color:#fff!important}#tudienjp .o-border{border:1px solid #dee2e6!important}#tudienjp .o-rounded{border-radius:4px!important}#tudienjp .o-shadow{box-shadow:0 8px 16px rgba(0,0,0,.15)!important}#tudienjp .o-btn-close{box-sizing:content-box;width:16px;height:16px;padding:4px 4px;color:#000;background:transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3E%3C/svg%3E") 50%/16px auto no-repeat;border:0;border-radius:4px;opacity:.5;cursor:pointer}#tudienjp .o-btn-close:hover{opacity:.75}#tudienjp .o-me-1{margin-right:4px!important}#tudienjp .o-end-0{right:0!important}#tudienjp .o-top-0{top:0!important}#tudienjp .o-position-absolute{position:absolute!important}#tudienjp ul{padding-left:32px;display:block;list-style-type:disc;-webkit-margin-before:16px;margin-block-start:16px;-webkit-margin-after:16px;margin-block-end:16px;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:0;margin-inline-end:0;-webkit-padding-start:40px;padding-inline-start:40px}#tudienjp .o-pt-1{padding-top:4px!important}#tudienjp .mark,#tudienjp mark{padding:0!important;background:linear-gradient(transparent 60%,#ff6 0)!important}#tudienjp .o-mt-1{margin-top:4px!important}#tudienjp .o-p-2{padding:8px!important}#tudienjp .o-mb-1{margin-bottom:4px!important}#tudienjp .o-border-3{border-width:3px!important}#tudienjp .o-text-secondary{color:#6c757d!important}#tudienjp .o-text-primary{cursor:pointer;color:#0d6efd}#tudienjp .o-text-primary:hover{text-decoration:underline}#tudienjp .o-w-100{width:100%!important}#tudienjp .o-link-danger{color:#dc3545}#tudienjp .o-link-danger:hover{color:#0d6efd}#tudienjp .o-link-ah:hover{color:#dc3545}#tudienjp .o-text-decoration-none{text-decoration:none!important}#tudienjp .o-fs-6,#tudienjp .o-small{font-size:16px!important}#tudienjp .o-ms-1{margin-left:4px!important}#tudienjp .o-mt-2{margin-top:8px!important}#tudienjp .o-float-start{float:left!important}#tudienjp label{display:inline-block}#tudienjp .o-float-end{float:right!important}#tudienjp .o-link-secondary{color:#6c757d!important}#tudienjp .o-result-item .o-inflect{font-size:14px;color:#666;overflow:hidden;text-overflow:ellipsis}#tudienjp .o-nav-tabs{border-bottom:1px solid #dee2e6}#tudienjp .o-nav{display:flex;flex-wrap:wrap;padding-left:0;margin-bottom:0;list-style:none}#tudienjp ul{margin-top:0;margin-bottom:16px}#tudienjp li{display:list-item;text-align:-webkit-match-parent}#tudienjp .o-nav-tabs .o-nav-item.show .o-nav-link,#tudienjp .o-nav-tabs .o-nav-link.o-active{color:#495057;background-color:#fff;border-color:#dee2e6 #dee2e6 #fff}#tudienjp .o-nav-link{display:block;padding:8px 16px;color:#0d6efd;text-decoration:none;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;cursor:pointer}#tudienjp .o-nav-tabs .o-nav-link{margin-bottom:-1px;background:0 0;border:1px solid transparent;border-top-left-radius:4px;border-top-right-radius:4px;line-height:1.5}#tudienjp svg:not(:host).o-svg-inline--fa,#tudienjp svg:not(:root).o-svg-inline--fa{overflow:visible;box-sizing:content-box}#tudienjp .o-svg-inline--fa{display:inline-block;height:16px;overflow:visible;vertical-align:-2px}#tudienjp .o-form-check{font-size:16px;font-weight:400;line-height:1.5;color:#212529;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;box-sizing:border-box;display:block;min-height:1.5rem;padding-left:1.5em;margin-bottom:0}#tudienjp .o-form-check-input{box-sizing:border-box;margin:0;font-family:inherit;font-size:inherit;line-height:inherit;width:1em;height:1em;margin-top:.25em;vertical-align:top;background-color:#fff;background-repeat:no-repeat;background-position:50%;background-size:contain;border:1px solid rgba(0,0,0,.25);-webkit-appearance:none;-moz-appearance:none;appearance:none;-webkit-print-color-adjust:exact;float:left;margin-left:-1.5em;border-radius:.25em}#tudienjp .o-form-check-input:before{content:""}#tudienjp .o-form-check-input:checked[type=checkbox]{background-color:#0d6efd;border-color:#0d6efd;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3 6-6'/%3E%3C/svg%3E")}#tudienjp del{color:#6c757d!important}</style></head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- Top Navigation Bar (Simplified for Transactional Flow) -->
+<nav class="bg-surface sticky top-0 z-50 flex items-center px-4 md:px-margin-desktop h-16 w-full shadow-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</button>
+<h1 class="flex-1 text-center font-headline-sm text-headline-sm-mobile md:text-headline-sm text-on-surface font-bold">Thanh toán</h1>
+<div class="w-10"></div> <!-- Spacer for symmetry -->
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-4 md:px-margin-desktop py-8 mb-32">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Payment Options -->
+<div class="lg:col-span-7 space-y-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Chọn phương thức thanh toán</h2>
+<p class="font-body-md text-text-muted">An toàn, bảo mật và hoàn toàn miễn phí giao dịch.</p>
+</div>
+<div class="space-y-4" id="payment-options">
+<!-- Credit/Debit Card Option (Selected State) -->
+<label class="payment-method-card block cursor-pointer bg-surface border-2 border-primary ring-2 ring-primary/10 rounded-lg p-5 relative overflow-hidden group shadow-sm" data-id="card">
+<input checked="" class="hidden" name="payment_method" type="radio" value="card">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">credit_card</span>
+</div>
+<div>
+<span class="block font-label-md text-label-md text-on-surface">Thẻ tín dụng / Ghi nợ</span>
+<span class="block font-body-sm text-body-sm text-text-muted mt-0.5">Visa, Mastercard, JCB, American Express</span>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="w-8 h-5 bg-surface-container rounded flex items-center justify-center overflow-hidden">
+<img class="h-full object-contain" data-alt="A clean, minimalist Visa card logo in blue and gold on a white background, professional fintech style, studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV96ShMnGL_w7MIqLW0Mz9vH3vQc1Z9waRGi_64bLJl8mu7XPG8yVndDIS15Szis9FS11-ZpUcLGNeBfdRyPIHalNYI2brHLpSAyDVdX93kt_L1x0_AV7rJQhQSTk6qWpTQ1KNenrI8ru8lvdU1KaHiTnZC9AER_ilXJmtJj9wVEcVfbzg-n46aU_wcXMSLCjEEkwXu8-6yYhm6S_uqjH6vLvNzko16ZAwxzGKVqJqS7t_TKVQrXRW">
+</div>
+<div class="w-8 h-5 bg-surface-container rounded flex items-center justify-center overflow-hidden">
+<img class="h-full object-contain" data-alt="A clean, minimalist Mastercard logo with overlapping red and orange circles on a white background, professional fintech style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ-XEP2XC-IN3-K0BIdL74AkZpuR-VoT_QJg74mFMgRgrE7eflmfUEGwN4ornb8q83robdGLBHcVm39LMABc3K3F7dV7iBO5HoCyiwMTUzx3N4XR9Dtv9n8toAiuzIsHpKA0zDx2WD508NIHjpo8-NkWuHXMECaONxakYixPYeOUPl3ntdrDW1SwOlkpSTMn--hTmsjL1mqcKRC6Fkhasm2NI_sjU4e2JeuWzWU1uIihN0g39K5ymJ">
+</div>
+</div>
+</div>
+<!-- Collapsible Form for Card (Visible when selected) -->
+<div class="mt-6 pt-6 border-t border-surface-container grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">Số thẻ</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md" placeholder="0000 0000 0000 0000" type="text">
+<span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">lock</span>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">Ngày hết hạn</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md" placeholder="MM/YY" type="text">
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5">CVV / CVC</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md" placeholder="***" type="password">
+</div>
+</div>
+</label>
+<!-- E-Wallet Option -->
+<label class="payment-method-card block cursor-pointer bg-surface border border-outline-variant rounded-lg p-5 hover:border-primary/50 transition-colors shadow-sm" data-id="wallet">
+<input class="hidden" name="payment_method" type="radio" value="wallet">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<div>
+<span class="block font-label-md text-label-md text-on-surface">Ví điện tử</span>
+<span class="block font-body-sm text-body-sm text-text-muted mt-0.5">MoMo, ZaloPay, ShopeePay</span>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="w-8 h-8 rounded-lg overflow-hidden border border-surface-container">
+<img class="w-full h-full object-cover" data-alt="A stylized minimalist MoMo e-wallet logo with pink and white branding, clean digital financial app icon style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-eHwhs-gjlNmv0J2_ZYtMd2fMC38JgEFhd0CXuo9SJsI9W2HMBUlugO8LgOIu6elYhzAVJVZwd6fiItA1nVU-KYFTH0tHyqWdxMLnsUo3MFN7kpAA58PGR73Sk8SIjFdwJDK-f8VikvSPwIe9S8Fq3L79AvqZFCiquTGZf_XFhGU8LOJJHv0P1iHCDIRlKdY45OmvxnNlyn8KcCUxXuKNiJolaq6HX4Cz-88TSGeHwAYLH3mwBS76">
+</div>
+<div class="w-8 h-8 rounded-lg overflow-hidden border border-surface-container">
+<img class="w-full h-full object-cover" data-alt="A stylized minimalist ZaloPay logo with blue and white branding, professional Vietnamese digital wallet icon style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-vzkcbvFW32fRZQoofH6Mf6DyODEI8fKvaG52YvI2ccWzsiUs41sH4yPJ4fKkROmG0QUIH3151-BZI9vMEs-z-EI6gMuvDe_o0eg6_sP5G-QrzIjVeNgr0kDlsw3d4owPTFocHTYBXVFIBWsUeqdTWXrjFUCjpR0047eOUAFyF30phnkfYXz9lrsT2YkNbEd_Pj1dSJVyHHDYefyfWoj97ConFpKDMVZywFrKfii3btvNGfaOtp4_">
+</div>
+</div>
+</div>
+</label>
+<!-- Bank Transfer Option -->
+<label class="payment-method-card block cursor-pointer bg-surface border border-outline-variant rounded-lg p-5 hover:border-primary/50 transition-colors shadow-sm" data-id="transfer">
+<input class="hidden" name="payment_method" type="radio" value="transfer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<span class="block font-label-md text-label-md text-on-surface">Chuyển khoản ngân hàng</span>
+<span class="block font-body-sm text-body-sm text-text-muted mt-0.5">Vietcombank, Techcombank, BIDV...</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</label>
+</div>
+<!-- Safe Checkout Badge -->
+<div class="bg-surface-container-low rounded-lg p-4 flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-0.5">verified_user</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Giao dịch được bảo mật tuyệt đối</p>
+<p class="font-body-sm text-body-sm text-text-muted">Thông tin thanh toán của bạn được mã hóa theo tiêu chuẩn PCI DSS toàn cầu.</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Order Summary -->
+<div class="lg:col-span-5">
+<div class="bg-surface border border-outline-variant rounded-xl p-6 shadow-sm sticky top-24">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-6">Thông tin chuyến đi</h3>
+<!-- Trip Preview Card -->
+<div class="flex gap-4 mb-6 pb-6 border-b border-surface-container">
+<div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A breathtaking aerial view of Ha Long Bay with limestone karsts rising from turquoise waters under a soft morning sun. The lighting is warm and golden, capturing a premium travel destination vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtqJL0_IA6_nNEbPzpcD_x1FFv-nJULY0O-JryyRAWjlYjuymLJxRfuht9qb2l9hFQenmDUujekn8Y5tJiAwW_zOuaHAbc0YknDcDyccOhKyGkqDNu7tEK9sn-ErAUidzedTEdkEe1b8irah0b8C3OttE_LdDbNjyEVYHzgO2l63ZbZdJFMtBgDpmmaVTX0gYSqWRi5FV95avr3w9nlFDRPap4a4A1qtSguzFo0vJVfmvUZDEjgV5k">
+</div>
+<div class="flex flex-col justify-between py-1">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface line-clamp-2">Tour Khám Phá Vịnh Hạ Long 2 Ngày 1 Đêm</h4>
+<p class="font-body-sm text-body-sm text-text-muted flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+                                    15/10/2023 - 16/10/2023
+                                </p>
+</div>
+<p class="font-label-md text-label-md text-primary">2 Người lớn</p>
+</div>
+</div>
+<!-- Price Breakdown -->
+<div class="space-y-3 mb-8">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Giá tour</span>
+<span class="font-body-md text-body-md text-on-surface">4.500.000đ</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Phí dịch vụ (0%)</span>
+<span class="font-body-md text-body-md text-success">Miễn phí</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Giảm giá</span>
+<span class="font-body-md text-body-md text-danger">-200.000đ</span>
+</div>
+<div class="pt-4 mt-4 border-t border-surface-container flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface text-lg">Tổng cộng</span>
+<div class="text-right">
+<span class="block font-headline-md text-headline-md text-primary">4.300.000đ</span>
+<span class="block text-[10px] text-text-muted italic">Đã bao gồm VAT</span>
+</div>
+</div>
+</div>
+<!-- Terms checkbox -->
+<div class="flex gap-3 mb-6">
+<input checked="" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary mt-0.5" id="terms" type="checkbox">
+<label class="font-body-sm text-body-sm text-text-muted" for="terms">
+                            Tôi đồng ý với <a class="text-primary hover:underline" href="#">Điều khoản dịch vụ</a> và <a class="text-primary hover:underline" href="#">Chính sách bảo mật</a>.
+                        </label>
+</div>
+<!-- Desktop Action Button -->
+<button class="hidden md:block w-full h-14 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-[0.98] transition-all shadow-md">
+                        Xác nhận thanh toán
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Sticky CTA Area -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface glass-effect border-t border-surface-container p-4 pb-safe z-40 flex items-center justify-between gap-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<div>
+<span class="block text-[10px] text-text-muted uppercase tracking-wider font-bold">Tổng cộng</span>
+<span class="block font-headline-sm text-primary">4.300.000đ</span>
+</div>
+<button class="flex-1 h-14 bg-primary text-on-primary rounded-lg font-label-md text-label-md active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2">
+            Xác nhận
+            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                // Reset all cards
+                document.querySelectorAll('.payment-method-card').forEach(card => {
+                    card.classList.remove('border-primary', 'ring-2', 'ring-primary/10');
+                    card.classList.add('border-outline-variant');
+                    const iconContainer = card.querySelector('.w-12');
+                    iconContainer.classList.remove('bg-primary/10', 'text-primary');
+                    iconContainer.classList.add('bg-surface-container', 'text-on-surface-variant');
+                    const icon = iconContainer.querySelector('.material-symbols-outlined');
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                    
+                    // Hide any detail sections (logic could be expanded for other methods)
+                    const details = card.querySelector('.mt-6');
+                    if (details) details.classList.add('hidden');
+                });
+
+                // Style selected card
+                if (e.target.checked) {
+                    const activeCard = e.target.closest('.payment-method-card');
+                    activeCard.classList.add('border-primary', 'ring-2', 'ring-primary/10');
+                    activeCard.classList.remove('border-outline-variant');
+                    
+                    const iconContainer = activeCard.querySelector('.w-12');
+                    iconContainer.classList.add('bg-primary/10', 'text-primary');
+                    iconContainer.classList.remove('bg-surface-container', 'text-on-surface-variant');
+                    
+                    const icon = iconContainer.querySelector('.material-symbols-outlined');
+                    icon.style.fontVariationSettings = "'FILL' 1";
+
+                    // Show detail sections if they exist
+                    const details = activeCard.querySelector('.mt-6');
+                    if (details) details.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body></html>

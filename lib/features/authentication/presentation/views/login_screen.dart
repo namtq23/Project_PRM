@@ -34,6 +34,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           email: _emailController.text,
           password: _passwordController.text,
         );
+    if (!mounted) return;
+    final authState = ref.read(authViewModelProvider).value;
+    if (authState is AuthAuthenticated) {
+      context.goNamed(RouteNames.home);
+    }
   }
 
   Future<void> _loginWithGoogle() async {

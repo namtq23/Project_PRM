@@ -1,0 +1,322 @@
+<!DOCTYPE html><html class="light" lang="vi"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Đặt Tour Thành Công</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "on-background": "#171c20",
+                        "danger": "#EF4444",
+                        "on-primary-fixed": "#001e2f",
+                        "secondary": "#006b5f",
+                        "on-tertiary-fixed-variant": "#693c00",
+                        "on-secondary-fixed": "#00201c",
+                        "primary-fixed": "#c9e6ff",
+                        "tertiary-fixed-dim": "#ffb86e",
+                        "surface-tint": "#006591",
+                        "text-main": "#0F172A",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#0ea5e9",
+                        "on-secondary-fixed-variant": "#005048",
+                        "on-surface": "#171c20",
+                        "surface": "#FFFFFF",
+                        "tertiary": "#8a5100",
+                        "accent": "#F59E0B",
+                        "surface-bright": "#f6faff",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#6e7881",
+                        "outline-variant": "#bec8d2",
+                        "on-primary-fixed-variant": "#004c6e",
+                        "text-muted": "#64748B",
+                        "secondary-fixed": "#71f8e4",
+                        "primary-fixed-dim": "#89ceff",
+                        "on-surface-variant": "#3e4850",
+                        "surface-container-low": "#f0f4fa",
+                        "background": "#F8FAFC",
+                        "surface-container-highest": "#dee3e9",
+                        "secondary-fixed-dim": "#4fdbc8",
+                        "on-error": "#ffffff",
+                        "warning": "#F59E0B",
+                        "inverse-primary": "#89ceff",
+                        "on-secondary-container": "#006f64",
+                        "inverse-surface": "#2c3135",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eaeef4",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dee3e9",
+                        "secondary-container": "#6df5e1",
+                        "inverse-on-surface": "#edf1f7",
+                        "tertiary-fixed": "#ffdcbd",
+                        "on-tertiary-container": "#4d2b00",
+                        "success": "#22C55E",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#003751",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2c1600",
+                        "tertiary-container": "#de8712",
+                        "surface-container-high": "#e4e8ee",
+                        "surface-dim": "#d6dae0",
+                        "primary": "#006591"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "16px",
+                        "xl": "24px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1rem",
+                        "container-max": "1280px",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2.5rem",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .success-checkmark {
+            animation: checkmark-bounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes checkmark-bounce {
+            0% { transform: scale(0); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .confetti-canvas {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  <style type="text/css">#tudienjp * :not(svg,path){all:revert}#tudienjp svg{width:auto!important}#tudienjp{font-size:18px!important;font-family:Arial,ヒラギノ角ゴ Pro W3,Hiragino Kaku Gothic Pro,Osaka,メイリオ,Meiryo,ＭＳ Ｐゴシック,MS PGothic,sans-serif!important;color:#000!important;line-height:1.5!important;text-align:left!important}#tudienjp .o-result-item{line-height:1.5;display:block;margin-right:0;cursor:pointer}#tudienjp .o-result-item:hover{border-color:#c6d6ef!important}#tudienjp .o-selected-result{max-height:300px;overflow-y:scroll}#tudienjp .o-selected-result::-webkit-scrollbar{width:13px}#tudienjp .o-selected-result::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 3px 0 0 3px #fff;background:rgba(0,0,0,.2)}#tudienjp .o-pop-nav div{font-size:14px;padding:3.2px 8px}#tudienjp .o-pop-speak{margin-top:5px;margin-right:8px;font-size:16px;cursor:pointer}#tudienjp .o-search-mobile{z-index:2147483647;position:absolute;cursor:pointer;display:none}#tudienjp .o-popup-tag{z-index:99999;position:absolute;display:none;padding:10px 5px 10px 10px}#tudienjp .o-bg-white{background-color:#fff!important}#tudienjp .o-border{border:1px solid #dee2e6!important}#tudienjp .o-rounded{border-radius:4px!important}#tudienjp .o-shadow{box-shadow:0 8px 16px rgba(0,0,0,.15)!important}#tudienjp .o-btn-close{box-sizing:content-box;width:16px;height:16px;padding:4px 4px;color:#000;background:transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3E%3C/svg%3E") 50%/16px auto no-repeat;border:0;border-radius:4px;opacity:.5;cursor:pointer}#tudienjp .o-btn-close:hover{opacity:.75}#tudienjp .o-me-1{margin-right:4px!important}#tudienjp .o-end-0{right:0!important}#tudienjp .o-top-0{top:0!important}#tudienjp .o-position-absolute{position:absolute!important}#tudienjp ul{padding-left:32px;display:block;list-style-type:disc;-webkit-margin-before:16px;margin-block-start:16px;-webkit-margin-after:16px;margin-block-end:16px;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:0;margin-inline-end:0;-webkit-padding-start:40px;padding-inline-start:40px}#tudienjp .o-pt-1{padding-top:4px!important}#tudienjp .mark,#tudienjp mark{padding:0!important;background:linear-gradient(transparent 60%,#ff6 0)!important}#tudienjp .o-mt-1{margin-top:4px!important}#tudienjp .o-p-2{padding:8px!important}#tudienjp .o-mb-1{margin-bottom:4px!important}#tudienjp .o-border-3{border-width:3px!important}#tudienjp .o-text-secondary{color:#6c757d!important}#tudienjp .o-text-primary{cursor:pointer;color:#0d6efd}#tudienjp .o-text-primary:hover{text-decoration:underline}#tudienjp .o-w-100{width:100%!important}#tudienjp .o-link-danger{color:#dc3545}#tudienjp .o-link-danger:hover{color:#0d6efd}#tudienjp .o-link-ah:hover{color:#dc3545}#tudienjp .o-text-decoration-none{text-decoration:none!important}#tudienjp .o-fs-6,#tudienjp .o-small{font-size:16px!important}#tudienjp .o-ms-1{margin-left:4px!important}#tudienjp .o-mt-2{margin-top:8px!important}#tudienjp .o-float-start{float:left!important}#tudienjp label{display:inline-block}#tudienjp .o-float-end{float:right!important}#tudienjp .o-link-secondary{color:#6c757d!important}#tudienjp .o-result-item .o-inflect{font-size:14px;color:#666;overflow:hidden;text-overflow:ellipsis}#tudienjp .o-nav-tabs{border-bottom:1px solid #dee2e6}#tudienjp .o-nav{display:flex;flex-wrap:wrap;padding-left:0;margin-bottom:0;list-style:none}#tudienjp ul{margin-top:0;margin-bottom:16px}#tudienjp li{display:list-item;text-align:-webkit-match-parent}#tudienjp .o-nav-tabs .o-nav-item.show .o-nav-link,#tudienjp .o-nav-tabs .o-nav-link.o-active{color:#495057;background-color:#fff;border-color:#dee2e6 #dee2e6 #fff}#tudienjp .o-nav-link{display:block;padding:8px 16px;color:#0d6efd;text-decoration:none;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;cursor:pointer}#tudienjp .o-nav-tabs .o-nav-link{margin-bottom:-1px;background:0 0;border:1px solid transparent;border-top-left-radius:4px;border-top-right-radius:4px;line-height:1.5}#tudienjp svg:not(:host).o-svg-inline--fa,#tudienjp svg:not(:root).o-svg-inline--fa{overflow:visible;box-sizing:content-box}#tudienjp .o-svg-inline--fa{display:inline-block;height:16px;overflow:visible;vertical-align:-2px}#tudienjp .o-form-check{font-size:16px;font-weight:400;line-height:1.5;color:#212529;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;box-sizing:border-box;display:block;min-height:1.5rem;padding-left:1.5em;margin-bottom:0}#tudienjp .o-form-check-input{box-sizing:border-box;margin:0;font-family:inherit;font-size:inherit;line-height:inherit;width:1em;height:1em;margin-top:.25em;vertical-align:top;background-color:#fff;background-repeat:no-repeat;background-position:50%;background-size:contain;border:1px solid rgba(0,0,0,.25);-webkit-appearance:none;-moz-appearance:none;appearance:none;-webkit-print-color-adjust:exact;float:left;margin-left:-1.5em;border-radius:.25em}#tudienjp .o-form-check-input:before{content:""}#tudienjp .o-form-check-input:checked[type=checkbox]{background-color:#0d6efd;border-color:#0d6efd;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3 6-6'/%3E%3C/svg%3E")}#tudienjp del{color:#6c757d!important}</style></head>
+<body class="text-on-background min-h-screen flex flex-col items-center justify-center p-gutter">
+<!-- Confetti layer -->
+<canvas class="confetti-canvas" id="confetti"></canvas>
+<main class="w-full max-w-[600px] flex flex-col items-center space-y-8 relative z-20">
+<!-- Header Success Icon Section -->
+<div class="flex flex-col items-center space-y-6 text-center">
+<div class="success-checkmark bg-success/10 p-6 rounded-full">
+<div class="bg-success w-20 h-20 rounded-full flex items-center justify-center shadow-lg shadow-success/20">
+<span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+</div>
+<div class="space-y-2">
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Đặt tour thành công!</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[400px]">Cảm ơn bạn đã tin tưởng dịch vụ của chúng tôi. Chuyến đi của bạn đã được xác nhận và sẵn sàng.</p>
+</div>
+</div>
+<!-- Summary Booking Card (Asymmetric Bento Style) -->
+<div class="w-full glass-card rounded-xl p-8 shadow-sm overflow-hidden relative">
+<!-- Decorative background element -->
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-10 -left-10 w-32 h-32 bg-secondary/5 rounded-full blur-2xl"></div>
+<div class="relative z-10 space-y-6">
+<div class="flex justify-between items-start border-b border-outline-variant pb-6">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Mã đơn hàng</span>
+<p class="font-headline-sm text-headline-sm text-primary">#VNT-28490152</p>
+</div>
+<div class="bg-primary-container/10 text-primary px-3 py-1 rounded-full font-label-md text-label-md">
+                        Đã thanh toán
+                    </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-4">
+<div class="flex items-start space-x-3">
+<div class="mt-1 bg-surface-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">map</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tour du lịch</span>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Hành trình Di sản Miền Trung: Đà Nẵng - Hội An - Huế</p>
+</div>
+</div>
+<div class="flex items-start space-x-3">
+<div class="mt-1 bg-surface-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">calendar_today</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ngày khởi hành</span>
+<p class="font-body-md text-body-md font-semibold text-on-surface">15 Tháng 10, 2023</p>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-start space-x-3">
+<div class="mt-1 bg-surface-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">group</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Số lượng khách</span>
+<p class="font-body-md text-body-md font-semibold text-on-surface">02 Người lớn, 01 Trẻ em</p>
+</div>
+</div>
+<div class="flex items-start space-x-3">
+<div class="mt-1 bg-surface-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">payments</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tổng cộng</span>
+<p class="font-body-md text-body-md font-semibold text-primary">12.500.000 VNĐ</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Information Note -->
+<div class="flex items-center space-x-3 bg-surface-container-low p-4 rounded-lg w-full">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Thông tin chi tiết chuyến đi và vé điện tử đã được gửi tới email <span class="font-semibold text-on-surface">user@example.com</span></p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col md:flex-row w-full gap-4 pt-4">
+<button class="flex-1 bg-primary text-on-primary font-label-md text-label-md py-4 px-8 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 shadow-md">
+<span>Xem chi tiết đơn hàng</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<button class="flex-1 bg-white border border-outline-variant text-on-surface font-label-md text-label-md py-4 px-8 rounded-lg hover:bg-surface-container-low active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined text-sm">home</span>
+<span>Về trang chủ</span>
+</button>
+</div>
+<!-- Feedback Section (Subtle) -->
+<p class="text-on-surface-variant font-body-sm text-body-sm text-center pt-8">
+            Cần hỗ trợ? Liên hệ hotline <span class="text-primary font-semibold">1900 6789</span>
+</p>
+</main>
+<script>
+        // Simple Confetti Animation
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        let width, height, confetti = [];
+        const confettiCount = 80;
+        const gravity = 0.5;
+        const terminalVelocity = 5;
+        const drag = 0.075;
+        const colors = [
+            { front : '#006591', back: '#004c6e' },
+            { front : '#22C55E', back: '#16a34a' },
+            { front : '#F59E0B', back: '#d97706' },
+            { front : '#0ea5e9', back: '#0284c7' }
+        ];
+
+        const resizeCanvas = () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        };
+
+        const randomRange = (min, max) => Math.random() * (max - min) + min;
+
+        const initConfetti = () => {
+            for (let i = 0; i < confettiCount; i++) {
+                confetti.push({
+                    color      : colors[Math.floor(randomRange(0, colors.length))],
+                    dimensions : { x: randomRange(10, 20), y: randomRange(10, 30) },
+                    position   : { x: randomRange(0, width), y: height - 1 },
+                    rotation   : randomRange(0, 2 * Math.PI),
+                    scale      : { x: 1, y: 1 },
+                    velocity   : { x: randomRange(-25, 25), y: randomRange(0, -50) },
+                });
+            }
+        };
+
+        const render = () => {
+            ctx.clearRect(0, 0, width, height);
+
+            confetti.forEach((confetto, index) => {
+                let width = (confetto.dimensions.x * confetto.scale.x);
+                let height = (confetto.dimensions.y * confetto.scale.y);
+
+                ctx.translate(confetto.position.x, confetto.position.y);
+                ctx.rotate(confetto.rotation);
+
+                confetto.velocity.x -= confetto.velocity.x * drag;
+                confetto.velocity.y = Math.min(confetto.velocity.y + gravity, terminalVelocity);
+                confetto.velocity.x += Math.random() > 0.5 ? Math.random() : -Math.random();
+
+                confetto.position.x += confetto.velocity.x;
+                confetto.position.y += confetto.velocity.y;
+
+                if (confetto.position.y >= height) confetti.splice(index, 1);
+
+                confetto.scale.y = Math.cos(confetto.position.y * 0.1);
+                ctx.fillStyle = confetto.scale.y > 0 ? confetto.color.front : confetto.color.back;
+
+                ctx.fillRect(-width / 2, -height / 2, width, height);
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+            });
+
+            if (confetti.length > 0) {
+                requestAnimationFrame(render);
+            }
+        };
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        setTimeout(() => {
+            initConfetti();
+            render();
+        }, 300);
+
+        // Click interaction for primary button
+        document.querySelector('button.bg-primary').addEventListener('click', function() {
+            // Re-trigger confetti on button click for delight
+            initConfetti();
+            if (confetti.length === confettiCount) render();
+        });
+    </script>
+</body></html>
