@@ -32,8 +32,15 @@ class AppDatabase {
       databasePath,
       options: OpenDatabaseOptions(
         version: DatabaseConstants.databaseVersion,
-        onCreate: (database, _) =>
-            database.execute(DatabaseConstants.createUsersTable),
+        onCreate: (database, _) async {
+          await database.execute(DatabaseConstants.createUsersTable);
+          await database.execute(DatabaseConstants.createBookingsTable);
+        },
+        onUpgrade: (database, oldVersion, newVersion) async {
+          if (oldVersion < 2) {
+            // Future migrations
+          }
+        },
       ),
     );
   }
