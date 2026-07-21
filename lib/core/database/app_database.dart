@@ -32,8 +32,11 @@ class AppDatabase {
       databasePath,
       options: OpenDatabaseOptions(
         version: DatabaseConstants.databaseVersion,
-        onCreate: (database, _) =>
-            database.execute(DatabaseConstants.createUsersTable),
+        onCreate: (database, _) async {
+          for (final sql in DatabaseConstants.allTables) {
+            await database.execute(sql);
+          }
+        },
       ),
     );
   }

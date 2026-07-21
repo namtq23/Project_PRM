@@ -1,38 +1,26 @@
-class Tour {
+class Category {
   final int? id;
   final String? firestoreId;
-  final int? categoryId;
   final String title;
   final String? description;
-  final double price;
-  final int durationDays;
-  final String status;
   final String createdAt;
   final String updatedAt;
 
-  const Tour({
+  const Category({
     this.id,
     this.firestoreId,
-    this.categoryId,
     required this.title,
     this.description,
-    required this.price,
-    required this.durationDays,
-    this.status = 'active',
     required this.createdAt,
     required this.updatedAt,
   });
 
-  factory Tour.fromMap(Map<String, dynamic> map) {
-    return Tour(
+  factory Category.fromMap(Map<String, dynamic> map) {
+    return Category(
       id: map['id'] as int?,
       firestoreId: map['firestore_id'] as String?,
-      categoryId: map['category_id'] as int?,
       title: map['title'] as String,
       description: map['description'] as String?,
-      price: (map['price'] as num).toDouble(),
-      durationDays: map['duration_days'] as int,
-      status: map['status'] as String? ?? 'active',
       createdAt: map['created_at'] as String,
       updatedAt: map['updated_at'] as String,
     );
@@ -42,12 +30,8 @@ class Tour {
     return {
       'id': id,
       'firestore_id': firestoreId,
-      'category_id': categoryId,
       'title': title,
       'description': description,
-      'price': price,
-      'duration_days': durationDays,
-      'status': status,
       'created_at': createdAt,
       'updated_at': updatedAt,
     };
