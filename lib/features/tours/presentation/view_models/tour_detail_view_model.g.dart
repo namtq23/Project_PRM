@@ -13,7 +13,7 @@ part of 'tour_detail_view_model.dart';
 final tourDetailViewModelProvider = TourDetailViewModelFamily._();
 
 final class TourDetailViewModelProvider
-    extends $AsyncNotifierProvider<TourDetailViewModel, Tour?> {
+    extends $AsyncNotifierProvider<TourDetailViewModel, TourModel?> {
   TourDetailViewModelProvider._({
     required TourDetailViewModelFamily super.from,
     required int super.argument,
@@ -51,15 +51,15 @@ final class TourDetailViewModelProvider
 }
 
 String _$tourDetailViewModelHash() =>
-    r'71d1537f191f8ecfe1ea34ad84efe67ecad92e03';
+    r'fbb405084eab5835d4ab7546a01d73c2088cb39e';
 
 final class TourDetailViewModelFamily extends $Family
     with
         $ClassFamilyOverride<
           TourDetailViewModel,
-          AsyncValue<Tour?>,
-          Tour?,
-          FutureOr<Tour?>,
+          AsyncValue<TourModel?>,
+          TourModel?,
+          FutureOr<TourModel?>,
           int
         > {
   TourDetailViewModelFamily._()
@@ -78,20 +78,20 @@ final class TourDetailViewModelFamily extends $Family
   String toString() => r'tourDetailViewModelProvider';
 }
 
-abstract class _$TourDetailViewModel extends $AsyncNotifier<Tour?> {
+abstract class _$TourDetailViewModel extends $AsyncNotifier<TourModel?> {
   late final _$args = ref.$arg as int;
   int get tourId => _$args;
 
-  FutureOr<Tour?> build(int tourId);
+  FutureOr<TourModel?> build(int tourId);
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<Tour?>, Tour?>;
+    final ref = this.ref as $Ref<AsyncValue<TourModel?>, TourModel?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<Tour?>, Tour?>,
-              AsyncValue<Tour?>,
+              AnyNotifier<AsyncValue<TourModel?>, TourModel?>,
+              AsyncValue<TourModel?>,
               Object?,
               Object?
             >;

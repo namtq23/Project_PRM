@@ -23,7 +23,7 @@ class ToursViewModel extends _$ToursViewModel {
       // 1. Build where clause based on status filter and search query
       String whereClause = "";
       final List<dynamic> whereArgs = [];
-      
+
       final filter = state.selectedFilter.toLowerCase();
       if (filter != 'all') {
         whereClause += " AND t.status = ?";
@@ -32,7 +32,8 @@ class ToursViewModel extends _$ToursViewModel {
 
       final queryStr = state.searchQuery.toLowerCase().trim();
       if (queryStr.isNotEmpty) {
-        whereClause += " AND (LOWER(t.title) LIKE ? OR LOWER(t.description) LIKE ? OR LOWER(t.category_id) LIKE ?)";
+        whereClause +=
+            " AND (LOWER(t.title) LIKE ? OR LOWER(t.description) LIKE ? OR LOWER(t.category_id) LIKE ?)";
         final likePattern = "%$queryStr%";
         whereArgs.add(likePattern);
         whereArgs.add(likePattern);
@@ -53,7 +54,8 @@ class ToursViewModel extends _$ToursViewModel {
 
       // 3. Fetch paginated tours matching the filter
       final offset = (state.currentPage - 1) * state.itemsPerPage;
-      final query = '''
+      final query =
+          '''
         SELECT t.*, c.title as category_name
         FROM tours t
         LEFT JOIN categories c ON t.category_id = c.id
@@ -73,10 +75,7 @@ class ToursViewModel extends _$ToursViewModel {
         totalCount: totalCount,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 
@@ -99,10 +98,14 @@ class ToursViewModel extends _$ToursViewModel {
   int? _mapCategoryToId(String? category) {
     if (category == null) return null;
     final normalized = category.trim().toLowerCase();
-    if (normalized == '1' || normalized.contains('thám hiểm') || normalized.contains('luxury')) {
+    if (normalized == '1' ||
+        normalized.contains('thám hiểm') ||
+        normalized.contains('luxury')) {
       return 1;
     }
-    if (normalized == '2' || normalized.contains('thành thị') || normalized.contains('urban')) {
+    if (normalized == '2' ||
+        normalized.contains('thành thị') ||
+        normalized.contains('urban')) {
       return 2;
     }
     if (normalized.contains('bắc âu') || normalized.contains('nordic')) {
@@ -136,15 +139,12 @@ class ToursViewModel extends _$ToursViewModel {
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );
-      await ref.read(tourRepositoryProvider).addTour(newTour);
+      await (await ref.read(tourRepositoryProvider.future)).addTour(newTour);
       await loadTours();
       return true;
     } catch (e) {
       print('Error adding tour in ViewModel: $e');
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
       return false;
     }
   }
@@ -174,15 +174,14 @@ class ToursViewModel extends _$ToursViewModel {
         createdAt: createdAt ?? DateTime.now(),
         updatedAt: DateTime.now(),
       );
-      await ref.read(tourRepositoryProvider).updateTour(updatedTour);
+      await (await ref.read(
+        tourRepositoryProvider.future,
+      )).updateTour(updatedTour);
       await loadTours();
       return true;
     } catch (e) {
       print('Error updating tour in ViewModel: $e');
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
       return false;
     }
   }
@@ -190,15 +189,12 @@ class ToursViewModel extends _$ToursViewModel {
   Future<bool> deleteTour(int id) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      await ref.read(tourRepositoryProvider).deleteTour(id);
+      await (await ref.read(tourRepositoryProvider.future)).deleteTour(id);
       await loadTours();
       return true;
     } catch (e) {
       print('Error deleting tour in ViewModel: $e');
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
       return false;
     }
   }

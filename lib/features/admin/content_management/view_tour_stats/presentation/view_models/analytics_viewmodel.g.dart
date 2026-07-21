@@ -6,6 +6,7 @@ part of 'analytics_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(AnalyticsViewModel)
@@ -41,7 +42,7 @@ final class AnalyticsViewModelProvider
 }
 
 String _$analyticsViewModelHash() =>
-    r'892a21c972626e29b37f7cedc025b3d6df344b30';
+    r'cdef50604e382763c02dc72c51ac5b3dd04cbb62';
 
 abstract class _$AnalyticsViewModel extends $Notifier<AnalyticsState> {
   AnalyticsState build();

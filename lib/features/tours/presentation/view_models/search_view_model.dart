@@ -8,7 +8,7 @@ part 'search_view_model.g.dart';
 @riverpod
 class SearchViewModel extends _$SearchViewModel {
   @override
-  FutureOr<List<Tour>?> build() {
+  FutureOr<List<TourModel>?> build() {
     return null; // null means no search performed yet
   }
 

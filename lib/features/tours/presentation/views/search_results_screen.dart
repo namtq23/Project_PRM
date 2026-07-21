@@ -45,6 +45,17 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(SearchResultsScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.query != oldWidget.query) {
+      _searchController.text = widget.query;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(searchViewModelProvider.notifier).search(widget.query);
+      });
+    }
+  }
+
   Future<void> _openFilterSheet() async {
     final filters = await showModalBottomSheet<TourFilters>(
       context: context,
@@ -60,7 +71,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
     }
   }
 
-  List<Tour> _processTours(List<Tour> tours) {
+  List<TourModel> _processTours(List<TourModel> tours) {
     // 1. Filter
     var processed = tours.where((t) {
       if (_currentFilters.category != 'Tất cả' && t.categoryId != null) {
@@ -74,7 +85,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
         return false;
       }
 
-      // We don't have real ratings or categories mapped in Tour model directly right now,
+      // We don't have real ratings or categories mapped in TourModel model directly right now,
       // but we apply duration logic:
       if (_currentFilters.duration == 'Trong ngày' && t.durationDays > 1) {
         return false;
@@ -127,23 +138,43 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
             textInputAction: TextInputAction.search,
             onSubmitted: (q) {
               final newQuery = q.trim();
-              if (newQuery.isNotEmpty && newQuery != widget.query) {
-                context.pushReplacementNamed(
-                  RouteNames.searchResults,
-                  pathParameters: {'query': newQuery},
-                );
+              if (newQuery.isNotEmpty) {
+                if (newQuery == widget.query) {
+                  // Force refresh if it's the same query
+                  ref.read(searchViewModelProvider.notifier).search(newQuery);
+                } else {
+                  context.pushReplacementNamed(
+                    RouteNames.searchResults,
+                    queryParameters: {'q': newQuery},
+                  );
+                }
               }
             },
-            decoration: const InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: Color(0xFF64748B),
-                size: 20,
+            decoration: InputDecoration(
+              prefixIcon: IconButton(
+                icon: const Icon(
+                  Icons.search,
+                  color: Color(0xFF64748B),
+                  size: 20,
+                ),
+                onPressed: () {
+                  final q = _searchController.text.trim();
+                  if (q.isNotEmpty) {
+                    if (q == widget.query) {
+                      ref.read(searchViewModelProvider.notifier).search(q);
+                    } else {
+                      context.pushReplacementNamed(
+                        RouteNames.searchResults,
+                        queryParameters: {'q': q},
+                      );
+                    }
+                  }
+                },
               ),
               hintText: 'Tìm kiếm tour...',
-              hintStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
+              hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(
+              contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12,
                 vertical: 10,
               ),

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart' as mobile_sqflite;
@@ -7,7 +6,6 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 import 'database_constants.dart';
-import 'database_seeder.dart';
 
 part 'app_database.g.dart';
 
@@ -82,8 +80,6 @@ class AppDatabase {
             }
           }
         },
-          }
-        },
       ),
     );
 
@@ -149,11 +145,13 @@ class AppDatabase {
         'id': 1,
         'category_id': 1,
         'title': 'Tour Du Thuyền 5 Sao Vịnh Hạ Long - Lan Hạ (2N1Đ)',
-        'description': 'Trải nghiệm ngủ đêm sang trọng trên vịnh biển di sản với du thuyền 5 sao chuẩn quốc tế.',
+        'description':
+            'Trải nghiệm ngủ đêm sang trọng trên vịnh biển di sản với du thuyền 5 sao chuẩn quốc tế.',
         'price': 3850000.0,
         'duration_days': 2,
         'status': 'active',
-        'firestore_id': 'https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1000',
+        'firestore_id':
+            'https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1000',
         'created_at': now,
         'updated_at': now,
       },
@@ -161,11 +159,13 @@ class AppDatabase {
         'id': 2,
         'category_id': 3,
         'title': 'Hành Trình Di Sản Miền Trung: Đà Nẵng - Hội An - Huế (4N3Đ)',
-        'description': 'Chiêm ngưỡng di sản văn hóa cổ kính, phố cổ Hội An lộng lẫy và cố đô Huế trang nghiêm.',
+        'description':
+            'Chiêm ngưỡng di sản văn hóa cổ kính, phố cổ Hội An lộng lẫy và cố đô Huế trang nghiêm.',
         'price': 5990000.0,
         'duration_days': 4,
         'status': 'active',
-        'firestore_id': 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=1000',
+        'firestore_id':
+            'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=1000',
         'created_at': now,
         'updated_at': now,
       },
@@ -173,11 +173,13 @@ class AppDatabase {
         'id': 3,
         'category_id': 5,
         'title': 'Khám Phá Thiên Đường Biển Đảo Phú Quốc (3N2Đ)',
-        'description': 'Tận hưởng kỳ nghỉ nhiệt đới, câu cá lặn ngắm san hô tại Nam Đảo và check-in Sunset Sanato.',
+        'description':
+            'Tận hưởng kỳ nghỉ nhiệt đới, câu cá lặn ngắm san hô tại Nam Đảo và check-in Sunset Sanato.',
         'price': 4200000.0,
         'duration_days': 3,
         'status': 'active',
-        'firestore_id': 'https://images.unsplash.com/photo-1583417267826-aebc4d1543e5?q=80&w=1000',
+        'firestore_id':
+            'https://images.unsplash.com/photo-1583417267826-aebc4d1543e5?q=80&w=1000',
         'created_at': now,
         'updated_at': now,
       },
@@ -185,23 +187,28 @@ class AppDatabase {
         'id': 4,
         'category_id': 2,
         'title': 'Sapa - Chinh Phục Đỉnh Fansipan - Cát Cát (3N2Đ)',
-        'description': 'Hành trình khám phá Tây Bắc, trekking bản Cát Cát và đi cáp treo chinh phục nóc nhà Đông Dương.',
+        'description':
+            'Hành trình khám phá Tây Bắc, trekking bản Cát Cát và đi cáp treo chinh phục nóc nhà Đông Dương.',
         'price': 3250000.0,
         'duration_days': 3,
         'status': 'active',
-        'firestore_id': 'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?q=80&w=1000',
+        'firestore_id':
+            'https://images.unsplash.com/photo-1540611025311-01df3cef54b5?q=80&w=1000',
         'created_at': now,
         'updated_at': now,
       },
       {
         'id': 5,
         'category_id': 4,
-        'title': 'Tour Trải Nghiệm Miền Tây River Life: Cần Thơ - Bến Tre (2N1Đ)',
-        'description': 'Hòa mình vào cuộc sống sông nước miền Tây, du ngoạn chợ nổi Cái Răng và thưởng thức trái cây miệt vườn.',
+        'title':
+            'Tour Trải Nghiệm Miền Tây River Life: Cần Thơ - Bến Tre (2N1Đ)',
+        'description':
+            'Hòa mình vào cuộc sống sông nước miền Tây, du ngoạn chợ nổi Cái Răng và thưởng thức trái cây miệt vườn.',
         'price': 1890000.0,
         'duration_days': 2,
         'status': 'active',
-        'firestore_id': 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000',
+        'firestore_id':
+            'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000',
         'created_at': now,
         'updated_at': now,
       },
@@ -209,11 +216,13 @@ class AppDatabase {
         'id': 6,
         'category_id': 3,
         'title': 'Cố Đô Hà Nội - Ninh Bình - Tràng An (1 Ngày)',
-        'description': 'Khám phá văn hóa cố đô Hoa Lư, đi thuyền trôi dòng Tràng An kỳ vĩ và viếng chùa Bái Đính.',
+        'description':
+            'Khám phá văn hóa cố đô Hoa Lư, đi thuyền trôi dòng Tràng An kỳ vĩ và viếng chùa Bái Đính.',
         'price': 950000.0,
         'duration_days': 1,
         'status': 'active',
-        'firestore_id': 'https://images.unsplash.com/photo-1509060464153-4466739f7840?q=80&w=1000',
+        'firestore_id':
+            'https://images.unsplash.com/photo-1509060464153-4466739f7840?q=80&w=1000',
         'created_at': now,
         'updated_at': now,
       },
@@ -221,11 +230,13 @@ class AppDatabase {
         'id': 7,
         'category_id': 2,
         'title': 'Trekking Tà Xùa - Săn Mây Đại Ngàn (2N1Đ)',
-        'description': 'Chinh phục sống lưng khủng long Tà Xùa hoang sơ, săn biển mây bồng bềnh giữa núi rừng Sơn La.',
+        'description':
+            'Chinh phục sống lưng khủng long Tà Xùa hoang sơ, săn biển mây bồng bềnh giữa núi rừng Sơn La.',
         'price': 2450000.0,
         'duration_days': 2,
         'status': 'active',
-        'firestore_id': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000',
+        'firestore_id':
+            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000',
         'created_at': now,
         'updated_at': now,
       },
@@ -233,11 +244,13 @@ class AppDatabase {
         'id': 8,
         'category_id': 1,
         'title': 'Tour Cao Cấp: Khám Phá Mùa Thu Nhật Bản (5N4Đ)',
-        'description': 'Kỳ nghỉ dưỡng thượng lưu ngắm lá đỏ Momiji tại Tokyo - Núi Phú Sĩ - Kyoto sang trọng.',
+        'description':
+            'Kỳ nghỉ dưỡng thượng lưu ngắm lá đỏ Momiji tại Tokyo - Núi Phú Sĩ - Kyoto sang trọng.',
         'price': 28900000.0,
         'duration_days': 5,
         'status': 'active',
-        'firestore_id': 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=1000',
+        'firestore_id':
+            'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=1000',
         'created_at': now,
         'updated_at': now,
       },
@@ -254,7 +267,7 @@ class AppDatabase {
 
   Future<void> _seedDemoBookings(Database database) async {
     await database.execute('DELETE FROM bookings');
-    
+
     // Seed some users so we have more than 1 user for average ticket/LTV calculation
     await database.execute('''
       INSERT OR IGNORE INTO users (id, email, password_hash, full_name, role, status, auth_provider, avatar_url, created_at, updated_at) VALUES
@@ -376,7 +389,8 @@ class AppDatabase {
         'user_id': 2, // Nguyễn Văn Nam
         'tour_id': 1, // Hạ Long Vịnh Lan Hạ
         'rating': 5,
-        'comment': 'Dịch vụ du thuyền tuyệt vời, đồ ăn tươi ngon và nhân viên phục vụ rất chu đáo! Tôi chắc chắn sẽ quay lại.',
+        'comment':
+            'Dịch vụ du thuyền tuyệt vời, đồ ăn tươi ngon và nhân viên phục vụ rất chu đáo! Tôi chắc chắn sẽ quay lại.',
         'status': 'approved',
         'created_at': now,
         'updated_at': now,
@@ -386,7 +400,8 @@ class AppDatabase {
         'user_id': 3, // Trần Thị Mai
         'tour_id': 4, // Sapa Fansipan
         'rating': 5,
-        'comment': 'Chuyến đi Sapa săn mây rất đẹp, hướng dẫn viên nhiệt tình, hỗ trợ đoàn rất chu đáo suốt hành trình.',
+        'comment':
+            'Chuyến đi Sapa săn mây rất đẹp, hướng dẫn viên nhiệt tình, hỗ trợ đoàn rất chu đáo suốt hành trình.',
         'status': 'approved',
         'created_at': now,
         'updated_at': now,
@@ -396,7 +411,8 @@ class AppDatabase {
         'user_id': 4, // Lê Hoàng Long
         'tour_id': 3, // Phú Quốc
         'rating': 4,
-        'comment': 'Cần cải thiện chất lượng xe đưa đón một chút nhưng tổng thể dịch vụ khách sạn và lịch trình vẫn rất đáng tiền.',
+        'comment':
+            'Cần cải thiện chất lượng xe đưa đón một chút nhưng tổng thể dịch vụ khách sạn và lịch trình vẫn rất đáng tiền.',
         'status': 'approved',
         'created_at': now,
         'updated_at': now,
@@ -406,7 +422,8 @@ class AppDatabase {
         'user_id': 5, // Phạm Minh Anh
         'tour_id': 2, // Đà Nẵng Hội An Huế
         'rating': 5,
-        'comment': 'Khách sạn trung tâm tiện lợi, các điểm di sản rất đẹp và mang nhiều giá trị lịch sử Việt Nam.',
+        'comment':
+            'Khách sạn trung tâm tiện lợi, các điểm di sản rất đẹp và mang nhiều giá trị lịch sử Việt Nam.',
         'status': 'pending',
         'created_at': now,
         'updated_at': now,
@@ -416,7 +433,8 @@ class AppDatabase {
         'user_id': 2, // Nguyễn Văn Nam
         'tour_id': 7, // Tà Xùa
         'rating': 5,
-        'comment': 'Trekking Tà Xùa mệt nhưng ngắm được biển mây cực kỳ mãn nhãn và đáng nhớ.',
+        'comment':
+            'Trekking Tà Xùa mệt nhưng ngắm được biển mây cực kỳ mãn nhãn và đáng nhớ.',
         'status': 'flagged',
         'created_at': now,
         'updated_at': now,

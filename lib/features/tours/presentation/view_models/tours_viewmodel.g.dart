@@ -41,7 +41,7 @@ final class ToursViewModelProvider
   }
 }
 
-String _$toursViewModelHash() => r'2782d9d5a0b7dab1dcfcdad1466aaac4ab7258ab';
+String _$toursViewModelHash() => r'5045ea847cdba106d3c45d4bd3263ca9e9fbc3d7';
 
 abstract class _$ToursViewModel extends $Notifier<ToursState> {
   ToursState build();

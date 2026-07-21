@@ -13,7 +13,7 @@ part of 'search_view_model.dart';
 final searchViewModelProvider = SearchViewModelProvider._();
 
 final class SearchViewModelProvider
-    extends $AsyncNotifierProvider<SearchViewModel, List<Tour>?> {
+    extends $AsyncNotifierProvider<SearchViewModel, List<TourModel>?> {
   SearchViewModelProvider._()
     : super(
         from: null,
@@ -33,19 +33,20 @@ final class SearchViewModelProvider
   SearchViewModel create() => SearchViewModel();
 }
 
-String _$searchViewModelHash() => r'16da6c80e2f9a68a9005e5c500e00a401a2aae68';
+String _$searchViewModelHash() => r'9b459fd057cde0048e220a8fbb99b3e626a38cb1';
 
-abstract class _$SearchViewModel extends $AsyncNotifier<List<Tour>?> {
-  FutureOr<List<Tour>?> build();
+abstract class _$SearchViewModel extends $AsyncNotifier<List<TourModel>?> {
+  FutureOr<List<TourModel>?> build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<List<Tour>?>, List<Tour>?>;
+    final ref =
+        this.ref as $Ref<AsyncValue<List<TourModel>?>, List<TourModel>?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<List<Tour>?>, List<Tour>?>,
-              AsyncValue<List<Tour>?>,
+              AnyNotifier<AsyncValue<List<TourModel>?>, List<TourModel>?>,
+              AsyncValue<List<TourModel>?>,
               Object?,
               Object?
             >;

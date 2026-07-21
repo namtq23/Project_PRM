@@ -24,8 +24,8 @@ class HomeViewModel extends _$HomeViewModel {
     ]);
 
     return HomeState(
-      categories: results[0] as List<Category>,
-      featuredTours: results[1] as List<Tour>,
+      categories: results[0] as List<CategoryModel>,
+      featuredTours: results[1] as List<TourModel>,
     );
   }
 

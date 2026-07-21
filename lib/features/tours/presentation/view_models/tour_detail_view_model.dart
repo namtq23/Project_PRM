@@ -8,7 +8,7 @@ part 'tour_detail_view_model.g.dart';
 @riverpod
 class TourDetailViewModel extends _$TourDetailViewModel {
   @override
-  FutureOr<Tour?> build(int tourId) async {
+  FutureOr<TourModel?> build(int tourId) async {
     final repository = await ref.watch(tourRepositoryProvider.future);
     return repository.getTourById(tourId);
   }

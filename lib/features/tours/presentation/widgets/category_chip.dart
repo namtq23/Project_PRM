@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/category_model.dart';
 
 class CategoryChip extends StatelessWidget {
-  final Category category;
+  final CategoryModel category;
   final bool isSelected;
   final VoidCallback onTap;
 

@@ -6,6 +6,7 @@ part of 'reviews_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(ReviewsViewModel)
@@ -40,7 +41,7 @@ final class ReviewsViewModelProvider
   }
 }
 
-String _$reviewsViewModelHash() => r'8e0d25283543722144d512cda87de95c5cc50f6f';
+String _$reviewsViewModelHash() => r'd3e9236bc602d2d48e6af0b38d56164a949e0cb5';
 
 abstract class _$ReviewsViewModel extends $Notifier<ReviewsState> {
   ReviewsState build();

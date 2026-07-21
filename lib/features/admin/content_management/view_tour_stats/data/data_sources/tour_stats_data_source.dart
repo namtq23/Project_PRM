@@ -70,27 +70,30 @@ class TourStatsDataSource {
 
     // 1. Gross Revenue
     final grossRevResult = await db.rawQuery(
-      "SELECT SUM(total_cost) as total FROM bookings WHERE status != 'cancelled'"
+      "SELECT SUM(total_cost) as total FROM bookings WHERE status != 'cancelled'",
     );
-    final double grossRevenue = (grossRevResult.first['total'] as num?)?.toDouble() ?? 0.0;
+    final double grossRevenue =
+        (grossRevResult.first['total'] as num?)?.toDouble() ?? 0.0;
 
     // 2. Active Bookings
     final activeCountResult = await db.rawQuery(
-      "SELECT COUNT(*) as count FROM bookings WHERE status IN ('pending', 'confirmed')"
+      "SELECT COUNT(*) as count FROM bookings WHERE status IN ('pending', 'confirmed')",
     );
     final int activeBookings = activeCountResult.first['count'] as int? ?? 0;
 
     // 3. Avg. Ticket Size
     final avgTicketResult = await db.rawQuery(
-      "SELECT AVG(total_cost) as avg_cost FROM bookings WHERE status != 'cancelled'"
+      "SELECT AVG(total_cost) as avg_cost FROM bookings WHERE status != 'cancelled'",
     );
-    final double avgTicketSize = (avgTicketResult.first['avg_cost'] as num?)?.toDouble() ?? 0.0;
+    final double avgTicketSize =
+        (avgTicketResult.first['avg_cost'] as num?)?.toDouble() ?? 0.0;
 
     // 4. Customer LTV
     final ltvResult = await db.rawQuery(
-      "SELECT SUM(total_cost) / COUNT(DISTINCT user_id) as ltv FROM bookings WHERE status != 'cancelled'"
+      "SELECT SUM(total_cost) / COUNT(DISTINCT user_id) as ltv FROM bookings WHERE status != 'cancelled'",
     );
-    final double customerLtv = (ltvResult.first['ltv'] as num?)?.toDouble() ?? 0.0;
+    final double customerLtv =
+        (ltvResult.first['ltv'] as num?)?.toDouble() ?? 0.0;
 
     // 5. Monthly Revenue
     final monthlyRows = await db.rawQuery('''
@@ -132,9 +135,15 @@ class TourStatsDataSource {
     }
     final totalSourcesCount = directCount + socialCount + affiliateCount;
     final Map<String, double> acquisitionSources = {
-      'Tìm kiếm trực tiếp': totalSourcesCount > 0 ? (directCount / totalSourcesCount) * 100 : 45.0,
-      'Mạng xã hội': totalSourcesCount > 0 ? (socialCount / totalSourcesCount) * 100 : 35.0,
-      'Tiếp thị liên kết': totalSourcesCount > 0 ? (affiliateCount / totalSourcesCount) * 100 : 20.0,
+      'Tìm kiếm trực tiếp': totalSourcesCount > 0
+          ? (directCount / totalSourcesCount) * 100
+          : 45.0,
+      'Mạng xã hội': totalSourcesCount > 0
+          ? (socialCount / totalSourcesCount) * 100
+          : 35.0,
+      'Tiếp thị liên kết': totalSourcesCount > 0
+          ? (affiliateCount / totalSourcesCount) * 100
+          : 20.0,
     };
 
     // 7. Booking Trends
@@ -172,7 +181,7 @@ class TourStatsDataSource {
       ORDER BY sales_count DESC
       LIMIT 5
     ''');
-    
+
     int maxSales = 1;
     for (final row in topToursRows) {
       final count = row['sales_count'] as int? ?? 0;

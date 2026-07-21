@@ -127,11 +127,13 @@ class ProfileMenuSection extends StatelessWidget {
           ),
         ),
       ),
-      Container(
-        decoration: BoxDecoration(
-          color: ProfilePalette.surface,
+      Material(
+        color: ProfilePalette.surface,
+        borderRadius: BorderRadius.circular(ProfileRadii.large),
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(ProfileRadii.large),
-          border: Border.all(color: ProfilePalette.border),
+          side: const BorderSide(color: ProfilePalette.border),
         ),
         child: Column(children: children),
       ),

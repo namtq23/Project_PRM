@@ -88,10 +88,7 @@ class AnalyticsViewModel extends _$AnalyticsViewModel {
         recentBookings: data.recentBookings,
       );
     } catch (e) {
-      state = AnalyticsState(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = AnalyticsState(isLoading: false, errorMessage: e.toString());
     }
   }
 }

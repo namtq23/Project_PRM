@@ -65,8 +65,12 @@ class CategoryModel extends Equatable {
       'icon': icon,
       'image_url': imageUrl,
       'status': status,
-      'created_at': createdAt?.toUtc().toIso8601String() ?? DateTime.now().toUtc().toIso8601String(),
-      'updated_at': updatedAt?.toUtc().toIso8601String() ?? DateTime.now().toUtc().toIso8601String(),
+      'created_at':
+          createdAt?.toUtc().toIso8601String() ??
+          DateTime.now().toUtc().toIso8601String(),
+      'updated_at':
+          updatedAt?.toUtc().toIso8601String() ??
+          DateTime.now().toUtc().toIso8601String(),
     };
   }
 
@@ -80,26 +84,30 @@ class CategoryModel extends Equatable {
       icon: map['icon'] as String?,
       imageUrl: map['image_url'] as String?,
       status: map['status'] as String? ?? 'active',
-      createdAt: map['created_at'] != null ? DateTime.tryParse(map['created_at'] as String) : null,
-      updatedAt: map['updated_at'] != null ? DateTime.tryParse(map['updated_at'] as String) : null,
+      createdAt: map['created_at'] != null
+          ? DateTime.tryParse(map['created_at'] as String)
+          : null,
+      updatedAt: map['updated_at'] != null
+          ? DateTime.tryParse(map['updated_at'] as String)
+          : null,
       toursCount: map['tours_count'] as int? ?? 0,
     );
   }
 
   @override
   List<Object?> get props => [
-        id,
-        firestoreId,
-        title,
-        shortName,
-        description,
-        icon,
-        imageUrl,
-        status,
-        createdAt,
-        updatedAt,
-        toursCount,
-      ];
+    id,
+    firestoreId,
+    title,
+    shortName,
+    description,
+    icon,
+    imageUrl,
+    status,
+    createdAt,
+    updatedAt,
+    toursCount,
+  ];
 
   @override
   String toString() {

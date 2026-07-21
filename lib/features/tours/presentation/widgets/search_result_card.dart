@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/tour_model.dart';
 
 class SearchResultCard extends StatelessWidget {
-  final Tour tour;
+  final TourModel tour;
   final VoidCallback onTap;
 
   const SearchResultCard({super.key, required this.tour, required this.onTap});

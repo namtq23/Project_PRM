@@ -104,7 +104,7 @@ class _TourDetailAppBarState extends State<TourDetailAppBar> {
 }
 
 class TourDetailHeader extends StatelessWidget {
-  final Tour tour;
+  final TourModel tour;
 
   const TourDetailHeader({super.key, required this.tour});
 
@@ -186,12 +186,16 @@ class TourDetailHeader extends StatelessWidget {
                 '${tour.maxGroupSize} người',
               ),
               _buildDivider(),
-              _buildMetaItem(Icons.language, 'Ngôn ngữ', tour.languages),
+              _buildMetaItem(
+                Icons.language,
+                'Ngôn ngữ',
+                tour.languages ?? 'Không có thông tin',
+              ),
               _buildDivider(),
               _buildMetaItem(
                 Icons.verified_user,
                 'Miễn phí hủy',
-                tour.cancellationPolicy,
+                tour.cancellationPolicy ?? 'Không',
               ),
             ],
           ),

@@ -77,9 +77,15 @@ class TourDetailScreen extends ConsumerWidget {
                             exclusions: tour.exclusions,
                           ),
                           const SizedBox(height: 32),
-                          TourDetailMap(locationName: tour.locationName),
+                          TourDetailMap(
+                            locationName: tour.locationName ?? 'Đang cập nhật',
+                          ),
                           const SizedBox(height: 32),
-                          TourDetailPolicies(policy: tour.cancellationPolicy),
+                          TourDetailPolicies(
+                            policy:
+                                tour.cancellationPolicy ??
+                                'Theo quy định công ty',
+                          ),
                         ],
                       ),
                     ),

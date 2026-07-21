@@ -13,40 +13,66 @@ class TourLocalDataSource {
 
   TourLocalDataSource(this.db);
 
-  Future<List<Category>> getCategories() async {
+  Future<List<CategoryModel>> getCategories() async {
     final result = await db.query(DatabaseConstants.categoriesTable);
-    return result.map((e) => Category.fromMap(e)).toList();
+    return result.map((e) => CategoryModel.fromMap(e)).toList();
   }
 
-  Future<List<Tour>> getFeaturedTours() async {
+  Future<List<TourModel>> getFeaturedTours() async {
     final result = await db.query(
       DatabaseConstants.toursTable,
       where: 'status = ?',
       whereArgs: ['active'],
       limit: 10,
     );
-    return result.map((e) => Tour.fromMap(e)).toList();
+    return result.map((e) => TourModel.fromMap(e)).toList();
   }
 
-  Future<List<Tour>> searchTours(String query) async {
+  Future<List<TourModel>> searchTours(String query) async {
     final result = await db.query(
       DatabaseConstants.toursTable,
       where: 'status = ? AND (title LIKE ? OR description LIKE ?)',
       whereArgs: ['active', '%$query%', '%$query%'],
     );
-    return result.map((e) => Tour.fromMap(e)).toList();
+    return result.map((e) => TourModel.fromMap(e)).toList();
   }
 
-  Future<Tour?> getTourById(int id) async {
+  Future<TourModel?> getTourById(int id) async {
     final result = await db.query(
       DatabaseConstants.toursTable,
       where: 'id = ?',
       whereArgs: [id],
     );
     if (result.isNotEmpty) {
-      return Tour.fromMap(result.first);
+      return TourModel.fromMap(result.first);
     }
     return null;
+  }
+
+  Future<List<TourModel>> fetchAllTours() async {
+    final result = await db.query(DatabaseConstants.toursTable);
+    return result.map((e) => TourModel.fromMap(e)).toList();
+  }
+
+  Future<int> insertTour(TourModel tour) async {
+    return await db.insert(DatabaseConstants.toursTable, tour.toMap());
+  }
+
+  Future<int> updateTour(TourModel tour) async {
+    return await db.update(
+      DatabaseConstants.toursTable,
+      tour.toMap(),
+      where: 'id = ?',
+      whereArgs: [tour.id],
+    );
+  }
+
+  Future<int> deleteTour(int id) async {
+    return await db.delete(
+      DatabaseConstants.toursTable,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }
 

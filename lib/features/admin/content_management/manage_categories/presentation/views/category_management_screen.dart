@@ -12,10 +12,12 @@ class CategoryManagementScreen extends ConsumerStatefulWidget {
   const CategoryManagementScreen({super.key});
 
   @override
-  ConsumerState<CategoryManagementScreen> createState() => _CategoryManagementScreenState();
+  ConsumerState<CategoryManagementScreen> createState() =>
+      _CategoryManagementScreenState();
 }
 
-class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScreen> {
+class _CategoryManagementScreenState
+    extends ConsumerState<CategoryManagementScreen> {
   final _searchController = TextEditingController();
 
   @override
@@ -29,7 +31,9 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
   }
 
   void _onSearchChanged() {
-    ref.read(categoriesViewModelProvider.notifier).searchCategories(_searchController.text);
+    ref
+        .read(categoriesViewModelProvider.notifier)
+        .searchCategories(_searchController.text);
   }
 
   @override
@@ -43,7 +47,9 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: ToursTheme.surfaceContainerHigh,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ToursTheme.radiusXl)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ToursTheme.radiusXl),
+        ),
         title: const Text(
           'Xác nhận xóa',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -55,12 +61,17 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Hủy', style: TextStyle(color: ToursTheme.onSurfaceVariant)),
+            child: const Text(
+              'Hủy',
+              style: TextStyle(color: ToursTheme.onSurfaceVariant),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: ToursTheme.danger,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ToursTheme.radiusLg)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+              ),
             ),
             onPressed: () async {
               Navigator.of(context).pop();
@@ -70,15 +81,24 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(success ? 'Xóa danh mục thành công!' : 'Lỗi khi xóa danh mục!'),
-                    backgroundColor: success ? ToursTheme.success : ToursTheme.danger,
+                    content: Text(
+                      success
+                          ? 'Xóa danh mục thành công!'
+                          : 'Lỗi khi xóa danh mục!',
+                    ),
+                    backgroundColor: success
+                        ? ToursTheme.success
+                        : ToursTheme.danger,
                   ),
                 );
               }
             },
             child: const Text(
               'Xóa',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -186,10 +206,10 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
           border: Border.all(color: ToursTheme.outlineVariant, width: 0.8),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 4),
-            )
+            ),
           ],
         ),
         child: Row(
@@ -222,7 +242,7 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                   Text(
                     subtitle,
                     style: TextStyle(
-                      color: ToursTheme.onSurfaceVariant.withOpacity(0.7),
+                      color: ToursTheme.onSurfaceVariant.withValues(alpha: 0.7),
                       fontSize: 11,
                     ),
                     maxLines: 1,
@@ -235,7 +255,7 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 24),
@@ -253,7 +273,9 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
 
     // Calculate metrics
     final totalCategories = state.allCategories.length;
-    final activeCategories = state.allCategories.where((cat) => cat.status.toLowerCase() == 'active').length;
+    final activeCategories = state.allCategories
+        .where((cat) => cat.status.toLowerCase() == 'active')
+        .length;
     final inactiveCategories = totalCategories - activeCategories;
 
     int totalLinkedTours = 0;
@@ -268,7 +290,9 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
       }
     }
 
-    final topCategoryName = topCategory != null ? topCategory.title : 'Chưa xác định';
+    final topCategoryName = topCategory != null
+        ? topCategory.title
+        : 'Chưa xác định';
 
     return Theme(
       data: ThemeData.dark().copyWith(
@@ -299,7 +323,9 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                             Text(
                               'Kho lưu trữ',
                               style: ToursTheme.textLabel.copyWith(
-                                color: ToursTheme.onSurfaceVariant.withOpacity(0.8),
+                                color: ToursTheme.onSurfaceVariant.withValues(
+                                  alpha: 0.8,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 4),
@@ -343,17 +369,29 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ToursTheme.primary,
                         foregroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 16,
+                        ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                          borderRadius: BorderRadius.circular(
+                            ToursTheme.radiusLg,
+                          ),
                         ),
                         elevation: 4,
                       ),
                       onPressed: () => context.go('/admin/categories/create'),
-                      icon: const Icon(Icons.add, size: 20, fontWeight: FontWeight.bold),
+                      icon: const Icon(
+                        Icons.add,
+                        size: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                       label: const Text(
                         'Thêm Danh Mục Mới',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ],
@@ -404,7 +442,10 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                   decoration: BoxDecoration(
                     color: ToursTheme.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(ToursTheme.radiusXl),
-                    border: Border.all(color: ToursTheme.outlineVariant, width: 0.8),
+                    border: Border.all(
+                      color: ToursTheme.outlineVariant,
+                      width: 0.8,
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -414,19 +455,37 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                           height: 44,
                           decoration: BoxDecoration(
                             color: ToursTheme.surface,
-                            borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-                            border: Border.all(color: ToursTheme.outlineVariant, width: 0.5),
+                            borderRadius: BorderRadius.circular(
+                              ToursTheme.radiusLg,
+                            ),
+                            border: Border.all(
+                              color: ToursTheme.outlineVariant,
+                              width: 0.5,
+                            ),
                           ),
                           child: TextField(
                             controller: _searchController,
                             decoration: const InputDecoration(
-                              hintText: 'Tìm kiếm danh mục, tên ngắn hoặc mô tả...',
-                              hintStyle: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 13),
-                              prefixIcon: Icon(Icons.search, size: 20, color: ToursTheme.onSurfaceVariant),
+                              hintText:
+                                  'Tìm kiếm danh mục, tên ngắn hoặc mô tả...',
+                              hintStyle: TextStyle(
+                                color: ToursTheme.onSurfaceVariant,
+                                fontSize: 13,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                size: 20,
+                                color: ToursTheme.onSurfaceVariant,
+                              ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(vertical: 12),
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 12,
+                              ),
                             ),
-                            style: const TextStyle(color: Colors.white, fontSize: 14),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ),
@@ -437,14 +496,27 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           color: ToursTheme.surfaceContainerHigh,
-                          borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-                          border: Border.all(color: ToursTheme.outlineVariant, width: 0.5),
+                          borderRadius: BorderRadius.circular(
+                            ToursTheme.radiusLg,
+                          ),
+                          border: Border.all(
+                            color: ToursTheme.outlineVariant,
+                            width: 0.5,
+                          ),
                         ),
                         child: Row(
                           children: [
                             _buildFilterBtn('all', 'Tất cả', selectedFilter),
-                            _buildFilterBtn('active', 'Hoạt động', selectedFilter),
-                            _buildFilterBtn('inactive', 'Ngưng hoạt động', selectedFilter),
+                            _buildFilterBtn(
+                              'active',
+                              'Hoạt động',
+                              selectedFilter,
+                            ),
+                            _buildFilterBtn(
+                              'inactive',
+                              'Ngưng hoạt động',
+                              selectedFilter,
+                            ),
                           ],
                         ),
                       ),
@@ -514,25 +586,65 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
               children: [
                 Expanded(
                   flex: 4,
-                  child: Text('TÊN DANH MỤC', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                  child: Text(
+                    'TÊN DANH MỤC',
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
                 Expanded(
                   flex: 2,
-                  child: Text('ICON / CHỦ ĐỀ', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                  child: Text(
+                    'ICON / CHỦ ĐỀ',
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
                 Expanded(
                   flex: 3,
-                  child: Text('TOUR LIÊN KẾT', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                  child: Text(
+                    'TOUR LIÊN KẾT',
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
                 Expanded(
                   flex: 2,
-                  child: Text('TRẠNG THÁI', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                  child: Text(
+                    'TRẠNG THÁI',
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text('THAO TÁC', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                    child: Text(
+                      'THAO TÁC',
+                      style: TextStyle(
+                        color: ToursTheme.onSurfaceVariant,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -552,10 +664,20 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
               final progress = _getLinkedToursProgress(toursCount);
 
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
-                  color: isEven ? Colors.transparent : ToursTheme.surfaceContainerLow.withOpacity(0.3),
-                  border: const Border(bottom: BorderSide(color: ToursTheme.outlineVariant, width: 0.5)),
+                  color: isEven
+                      ? Colors.transparent
+                      : ToursTheme.surfaceContainerLow.withValues(alpha: 0.3),
+                  border: const Border(
+                    bottom: BorderSide(
+                      color: ToursTheme.outlineVariant,
+                      width: 0.5,
+                    ),
+                  ),
                 ),
                 child: Row(
                   children: [
@@ -569,23 +691,36 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                             height: 48,
                             decoration: BoxDecoration(
                               color: ToursTheme.surface,
-                              borderRadius: BorderRadius.circular(ToursTheme.radiusDefault),
-                              border: Border.all(color: ToursTheme.outlineVariant, width: 0.8),
+                              borderRadius: BorderRadius.circular(
+                                ToursTheme.radiusDefault,
+                              ),
+                              border: Border.all(
+                                color: ToursTheme.outlineVariant,
+                                width: 0.8,
+                              ),
                             ),
                             clipBehavior: Clip.antiAlias,
-                            child: cat.imageUrl != null && cat.imageUrl!.startsWith('http')
+                            child:
+                                cat.imageUrl != null &&
+                                    cat.imageUrl!.startsWith('http')
                                 ? Image.network(
                                     cat.imageUrl!,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Container(
-                                      color: ToursTheme.surfaceContainerHigh,
-                                      alignment: Alignment.center,
-                                      child: const Icon(
-                                        Icons.image_not_supported_outlined,
-                                        color: ToursTheme.onSurfaceVariant,
-                                        size: 20,
-                                      ),
-                                    ),
+                                    errorBuilder:
+                                        (
+                                          context,
+                                          error,
+                                          stackTrace,
+                                        ) => Container(
+                                          color:
+                                              ToursTheme.surfaceContainerHigh,
+                                          alignment: Alignment.center,
+                                          child: const Icon(
+                                            Icons.image_not_supported_outlined,
+                                            color: ToursTheme.onSurfaceVariant,
+                                            size: 20,
+                                          ),
+                                        ),
                                   )
                                 : const Icon(
                                     Icons.category_outlined,
@@ -612,7 +747,8 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                                 Text(
                                   cat.description ?? 'Chưa có mô tả chi tiết.',
                                   style: TextStyle(
-                                    color: ToursTheme.onSurfaceVariant.withOpacity(0.8),
+                                    color: ToursTheme.onSurfaceVariant
+                                        .withValues(alpha: 0.8),
                                     fontSize: 12,
                                   ),
                                   maxLines: 1,
@@ -634,10 +770,10 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                           width: 36,
                           height: 36,
                           decoration: BoxDecoration(
-                            color: themeColor.withOpacity(0.12),
+                            color: themeColor.withValues(alpha: 0.12),
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: themeColor.withOpacity(0.3),
+                              color: themeColor.withValues(alpha: 0.3),
                               width: 1,
                             ),
                           ),
@@ -672,7 +808,8 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                                 Text(
                                   '${(progress * 100).toInt()}%',
                                   style: TextStyle(
-                                    color: ToursTheme.onSurfaceVariant.withOpacity(0.8),
+                                    color: ToursTheme.onSurfaceVariant
+                                        .withValues(alpha: 0.8),
                                     fontSize: 11,
                                   ),
                                 ),
@@ -685,8 +822,11 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                                 height: 4,
                                 child: LinearProgressIndicator(
                                   value: progress,
-                                  backgroundColor: ToursTheme.surfaceContainerHigh,
-                                  valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                                  backgroundColor:
+                                      ToursTheme.surfaceContainerHigh,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    themeColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -702,8 +842,10 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                         alignment: Alignment.centerLeft,
                         child: Switch(
                           value: statusActive,
-                          activeColor: ToursTheme.primary,
-                          activeTrackColor: ToursTheme.primary.withOpacity(0.3),
+                          activeThumbColor: ToursTheme.primary,
+                          activeTrackColor: ToursTheme.primary.withValues(
+                            alpha: 0.3,
+                          ),
                           inactiveThumbColor: ToursTheme.onSurfaceVariant,
                           inactiveTrackColor: ToursTheme.surfaceContainerHigh,
                           onChanged: (bool value) async {
@@ -728,7 +870,9 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                                         ? 'Đã kích hoạt danh mục "${cat.title}"!'
                                         : 'Đã tạm ngưng danh mục "${cat.title}"!',
                                   ),
-                                  backgroundColor: value ? ToursTheme.success : ToursTheme.danger,
+                                  backgroundColor: value
+                                      ? ToursTheme.success
+                                      : ToursTheme.danger,
                                   duration: const Duration(seconds: 2),
                                 ),
                               );
@@ -745,13 +889,22 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            onPressed: () => context.go('/admin/categories/edit/${cat.id}'),
-                            icon: const Icon(Icons.edit_outlined, size: 18, color: ToursTheme.onSurfaceVariant),
+                            onPressed: () =>
+                                context.go('/admin/categories/edit/${cat.id}'),
+                            icon: const Icon(
+                              Icons.edit_outlined,
+                              size: 18,
+                              color: ToursTheme.onSurfaceVariant,
+                            ),
                             tooltip: 'Chỉnh sửa',
                           ),
                           IconButton(
                             onPressed: () => _deleteCategory(cat),
-                            icon: const Icon(Icons.delete_outline, size: 18, color: ToursTheme.danger),
+                            icon: const Icon(
+                              Icons.delete_outline,
+                              size: 18,
+                              color: ToursTheme.danger,
+                            ),
                             tooltip: 'Xóa',
                           ),
                         ],
@@ -783,12 +936,19 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
           const SizedBox(height: 16),
           const Text(
             'Không tìm thấy danh mục nào',
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             'Hãy thử thêm mới một danh mục hoặc thay đổi bộ lọc.',
-            style: TextStyle(color: ToursTheme.onSurfaceVariant.withOpacity(0.7), fontSize: 14),
+            style: TextStyle(
+              color: ToursTheme.onSurfaceVariant.withValues(alpha: 0.7),
+              fontSize: 14,
+            ),
           ),
         ],
       ),
@@ -815,7 +975,10 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
 
   Widget _buildPaginationFooter(CategoriesState state) {
     final startIdx = (state.currentPage - 1) * state.itemsPerPage + 1;
-    final endIdx = (startIdx + state.filteredCategories.length - 1).clamp(0, state.totalCount);
+    final endIdx = (startIdx + state.filteredCategories.length - 1).clamp(
+      0,
+      state.totalCount,
+    );
     final totalPages = (state.totalCount / state.itemsPerPage).ceil();
 
     return Padding(
@@ -825,14 +988,19 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
         children: [
           Text(
             'Hiển thị $startIdx-$endIdx trên tổng số ${state.totalCount} danh mục',
-            style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12),
+            style: const TextStyle(
+              color: ToursTheme.onSurfaceVariant,
+              fontSize: 12,
+            ),
           ),
           Row(
             children: [
               // Previous Page Button
               IconButton(
                 onPressed: state.currentPage > 1
-                    ? () => ref.read(categoriesViewModelProvider.notifier).changePage(state.currentPage - 1)
+                    ? () => ref
+                          .read(categoriesViewModelProvider.notifier)
+                          .changePage(state.currentPage - 1)
                     : null,
                 icon: const Icon(Icons.chevron_left),
                 style: IconButton.styleFrom(
@@ -849,15 +1017,23 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                   final pageNum = idx + 1;
                   final isCurrent = pageNum == state.currentPage;
                   return GestureDetector(
-                    onTap: () => ref.read(categoriesViewModelProvider.notifier).changePage(pageNum),
+                    onTap: () => ref
+                        .read(categoriesViewModelProvider.notifier)
+                        .changePage(pageNum),
                     child: Container(
                       width: 36,
                       height: 36,
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
-                        color: isCurrent ? ToursTheme.primary : Colors.transparent,
-                        borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-                        border: isCurrent ? null : Border.all(color: ToursTheme.outlineVariant),
+                        color: isCurrent
+                            ? ToursTheme.primary
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(
+                          ToursTheme.radiusLg,
+                        ),
+                        border: isCurrent
+                            ? null
+                            : Border.all(color: ToursTheme.outlineVariant),
                       ),
                       alignment: Alignment.center,
                       child: Text(
@@ -876,7 +1052,9 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
               // Next Page Button
               IconButton(
                 onPressed: state.currentPage < totalPages
-                    ? () => ref.read(categoriesViewModelProvider.notifier).changePage(state.currentPage + 1)
+                    ? () => ref
+                          .read(categoriesViewModelProvider.notifier)
+                          .changePage(state.currentPage + 1)
                     : null,
                 icon: const Icon(Icons.chevron_right),
                 style: IconButton.styleFrom(
@@ -904,11 +1082,64 @@ class _TableHeaderSkeleton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: const Row(
         children: [
-          Expanded(flex: 4, child: Text('TÊN DANH MỤC', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold))),
-          Expanded(flex: 2, child: Text('ICON / CHỦ ĐỀ', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold))),
-          Expanded(flex: 3, child: Text('TOUR LIÊN KẾT', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold))),
-          Expanded(flex: 2, child: Text('TRẠNG THÁI', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold))),
-          Expanded(flex: 2, child: Align(alignment: Alignment.centerRight, child: Text('THAO TÁC', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold)))),
+          Expanded(
+            flex: 4,
+            child: Text(
+              'TÊN DANH MỤC',
+              style: TextStyle(
+                color: ToursTheme.onSurfaceVariant,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              'ICON / CHỦ ĐỀ',
+              style: TextStyle(
+                color: ToursTheme.onSurfaceVariant,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              'TOUR LIÊN KẾT',
+              style: TextStyle(
+                color: ToursTheme.onSurfaceVariant,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              'TRẠNG THÁI',
+              style: TextStyle(
+                color: ToursTheme.onSurfaceVariant,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'THAO TÁC',
+                style: TextStyle(
+                  color: ToursTheme.onSurfaceVariant,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -923,7 +1154,9 @@ class _RowSkeleton extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: ToursTheme.outlineVariant, width: 0.5)),
+        border: Border(
+          bottom: BorderSide(color: ToursTheme.outlineVariant, width: 0.5),
+        ),
       ),
       child: Row(
         children: [
@@ -931,15 +1164,36 @@ class _RowSkeleton extends StatelessWidget {
             flex: 4,
             child: Row(
               children: [
-                Container(width: 48, height: 48, decoration: BoxDecoration(color: ToursTheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(4))),
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: ToursTheme.surfaceContainerHigh,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(width: 140, height: 16, decoration: BoxDecoration(color: ToursTheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(4))),
+                      Container(
+                        width: 140,
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: ToursTheme.surfaceContainerHigh,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Container(width: 80, height: 12, decoration: BoxDecoration(color: ToursTheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(4))),
+                      Container(
+                        width: 80,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: ToursTheme.surfaceContainerHigh,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -950,7 +1204,14 @@ class _RowSkeleton extends StatelessWidget {
             flex: 2,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Container(width: 36, height: 36, decoration: const BoxDecoration(color: ToursTheme.surfaceContainerHigh, shape: BoxShape.circle)),
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: const BoxDecoration(
+                  color: ToursTheme.surfaceContainerHigh,
+                  shape: BoxShape.circle,
+                ),
+              ),
             ),
           ),
           Expanded(
@@ -958,9 +1219,23 @@ class _RowSkeleton extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(width: 80, height: 14, decoration: BoxDecoration(color: ToursTheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(4))),
+                Container(
+                  width: 80,
+                  height: 14,
+                  decoration: BoxDecoration(
+                    color: ToursTheme.surfaceContainerHigh,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
                 const SizedBox(height: 8),
-                Container(width: double.infinity, height: 4, decoration: BoxDecoration(color: ToursTheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(2))),
+                Container(
+                  width: double.infinity,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: ToursTheme.surfaceContainerHigh,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
               ],
             ),
           ),
@@ -968,7 +1243,14 @@ class _RowSkeleton extends StatelessWidget {
             flex: 2,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Container(width: 44, height: 24, decoration: BoxDecoration(color: ToursTheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(12))),
+              child: Container(
+                width: 44,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: ToursTheme.surfaceContainerHigh,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
             ),
           ),
           Expanded(
@@ -976,9 +1258,23 @@ class _RowSkeleton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Container(width: 24, height: 24, decoration: BoxDecoration(color: ToursTheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(4))),
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: ToursTheme.surfaceContainerHigh,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
                 const SizedBox(width: 12),
-                Container(width: 24, height: 24, decoration: BoxDecoration(color: ToursTheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(4))),
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: ToursTheme.surfaceContainerHigh,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
               ],
             ),
           ),

@@ -1,4 +1,44 @@
+import 'dart:convert';
 import 'package:equatable/equatable.dart';
+
+class TourItinerary extends Equatable {
+  final int day;
+  final String title;
+  final String description;
+  final List<String> images;
+
+  const TourItinerary({
+    required this.day,
+    required this.title,
+    required this.description,
+    this.images = const [],
+  });
+
+  factory TourItinerary.fromMap(Map<String, dynamic> map) {
+    return TourItinerary(
+      day: map['day'] as int,
+      title: map['title'] as String,
+      description: map['description'] as String,
+      images:
+          (map['images'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'day': day,
+      'title': title,
+      'description': description,
+      'images': images,
+    };
+  }
+
+  @override
+  List<Object?> get props => [day, title, description, images];
+}
 
 class TourModel extends Equatable {
   final int? tourId;
@@ -13,6 +53,16 @@ class TourModel extends Equatable {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
+  // Detailed fields
+  final String? locationName;
+  final List<String> images;
+  final List<String> inclusions;
+  final List<String> exclusions;
+  final List<TourItinerary> itinerary;
+  final String? cancellationPolicy;
+  final int? maxGroupSize;
+  final String? languages;
+
   const TourModel({
     this.tourId,
     this.firestoreId,
@@ -25,6 +75,14 @@ class TourModel extends Equatable {
     required this.status,
     this.createdAt,
     this.updatedAt,
+    this.locationName,
+    this.images = const [],
+    this.inclusions = const [],
+    this.exclusions = const [],
+    this.itinerary = const [],
+    this.cancellationPolicy,
+    this.maxGroupSize,
+    this.languages,
   });
 
   int? get id => tourId;
@@ -58,7 +116,46 @@ class TourModel extends Equatable {
       updatedAt: map['updated_at'] != null
           ? DateTime.tryParse(map['updated_at'] as String)
           : null,
+      locationName: map['location_name'] as String?,
+      images: _parseStringList(map['images']),
+      inclusions: _parseStringList(map['inclusions']),
+      exclusions: _parseStringList(map['exclusions']),
+      itinerary: _parseItinerary(map['itinerary']),
+      cancellationPolicy: map['cancellation_policy'] as String?,
+      maxGroupSize: map['max_group_size'] as int?,
+      languages: map['languages'] as String?,
     );
+  }
+
+  static List<String> _parseStringList(dynamic value) {
+    if (value == null) return [];
+    if (value is String) {
+      try {
+        final decoded = jsonDecode(value) as List;
+        return decoded.map((e) => e.toString()).toList();
+      } catch (_) {
+        return [];
+      }
+    }
+    if (value is List) {
+      return value.map((e) => e.toString()).toList();
+    }
+    return [];
+  }
+
+  static List<TourItinerary> _parseItinerary(dynamic value) {
+    if (value == null) return [];
+    List dynamicList = [];
+    if (value is String) {
+      try {
+        dynamicList = jsonDecode(value) as List;
+      } catch (_) {}
+    } else if (value is List) {
+      dynamicList = value;
+    }
+    return dynamicList
+        .map((e) => TourItinerary.fromMap(e as Map<String, dynamic>))
+        .toList();
   }
 
   Map<String, dynamic> toMap() {
@@ -77,6 +174,14 @@ class TourModel extends Equatable {
       'updated_at':
           updatedAt?.toIso8601String() ??
           DateTime.now().toUtc().toIso8601String(),
+      'location_name': locationName,
+      'images': jsonEncode(images),
+      'inclusions': jsonEncode(inclusions),
+      'exclusions': jsonEncode(exclusions),
+      'itinerary': jsonEncode(itinerary.map((e) => e.toMap()).toList()),
+      'cancellation_policy': cancellationPolicy,
+      'max_group_size': maxGroupSize,
+      'languages': languages,
     };
   }
 
@@ -93,6 +198,14 @@ class TourModel extends Equatable {
     String? status,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? locationName,
+    List<String>? images,
+    List<String>? inclusions,
+    List<String>? exclusions,
+    List<TourItinerary>? itinerary,
+    String? cancellationPolicy,
+    int? maxGroupSize,
+    String? languages,
   }) {
     return TourModel(
       tourId: tourId ?? id ?? this.tourId,
@@ -106,6 +219,14 @@ class TourModel extends Equatable {
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      locationName: locationName ?? this.locationName,
+      images: images ?? this.images,
+      inclusions: inclusions ?? this.inclusions,
+      exclusions: exclusions ?? this.exclusions,
+      itinerary: itinerary ?? this.itinerary,
+      cancellationPolicy: cancellationPolicy ?? this.cancellationPolicy,
+      maxGroupSize: maxGroupSize ?? this.maxGroupSize,
+      languages: languages ?? this.languages,
     );
   }
 
@@ -122,5 +243,13 @@ class TourModel extends Equatable {
     status,
     createdAt,
     updatedAt,
+    locationName,
+    images,
+    inclusions,
+    exclusions,
+    itinerary,
+    cancellationPolicy,
+    maxGroupSize,
+    languages,
   ];
 }
