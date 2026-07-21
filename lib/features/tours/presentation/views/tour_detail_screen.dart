@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/router/route_paths.dart';
+import '../../../bookings/models/booking_flow_models.dart';
 import '../view_models/tour_detail_view_model.dart';
 import '../widgets/tour_detail_widgets.dart';
 
@@ -97,7 +99,16 @@ class TourDetailScreen extends ConsumerWidget {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                child: TourDetailBottomBar(price: tour.price),
+                child: TourDetailBottomBar(
+                  price: tour.price,
+                  onBook: () => context.push(
+                    RoutePaths.bookingInfo,
+                    extra: BookingStartArgs(
+                      tourId: tourId,
+                      basePrice: tour.price,
+                    ),
+                  ),
+                ),
               ),
             ],
           );
