@@ -39,7 +39,7 @@ final class BookingManagementViewModelProvider
 }
 
 String _$bookingManagementViewModelHash() =>
-    r'bb5572d25a94ff0f39801ed2609b65dfd0026d38';
+    r'1ed60b24ec8b3ef8ea6ce478583d48195b7da4c8';
 
 abstract class _$BookingManagementViewModel
     extends $AsyncNotifier<List<BookingManagementModel>> {

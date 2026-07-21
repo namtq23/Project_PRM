@@ -37,6 +37,11 @@ class BookingManagementRepository {
     );
   }
 
+  Future<int> createBooking(BookingManagementModel booking) async {
+    final db = await _db.database;
+    return db.insert(DatabaseConstants.bookingsTable, booking.toMap());
+  }
+
   // Seed some data for testing if empty
   Future<void> seedIfEmpty() async {
     final db = await _db.database;
