@@ -4,6 +4,7 @@ import '../../../app/router/route_names.dart';
 import '../../../app/router/route_paths.dart';
 import '../../../core/widgets/route_placeholder_screen.dart';
 import '../../booking_management/presentation/views/booking_management_screen.dart';
+import '../../system_settings/presentation/views/system_settings_screen.dart';
 import '../../user_management/presentation/views/user_management_screen.dart';
 
 List<RouteBase> adminRoutes() => [
@@ -40,6 +41,6 @@ List<RouteBase> adminRoutes() => [
   GoRoute(
     path: RoutePaths.adminSettings,
     name: RouteNames.adminSettings,
-    builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Settings'),
+    builder: (_, _) => const SystemSettingsScreen(),
   ),
 ];
