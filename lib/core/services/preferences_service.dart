@@ -11,6 +11,11 @@ class PreferencesService {
     await preferences.setInt(_currentUserIdKey, userId);
   }
 
+  Future<int?> getCurrentUserId() async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getInt(_currentUserIdKey);
+  }
+
   Future<void> clearCurrentUser() async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.remove(_currentUserIdKey);

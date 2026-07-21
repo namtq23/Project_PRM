@@ -27,21 +27,23 @@ class BookingManagementModel {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  factory BookingManagementModel.fromMap(Map<String, Object?> map) =>
-      BookingManagementModel(
-        id: map['id']! as int,
-        userId: map['user_id']! as int,
-        tourId: map['tour_id']! as int,
-        customerName: map['customer_name']! as String,
-        customerEmail: map['customer_email']! as String,
-        tourTitle: map['tour_title']! as String,
-        bookingDate: DateTime.parse(map['booking_date']! as String),
-        status: map['status']! as String,
-        totalPrice: (map['total_price']! as num).toDouble(),
-        passengers: map['passengers']! as int,
-        createdAt: DateTime.parse(map['created_at']! as String),
-        updatedAt: DateTime.parse(map['updated_at']! as String),
-      );
+  factory BookingManagementModel.fromMap(
+    Map<String, Object?> map,
+  ) => BookingManagementModel(
+    id: map['id']! as int,
+    userId: map['user_id']! as int,
+    tourId: map['tour_id']! as int,
+    customerName: (map['customer_name'] as String?) ?? 'Guest Customer',
+    customerEmail: (map['customer_email'] as String?) ?? 'guest@example.com',
+    tourTitle: (map['tour_title'] as String?) ?? 'Tour Booking',
+    bookingDate: DateTime.parse(map['booking_date']! as String),
+    status: map['status']! as String,
+    totalPrice: ((map['total_price'] ?? map['total_cost'] ?? 0.0) as num)
+        .toDouble(),
+    passengers: (map['passengers'] ?? map['passenger_quantity'] ?? 1) as int,
+    createdAt: DateTime.parse(map['created_at']! as String),
+    updatedAt: DateTime.parse(map['updated_at']! as String),
+  );
 
   Map<String, Object?> toMap() => {
     if (id != 0) 'id': id,

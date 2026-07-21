@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/route_names.dart';
+import '../../../../app/router/route_paths.dart';
+import '../../../bookings/models/booking_flow_models.dart';
 import '../widgets/home_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -106,7 +108,16 @@ class _HomeContent extends StatelessWidget {
                 .map(
                   (tour) => SizedBox(
                     width: width,
-                    child: TourCard(tour: tour),
+                    child: TourCard(
+                      tour: tour,
+                      onBook: () => context.push(
+                        RoutePaths.bookingInfo,
+                        extra: BookingStartArgs(
+                          tourId: tour.tourId,
+                          basePrice: tour.basePrice,
+                        ),
+                      ),
+                    ),
                   ),
                 )
                 .toList(),

@@ -7,8 +7,14 @@ abstract final class RoutePaths {
   static const search = '/search';
   static const wishlist = '/wishlist';
   static const tourDetail = '/tours/:tourId';
+  static const bookingInfo = '/booking/info';
+  static const bookingPayment = '/booking/payment';
+  static const bookingCheckout = '/booking/checkout';
+  static const bookingSuccess = '/booking/success';
+  static const bookingFailed = '/booking/failed';
   static const bookings = '/bookings';
   static const bookingDetail = '/bookings/:bookingId';
+  static const reviewTour = '/bookings/:bookingId/review';
   static const profile = '/profile';
   static const settings = '/settings';
   static const adminDashboard = '/admin';
