@@ -24,7 +24,10 @@ abstract final class RoutePaths {
   static const adminUsers = '/admin/users';
   static const adminReviews = '/admin/reviews';
   static const adminSettings = '/admin/settings';
+  static const adminBookingDetail = '/admin/bookings/:bookingId';
 
   static String tourDetailFor(String tourId) => '/tours/$tourId';
   static String bookingDetailFor(String bookingId) => '/bookings/$bookingId';
+  static String adminBookingDetailFor(String bookingId) =>
+      '/admin/bookings/$bookingId';
 }

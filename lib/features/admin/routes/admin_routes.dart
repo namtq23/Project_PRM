@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router/route_names.dart';
 import '../../../app/router/route_paths.dart';
 import '../../../core/widgets/route_placeholder_screen.dart';
+import '../../booking_details/presentation/views/booking_details_screen.dart';
 import '../../booking_management/presentation/views/booking_management_screen.dart';
 import '../../system_settings/presentation/views/system_settings_screen.dart';
 import '../../user_management/presentation/views/user_management_screen.dart';
@@ -42,5 +43,14 @@ List<RouteBase> adminRoutes() => [
     path: RoutePaths.adminSettings,
     name: RouteNames.adminSettings,
     builder: (_, _) => const SystemSettingsScreen(),
+  ),
+  GoRoute(
+    path: RoutePaths.adminBookingDetail,
+    name: RouteNames.adminBookingDetail,
+    builder: (_, state) {
+      final bookingIdStr = state.pathParameters['bookingId'] ?? '0';
+      final bookingId = int.tryParse(bookingIdStr) ?? 0;
+      return BookingDetailsScreen(bookingId: bookingId);
+    },
   ),
 ];
