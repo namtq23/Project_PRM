@@ -9,6 +9,14 @@ class GoogleAuthDataSource {
 
   final FirebaseAuth firebaseAuth;
 
+  Future<void> signOut() async {
+    try {
+      await firebaseAuth.signOut();
+    } on FirebaseAuthException catch (error) {
+      throw GoogleAuthException(_messageFor(error.code));
+    }
+  }
+
   Future<GoogleFirebaseUser?> signIn() async {
     try {
       final provider = GoogleAuthProvider()..addScope('email');

@@ -16,6 +16,7 @@ abstract final class RoutePaths {
   static const bookingDetail = '/bookings/:bookingId';
   static const reviewTour = '/bookings/:bookingId/review';
   static const profile = '/profile';
+  static const editProfile = '/profile/edit';
   static const settings = '/settings';
   static const adminDashboard = '/admin';
   static const adminTours = '/admin/tours';

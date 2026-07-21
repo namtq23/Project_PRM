@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'app_database.dart';
+part of 'app_router.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,43 +9,43 @@ part of 'app_database.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(appDatabase)
-final appDatabaseProvider = AppDatabaseProvider._();
+@ProviderFor(appRouter)
+final appRouterProvider = AppRouterProvider._();
 
-final class AppDatabaseProvider
-    extends $FunctionalProvider<AppDatabase, AppDatabase, AppDatabase>
-    with $Provider<AppDatabase> {
-  AppDatabaseProvider._()
+final class AppRouterProvider
+    extends $FunctionalProvider<GoRouter, GoRouter, GoRouter>
+    with $Provider<GoRouter> {
+  AppRouterProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'appDatabaseProvider',
+        name: r'appRouterProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$appDatabaseHash();
+  String debugGetCreateSourceHash() => _$appRouterHash();
 
   @$internal
   @override
-  $ProviderElement<AppDatabase> $createElement($ProviderPointer pointer) =>
+  $ProviderElement<GoRouter> $createElement($ProviderPointer pointer) =>
       $ProviderElement(pointer);
 
   @override
-  AppDatabase create(Ref ref) {
-    return appDatabase(ref);
+  GoRouter create(Ref ref) {
+    return appRouter(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AppDatabase value) {
+  Override overrideWithValue(GoRouter value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AppDatabase>(value),
+      providerOverride: $SyncValueProvider<GoRouter>(value),
     );
   }
 }
 
-String _$appDatabaseHash() => r'92a246abcb363d93aa5a028712241f464abc4efe';
+String _$appRouterHash() => r'6a33df52ba7fbbca04f3d95a35b5b0fab6e9d5f4';

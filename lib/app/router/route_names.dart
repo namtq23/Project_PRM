@@ -10,6 +10,7 @@ abstract final class RouteNames {
   static const bookings = 'bookings';
   static const bookingDetail = 'bookingDetail';
   static const profile = 'profile';
+  static const editProfile = 'editProfile';
   static const settings = 'settings';
   static const adminDashboard = 'adminDashboard';
   static const adminTours = 'adminTours';

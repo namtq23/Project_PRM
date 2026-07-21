@@ -54,4 +54,4 @@ final class BookingDataSourceProvider
   }
 }
 
-String _$bookingDataSourceHash() => r'25e2a89280246516a8a9afa6b7c1c16d9baed9f6';
+String _$bookingDataSourceHash() => r'32ece9bfbedab03c931da6d62aee07e185cd1f30';

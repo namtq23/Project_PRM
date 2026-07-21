@@ -9,8 +9,9 @@ part 'auth_view_model.g.dart';
 @Riverpod(keepAlive: true)
 class AuthViewModel extends _$AuthViewModel {
   @override
-  FutureOr<AuthState> build() {
-    return const AuthUnauthenticated();
+  Future<AuthState> build() async {
+    final user = await ref.watch(authRepositoryProvider).getCurrentUser();
+    return user == null ? const AuthUnauthenticated() : AuthAuthenticated(user);
   }
 
   Future<void> loginWithEmail({
@@ -69,6 +70,16 @@ class AuthViewModel extends _$AuthViewModel {
       state = const AsyncData(
         AuthFailure('Không thể đăng nhập Google. Vui lòng thử lại.'),
       );
+    }
+  }
+
+  Future<void> logout() async {
+    state = const AsyncData(AuthLoading());
+    try {
+      await ref.read(authRepositoryProvider).logout();
+      state = const AsyncData(AuthUnauthenticated());
+    } catch (_) {
+      state = const AsyncData(AuthUnauthenticated());
     }
   }
 }
