@@ -9,7 +9,7 @@ import 'route_paths.dart';
 import 'router_error_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RoutePaths.adminBookings,
+  initialLocation: RoutePaths.login,
   routes: [
     ...authenticationRoutes(),
     ...tourRoutes(),

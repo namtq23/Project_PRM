@@ -39,7 +39,7 @@ class _FakeBookingRepository implements BookingManagementRepository {
 }
 
 void main() {
-  testWidgets('router starts on booking management route', (tester) async {
+  testWidgets('router starts on login route', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -53,6 +53,6 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('Booking Management'), findsWidgets);
+    expect(find.text('Khám phá Việt Nam'), findsWidgets);
   });
 }
