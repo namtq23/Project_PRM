@@ -9,7 +9,7 @@ class ReviewModel extends Equatable {
   final String status;
   final DateTime createdAt;
   final DateTime updatedAt;
-  
+
   // Relational display fields (not stored directly in reviews table, but populated via SQL JOIN)
   final String? tourTitle;
   final String? tourImageUrl;
@@ -83,29 +83,30 @@ class ReviewModel extends Equatable {
       comment: map['comment'] as String?,
       status: map['status'] as String? ?? 'pending',
       createdAt: DateTime.parse(map['created_at'] as String),
-      updatedAt: map['updated_at'] != null 
-          ? DateTime.parse(map['updated_at'] as String) 
+      updatedAt: map['updated_at'] != null
+          ? DateTime.parse(map['updated_at'] as String)
           : DateTime.parse(map['created_at'] as String),
       tourTitle: map['tour_title'] as String?,
       tourImageUrl: map['tour_image_url'] as String?,
       userName: map['user_name'] as String? ?? map['full_name'] as String?,
-      userAvatarUrl: map['user_avatar_url'] as String? ?? map['avatar_url'] as String?,
+      userAvatarUrl:
+          map['user_avatar_url'] as String? ?? map['avatar_url'] as String?,
     );
   }
 
   @override
   List<Object?> get props => [
-        reviewId,
-        userId,
-        tourId,
-        rating,
-        comment,
-        status,
-        createdAt,
-        updatedAt,
-        tourTitle,
-        tourImageUrl,
-        userName,
-        userAvatarUrl,
-      ];
+    reviewId,
+    userId,
+    tourId,
+    rating,
+    comment,
+    status,
+    createdAt,
+    updatedAt,
+    tourTitle,
+    tourImageUrl,
+    userName,
+    userAvatarUrl,
+  ];
 }

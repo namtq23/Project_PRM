@@ -38,21 +38,26 @@ class TourModel extends Equatable {
         parsedCategoryId = int.tryParse(map['category_id'] as String);
       }
     }
-    
+
     int? parsedTourId = map['tour_id'] as int? ?? map['id'] as int?;
 
     return TourModel(
       tourId: parsedTourId,
       firestoreId: map['firestore_id'] as String?,
       categoryId: parsedCategoryId,
-      categoryName: map['category_name'] as String? ?? map['categoryTitle'] as String?,
+      categoryName:
+          map['category_name'] as String? ?? map['categoryTitle'] as String?,
       title: map['title'] as String,
       description: map['description'] as String?,
       price: (map['price'] as num).toDouble(),
       durationDays: map['duration_days'] as int,
       status: map['status'] as String,
-      createdAt: map['created_at'] != null ? DateTime.tryParse(map['created_at'] as String) : null,
-      updatedAt: map['updated_at'] != null ? DateTime.tryParse(map['updated_at'] as String) : null,
+      createdAt: map['created_at'] != null
+          ? DateTime.tryParse(map['created_at'] as String)
+          : null,
+      updatedAt: map['updated_at'] != null
+          ? DateTime.tryParse(map['updated_at'] as String)
+          : null,
     );
   }
 
@@ -66,8 +71,12 @@ class TourModel extends Equatable {
       'price': price,
       'duration_days': durationDays,
       'status': status,
-      'created_at': createdAt?.toIso8601String() ?? DateTime.now().toUtc().toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String() ?? DateTime.now().toUtc().toIso8601String(),
+      'created_at':
+          createdAt?.toIso8601String() ??
+          DateTime.now().toUtc().toIso8601String(),
+      'updated_at':
+          updatedAt?.toIso8601String() ??
+          DateTime.now().toUtc().toIso8601String(),
     };
   }
 
@@ -102,16 +111,16 @@ class TourModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        tourId,
-        firestoreId,
-        categoryId,
-        categoryName,
-        title,
-        description,
-        price,
-        durationDays,
-        status,
-        createdAt,
-        updatedAt,
-      ];
+    tourId,
+    firestoreId,
+    categoryId,
+    categoryName,
+    title,
+    description,
+    price,
+    durationDays,
+    status,
+    createdAt,
+    updatedAt,
+  ];
 }

@@ -5,11 +5,7 @@ class CategoryModel extends Equatable {
   final String title;
   final String? description;
 
-  const CategoryModel({
-    this.categoryId,
-    required this.title,
-    this.description,
-  });
+  const CategoryModel({this.categoryId, required this.title, this.description});
 
   Map<String, dynamic> toMap() {
     return {
