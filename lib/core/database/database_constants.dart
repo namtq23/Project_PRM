@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
   phone TEXT,
   avatar_url TEXT,
   auth_provider TEXT NOT NULL DEFAULT 'local',
-  role TEXT NOT NULL DEFAULT 'user',
+  role TEXT NOT NULL DEFAULT 'customer',
   status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
@@ -60,18 +60,22 @@ CREATE TABLE IF NOT EXISTS bookings (
   firestore_id TEXT UNIQUE,
   user_id INTEGER NOT NULL,
   tour_id INTEGER NOT NULL,
+  customer_name TEXT NOT NULL DEFAULT '',
+  customer_email TEXT NOT NULL DEFAULT '',
+  tour_title TEXT NOT NULL DEFAULT '',
   booking_date TEXT NOT NULL,
-  total_cost REAL NOT NULL,
-  payment_method TEXT NOT NULL,
+  total_cost REAL NOT NULL DEFAULT 0.0,
+  total_price REAL NOT NULL DEFAULT 0.0,
+  payment_method TEXT NOT NULL DEFAULT 'Credit Card',
   status TEXT NOT NULL DEFAULT 'pending',
+  passengers INTEGER NOT NULL DEFAULT 1,
   passenger_quantity INTEGER NOT NULL DEFAULT 1,
   special_notes TEXT,
   promo_code TEXT,
   confirmation_code TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-  FOREIGN KEY (tour_id) REFERENCES tours (id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 )
 ''';
 

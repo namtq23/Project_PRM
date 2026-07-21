@@ -45,12 +45,12 @@ class TourModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        tourId,
-        categoryId,
-        title,
-        description,
-        price,
-        durationDays,
-        status,
-      ];
+    tourId,
+    categoryId,
+    title,
+    description,
+    price,
+    durationDays,
+    status,
+  ];
 }

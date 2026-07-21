@@ -40,5 +40,12 @@ class ReviewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [reviewId, userId, tourId, rating, comment, createdAt];
+  List<Object?> get props => [
+    reviewId,
+    userId,
+    tourId,
+    rating,
+    comment,
+    createdAt,
+  ];
 }
