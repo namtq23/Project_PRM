@@ -47,11 +47,65 @@ class BookingLocalDataSource implements BookingDataSource {
   Future<BookingModel> createBooking(BookingModel booking) async {
     try {
       final database = await appDatabase.database;
+      var tourTitle = booking.tourTitle;
+      if (tourTitle == null || tourTitle.isEmpty) {
+        final tourRows = await database.query(
+          DatabaseConstants.toursTable,
+          columns: ['title'],
+          where: 'id = ?',
+          whereArgs: [booking.tourId],
+          limit: 1,
+        );
+        if (tourRows.isNotEmpty) {
+          tourTitle = tourRows.first['title'] as String?;
+        }
+      }
+
+      var customerName = booking.customerName;
+      var customerEmail = booking.customerEmail;
+      if ((customerName == null || customerName.isEmpty) ||
+          (customerEmail == null || customerEmail.isEmpty)) {
+        final userRows = await database.query(
+          DatabaseConstants.usersTable,
+          columns: ['full_name', 'email'],
+          where: 'id = ?',
+          whereArgs: [booking.userId],
+          limit: 1,
+        );
+        if (userRows.isNotEmpty) {
+          customerName = (customerName != null && customerName.isNotEmpty)
+              ? customerName
+              : (userRows.first['full_name'] as String?);
+          customerEmail = (customerEmail != null && customerEmail.isNotEmpty)
+              ? customerEmail
+              : (userRows.first['email'] as String?);
+        }
+      }
+
+      final enrichedBooking = BookingModel(
+        bookingId: booking.bookingId,
+        userId: booking.userId,
+        tourId: booking.tourId,
+        tourTitle: tourTitle,
+        customerName: customerName,
+        customerEmail: customerEmail,
+        bookingDate: booking.bookingDate,
+        totalCost: booking.totalCost,
+        paymentMethod: booking.paymentMethod,
+        status: booking.status,
+        passengerQuantity: booking.passengerQuantity,
+        specialNotes: booking.specialNotes,
+        promoCode: booking.promoCode,
+        confirmationCode: booking.confirmationCode,
+        createdAt: booking.createdAt,
+        updatedAt: booking.updatedAt,
+      );
+
       final id = await database.insert(
         DatabaseConstants.bookingsTable,
-        booking.toMap(includeId: false),
+        enrichedBooking.toMap(includeId: false),
       );
-      return BookingModel.fromMap({...booking.toMap(), 'id': id});
+      return BookingModel.fromMap({...enrichedBooking.toMap(), 'id': id});
     } on DatabaseException catch (error) {
       throw BookingDataException('Không thể lưu đơn đặt tour.', error);
     }
@@ -61,11 +115,20 @@ class BookingLocalDataSource implements BookingDataSource {
   Future<List<BookingModel>> getBookingHistory(int userId) async {
     try {
       final database = await appDatabase.database;
-      final rows = await database.query(
-        DatabaseConstants.bookingsTable,
-        where: 'user_id = ?',
-        whereArgs: [userId],
-        orderBy: 'created_at DESC',
+      final rows = await database.rawQuery(
+        '''
+        SELECT b.*,
+               COALESCE(NULLIF(b.tour_title, ''), t.title) AS tour_title,
+               COALESCE(NULLIF(b.customer_name, ''), u.full_name) AS customer_name,
+               COALESCE(NULLIF(b.customer_email, ''), u.email) AS customer_email,
+               CASE WHEN b.total_cost > 0 THEN b.total_cost ELSE b.total_price END AS total_cost
+        FROM ${DatabaseConstants.bookingsTable} b
+        LEFT JOIN ${DatabaseConstants.toursTable} t ON b.tour_id = t.id
+        LEFT JOIN ${DatabaseConstants.usersTable} u ON b.user_id = u.id
+        WHERE b.user_id = ?
+        ORDER BY b.created_at DESC
+      ''',
+        [userId],
       );
       return rows.map(BookingModel.fromMap).toList(growable: false);
     } on DatabaseException catch (error) {
@@ -80,11 +143,20 @@ class BookingLocalDataSource implements BookingDataSource {
   }) async {
     try {
       final database = await appDatabase.database;
-      final rows = await database.query(
-        DatabaseConstants.bookingsTable,
-        where: 'id = ? AND user_id = ?',
-        whereArgs: [bookingId, userId],
-        limit: 1,
+      final rows = await database.rawQuery(
+        '''
+        SELECT b.*,
+               COALESCE(NULLIF(b.tour_title, ''), t.title) AS tour_title,
+               COALESCE(NULLIF(b.customer_name, ''), u.full_name) AS customer_name,
+               COALESCE(NULLIF(b.customer_email, ''), u.email) AS customer_email,
+               CASE WHEN b.total_cost > 0 THEN b.total_cost ELSE b.total_price END AS total_cost
+        FROM ${DatabaseConstants.bookingsTable} b
+        LEFT JOIN ${DatabaseConstants.toursTable} t ON b.tour_id = t.id
+        LEFT JOIN ${DatabaseConstants.usersTable} u ON b.user_id = u.id
+        WHERE b.id = ? AND b.user_id = ?
+        LIMIT 1
+      ''',
+        [bookingId, userId],
       );
       return rows.isEmpty ? null : BookingModel.fromMap(rows.single);
     } on DatabaseException catch (error) {

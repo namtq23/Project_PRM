@@ -70,6 +70,7 @@ class BookingRepositoryImpl implements BookingRepository {
       final booking = BookingModel(
         userId: request.userId,
         tourId: request.draft.tourId,
+        customerName: traveler.contactName.trim(),
         bookingDate: traveler.selectedDate!,
         totalCost: subtotal - discountAmount,
         paymentMethod: request.draft.paymentMethod!.databaseValue,

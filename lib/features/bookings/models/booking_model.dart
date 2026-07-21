@@ -4,6 +4,9 @@ class BookingModel extends Equatable {
   final int? bookingId;
   final int userId;
   final int tourId;
+  final String? tourTitle;
+  final String? customerName;
+  final String? customerEmail;
   final DateTime bookingDate;
   final double totalCost;
   final String paymentMethod;
@@ -19,6 +22,9 @@ class BookingModel extends Equatable {
     this.bookingId,
     required this.userId,
     required this.tourId,
+    this.tourTitle,
+    this.customerName,
+    this.customerEmail,
     required this.bookingDate,
     required this.totalCost,
     required this.paymentMethod,
@@ -37,10 +43,15 @@ class BookingModel extends Equatable {
       if (includeId) 'id': bookingId,
       'user_id': userId,
       'tour_id': tourId,
+      'customer_name': customerName ?? '',
+      'customer_email': customerEmail ?? '',
+      'tour_title': tourTitle ?? '',
       'booking_date': bookingDate.toUtc().toIso8601String(),
       'total_cost': totalCost,
+      'total_price': totalCost,
       'payment_method': paymentMethod,
       'status': status,
+      'passengers': passengerQuantity,
       'passenger_quantity': passengerQuantity,
       'special_notes': specialNotes,
       'promo_code': promoCode,
@@ -55,11 +66,17 @@ class BookingModel extends Equatable {
       bookingId: (map['id'] ?? map['booking_id']) as int?,
       userId: map['user_id'] as int,
       tourId: map['tour_id'] as int,
+      tourTitle: map['tour_title'] as String?,
+      customerName: map['customer_name'] as String?,
+      customerEmail: map['customer_email'] as String?,
       bookingDate: DateTime.parse(map['booking_date'] as String),
-      totalCost: (map['total_cost'] as num).toDouble(),
+      totalCost: ((map['total_cost'] ?? map['total_price'] ?? 0.0) as num)
+          .toDouble(),
       paymentMethod: map['payment_method'] as String,
       status: map['status'] as String,
-      passengerQuantity: map['passenger_quantity'] as int,
+      passengerQuantity:
+          ((map['passenger_quantity'] ?? map['passengers'] ?? 1) as num)
+              .toInt(),
       specialNotes: map['special_notes'] as String?,
       promoCode: map['promo_code'] as String?,
       confirmationCode: map['confirmation_code'] as String?,
@@ -73,6 +90,9 @@ class BookingModel extends Equatable {
     bookingId,
     userId,
     tourId,
+    tourTitle,
+    customerName,
+    customerEmail,
     bookingDate,
     totalCost,
     paymentMethod,

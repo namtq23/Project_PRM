@@ -11,10 +11,17 @@ class BookingManagementRepository {
 
   Future<List<BookingManagementModel>> getAllBookings() async {
     final db = await _db.database;
-    final maps = await db.query(
-      DatabaseConstants.bookingsTable,
-      orderBy: 'created_at DESC',
-    );
+    final maps = await db.rawQuery('''
+      SELECT b.*,
+             COALESCE(NULLIF(b.tour_title, ''), t.title) AS tour_title,
+             COALESCE(NULLIF(b.customer_name, ''), u.full_name) AS customer_name,
+             COALESCE(NULLIF(b.customer_email, ''), u.email) AS customer_email,
+             CASE WHEN b.total_price > 0 THEN b.total_price ELSE b.total_cost END AS total_price
+      FROM ${DatabaseConstants.bookingsTable} b
+      LEFT JOIN ${DatabaseConstants.toursTable} t ON b.tour_id = t.id
+      LEFT JOIN ${DatabaseConstants.usersTable} u ON b.user_id = u.id
+      ORDER BY b.created_at DESC
+    ''');
     return maps.map((map) => BookingManagementModel.fromMap(map)).toList();
   }
 

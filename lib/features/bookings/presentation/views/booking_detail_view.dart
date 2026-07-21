@@ -71,6 +71,11 @@ class _BookingDetailContent extends StatelessWidget {
           const SizedBox(height: 24),
           _buildInfoSection(context, 'Thông tin chuyến đi', [
             _buildDetailRow(
+              'Tên tour:',
+              booking.tourTitle ?? 'Tour #${booking.tourId}',
+              isBold: true,
+            ),
+            _buildDetailRow(
               'Ngày đi:',
               DateFormat('dd/MM/yyyy').format(booking.bookingDate),
             ),

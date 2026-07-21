@@ -109,6 +109,16 @@ class _BookingCard extends StatelessWidget {
               ),
               const Divider(),
               const SizedBox(height: 8),
+              if (booking.tourTitle != null &&
+                  booking.tourTitle!.isNotEmpty) ...[
+                Text(
+                  booking.tourTitle!,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
               Row(
                 children: [
                   const Icon(

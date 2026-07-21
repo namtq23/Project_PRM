@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../../../app/router/route_paths.dart';
 import '../../models/booking_management_model.dart';
 import '../view_models/booking_management_view_model.dart';
 
@@ -1128,7 +1130,11 @@ class _BookingManagementScreenState
               final viewModel = ref.read(
                 bookingManagementViewModelProvider.notifier,
               );
-              if (action == 'approve') {
+              if (action == 'view_detail') {
+                context.push(
+                  RoutePaths.adminBookingDetailFor(booking.id.toString()),
+                );
+              } else if (action == 'approve') {
                 viewModel.approveBooking(booking.id);
               } else if (action == 'complete') {
                 viewModel.completeBooking(booking.id);
@@ -1139,6 +1145,23 @@ class _BookingManagementScreenState
               }
             },
             itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'view_detail',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.visibility_outlined,
+                      size: 16,
+                      color: _StitchTokens.primary,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Xem chi tiết (View Details)',
+                      style: TextStyle(color: _StitchTokens.onSurface),
+                    ),
+                  ],
+                ),
+              ),
               if (booking.status == 'pending')
                 const PopupMenuItem(
                   value: 'approve',
