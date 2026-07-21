@@ -40,6 +40,7 @@ class TourRepositoryImpl implements TourRepository {
     try {
       return await _localDataSource.updateTour(tour);
     } catch (e) {
+      print('Error in TourRepositoryImpl.updateTour: $e');
       throw TourRepositoryException('Không thể cập nhật thông tin tour: $e');
     }
   }

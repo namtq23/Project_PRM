@@ -10,6 +10,7 @@ import '../widgets/tour_filter_chips.dart';
 import '../widgets/tour_insight_cards.dart';
 import 'create_tour_screen.dart';
 import 'edit_tour_screen.dart';
+import '../widgets/admin_layout.dart';
 
 class TourManagementScreen extends ConsumerStatefulWidget {
   const TourManagementScreen({super.key});
@@ -133,187 +134,196 @@ class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
           surface: ToursTheme.surface,
         ),
       ),
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: ToursTheme.stackLg,
-              vertical: ToursTheme.stackLg,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header breadcrumb + Title
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Kho hàng',
-                                style: ToursTheme.textLabel.copyWith(
-                                  color: ToursTheme.onSurfaceVariant.withOpacity(0.8),
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              const Icon(
-                                Icons.chevron_right,
-                                color: ToursTheme.onSurfaceVariant,
-                                size: 14,
-                              ),
-                              const SizedBox(width: 4),
-                              const Text(
-                                'Tours',
-                                style: TextStyle(
-                                  color: ToursTheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'Quản Lý Tour',
-                            style: TextStyle(
-                              color: ToursTheme.primary,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 28,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          const Text(
-                            'Quản lý và điều hành các trải nghiệm du lịch cao cấp trên toàn cầu.',
-                            style: TextStyle(
-                              color: ToursTheme.onSurfaceVariant,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Action Buttons (Create, List/Grid View)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+      child: AdminLayout(
+        currentMenu: 'Tours',
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: ToursTheme.stackLg,
+            vertical: ToursTheme.stackLg,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header breadcrumb + Title
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ElevatedButton.styleFrom(
+                        Row(
+                          children: [
+                            Text(
+                              'Kho hàng',
+                              style: ToursTheme.textLabel.copyWith(
+                                color: ToursTheme.onSurfaceVariant.withOpacity(0.8),
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            const Icon(
+                              Icons.chevron_right,
+                              color: ToursTheme.onSurfaceVariant,
+                              size: 14,
+                            ),
+                            const SizedBox(width: 4),
+                            const Text(
+                              'Tours',
+                              style: TextStyle(
+                                color: ToursTheme.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Quản Lý Tour',
+                          style: TextStyle(
+                            color: ToursTheme.primary,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 28,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'Quản lý và điều hành các trải nghiệm du lịch cao cấp trên toàn cầu.',
+                          style: TextStyle(
+                            color: ToursTheme.onSurfaceVariant,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Action Buttons (Create, List/Grid View)
+                  Row(
+                    children: [
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
                           backgroundColor: ToursTheme.primary,
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-                        ).let((style) => ElevatedButton(
-                              style: style,
-                              onPressed: () => _showAddEditDialog(),
-                              child: const Row(
-                                children: [
-                                  Icon(Icons.add_circle_outline, size: 18),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'Thêm Tour Mới',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            )),
-                        const SizedBox(height: 12),
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: ToursTheme.surfaceContainerHigh,
-                                borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-                                border: Border.all(color: ToursTheme.outlineVariant),
-                              ),
-                              child: Row(
-                                children: [
-                                  _ViewToggleBtn(
-                                    icon: Icons.view_list,
-                                    label: 'Dạng Danh Sách',
-                                    isSelected: !_isGridView,
-                                    onTap: () => setState(() => _isGridView = false),
-                                  ),
-                                  _ViewToggleBtn(
-                                    icon: Icons.grid_view,
-                                    label: 'Dạng Lưới',
-                                    isSelected: _isGridView,
-                                    onTap: () => setState(() => _isGridView = true),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: ToursTheme.stackLg),
-
-                // Search Bar + Filter Line
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: ToursTheme.surfaceContainer,
-                    borderRadius: BorderRadius.circular(ToursTheme.radiusXl),
-                    border: Border.all(color: ToursTheme.outlineVariant),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          onChanged: (val) => setState(() => _searchQuery = val),
-                          decoration: InputDecoration(
-                            hintText: 'Tìm kiếm tour, danh mục, hoặc mô tả...',
-                            hintStyle: const TextStyle(color: ToursTheme.onSurfaceVariant),
-                            prefixIcon: const Icon(Icons.search, color: ToursTheme.onSurfaceVariant),
-                            filled: true,
-                            fillColor: ToursTheme.surfaceContainerLow,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: const BorderSide(color: ToursTheme.outlineVariant),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: const BorderSide(color: ToursTheme.outlineVariant),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: const BorderSide(color: ToursTheme.primary),
-                            ),
-                          ),
-                          style: const TextStyle(color: Colors.white),
+                        onPressed: () => _showAddEditDialog(),
+                        icon: const Icon(Icons.add),
+                        label: const Text(
+                          'Thêm Tour Mới',
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
                   ),
+                ],
+              ),
+              const SizedBox(height: ToursTheme.stackLg),
+
+              // Search Bar + Filter Line
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: ToursTheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(ToursTheme.radiusXl),
+                  border: Border.all(color: ToursTheme.outlineVariant),
                 ),
-                const SizedBox(height: ToursTheme.stackMd),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        onChanged: (val) => setState(() => _searchQuery = val),
+                        decoration: InputDecoration(
+                          hintText: 'Tìm kiếm tour, danh mục, hoặc mô tả...',
+                          hintStyle: const TextStyle(color: ToursTheme.onSurfaceVariant),
+                          prefixIcon: const Icon(Icons.search, color: ToursTheme.onSurfaceVariant),
+                          filled: true,
+                          fillColor: ToursTheme.surfaceContainerLow,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: ToursTheme.outlineVariant),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: ToursTheme.outlineVariant),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: ToursTheme.primary),
+                          ),
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: ToursTheme.stackMd),
 
-                // Filter Chips
-                const TourFilterChips(),
-                const SizedBox(height: ToursTheme.stackMd),
+              // Filter Chips
+              const TourFilterChips(),
+              const SizedBox(height: ToursTheme.stackLg),
 
-                // Grid View / List View implementation
-                if (_isGridView)
-                  _ToursGrid(
-                    tours: displayedTours,
-                    onView: _showViewDetailsDialog,
-                    onEdit: _showAddEditDialog,
-                  )
-                else
-                  TourDataTable(
-                    onView: _showViewDetailsDialog,
-                    onEdit: _showAddEditDialog,
+              // Toggle List/Grid View Button Line
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'KẾT QUẢ TÌM KIẾM (${displayedTours.length})',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                    ),
                   ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: ToursTheme.surfaceContainerHigh,
+                          borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                          border: Border.all(color: ToursTheme.outlineVariant),
+                        ),
+                        child: Row(
+                          children: [
+                            _ViewToggleBtn(
+                              icon: Icons.view_list,
+                              label: 'Dạng Danh Sách',
+                              isSelected: !_isGridView,
+                              onTap: () => setState(() => _isGridView = false),
+                            ),
+                            _ViewToggleBtn(
+                              icon: Icons.grid_view,
+                              label: 'Dạng Lưới',
+                              isSelected: _isGridView,
+                              onTap: () => setState(() => _isGridView = true),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: ToursTheme.stackMd),
+
+              // Tours Data Layout (List/Grid)
+              if (_isGridView)
+                _ToursGrid(
+                  tours: displayedTours,
+                  onView: _showViewDetailsDialog,
+                  onEdit: _showAddEditDialog,
+                )
+              else
+                TourDataTable(
+                  onView: _showViewDetailsDialog,
+                  onEdit: _showAddEditDialog,
+                ),
 
                 const SizedBox(height: ToursTheme.stackLg),
 
@@ -323,14 +333,10 @@ class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
 
-extension _LetExtension<T> on T {
-  R let<R>(R Function(T self) block) => block(this);
-}
 
 class _ViewToggleBtn extends StatelessWidget {
   const _ViewToggleBtn({

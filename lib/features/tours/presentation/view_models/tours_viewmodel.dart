@@ -48,6 +48,24 @@ class ToursViewModel extends _$ToursViewModel {
     }
   }
 
+  int? _mapCategoryToId(String? category) {
+    if (category == null) return null;
+    final normalized = category.trim().toLowerCase();
+    if (normalized == '1' || normalized.contains('thám hiểm') || normalized.contains('luxury')) {
+      return 1;
+    }
+    if (normalized == '2' || normalized.contains('thành thị') || normalized.contains('urban')) {
+      return 2;
+    }
+    if (normalized.contains('bắc âu') || normalized.contains('nordic')) {
+      return 1;
+    }
+    if (normalized.contains('hải trình') || normalized.contains('nautical')) {
+      return 2;
+    }
+    return int.tryParse(category);
+  }
+
   Future<bool> addTour({
     required String title,
     required String description,
@@ -65,7 +83,7 @@ class ToursViewModel extends _$ToursViewModel {
         price: price,
         durationDays: durationDays,
         status: status,
-        categoryId: categoryId != null ? int.tryParse(categoryId) : null,
+        categoryId: _mapCategoryToId(categoryId),
         firestoreId: firestoreId,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -74,6 +92,7 @@ class ToursViewModel extends _$ToursViewModel {
       await loadTours();
       return true;
     } catch (e) {
+      print('Error adding tour in ViewModel: $e');
       state = state.copyWith(
         isLoading: false,
         errorMessage: e.toString(),
@@ -102,7 +121,7 @@ class ToursViewModel extends _$ToursViewModel {
         price: price,
         durationDays: durationDays,
         status: status,
-        categoryId: categoryId != null ? int.tryParse(categoryId) : null,
+        categoryId: _mapCategoryToId(categoryId),
         firestoreId: firestoreId,
         createdAt: createdAt ?? DateTime.now(),
         updatedAt: DateTime.now(),
@@ -111,6 +130,7 @@ class ToursViewModel extends _$ToursViewModel {
       await loadTours();
       return true;
     } catch (e) {
+      print('Error updating tour in ViewModel: $e');
       state = state.copyWith(
         isLoading: false,
         errorMessage: e.toString(),
@@ -126,6 +146,7 @@ class ToursViewModel extends _$ToursViewModel {
       await loadTours();
       return true;
     } catch (e) {
+      print('Error deleting tour in ViewModel: $e');
       state = state.copyWith(
         isLoading: false,
         errorMessage: e.toString(),

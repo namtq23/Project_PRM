@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/route_names.dart';
-import '../../../tours/presentation/views/tour_management_screen.dart';
 import '../states/auth_state.dart';
 import '../view_models/auth_view_model.dart';
 import '../widgets/auth_widget.dart';
@@ -38,7 +37,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
     final authState = ref.read(authViewModelProvider).value;
     if (authState is AuthAuthenticated) {
-      context.goNamed(RouteNames.home);
+      if (authState.user.role == 'admin') {
+        context.go('/admin/tours');
+      } else {
+        context.goNamed(RouteNames.home);
+      }
     }
   }
 
@@ -47,7 +50,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
     final authState = ref.read(authViewModelProvider).value;
     if (authState is AuthAuthenticated) {
-      context.goNamed(RouteNames.home);
+      if (authState.user.role == 'admin') {
+        context.go('/admin/tours');
+      } else {
+        context.goNamed(RouteNames.home);
+      }
     }
   }
 

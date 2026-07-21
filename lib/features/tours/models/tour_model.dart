@@ -56,7 +56,6 @@ class TourModel extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'id': tourId,
-      'tour_id': tourId,
       'firestore_id': firestoreId,
       'category_id': categoryId,
       'title': title,

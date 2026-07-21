@@ -49,10 +49,10 @@ class TourFilterChips extends ConsumerWidget {
       runSpacing: ToursTheme.stackSm,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        buildChip('All Tours', 'all', allCount),
-        buildChip('Active', 'active', activeCount),
-        buildChip('Draft', 'draft', draftCount),
-        buildChip('Inactive', 'inactive', inactiveCount),
+        buildChip('Tất Cả Tour', 'all', allCount),
+        buildChip('Hoạt Động', 'active', activeCount),
+        buildChip('Bản Nháp', 'draft', draftCount),
+        buildChip('Ngưng Hoạt Động', 'inactive', inactiveCount),
       ],
     );
   }
