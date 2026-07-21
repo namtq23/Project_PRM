@@ -27,6 +27,27 @@ class TourLocalDataSource {
     );
     return result.map((e) => Tour.fromMap(e)).toList();
   }
+
+  Future<List<Tour>> searchTours(String query) async {
+    final result = await db.query(
+      DatabaseConstants.toursTable,
+      where: 'status = ? AND (title LIKE ? OR description LIKE ?)',
+      whereArgs: ['active', '%$query%', '%$query%'],
+    );
+    return result.map((e) => Tour.fromMap(e)).toList();
+  }
+
+  Future<Tour?> getTourById(int id) async {
+    final result = await db.query(
+      DatabaseConstants.toursTable,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    if (result.isNotEmpty) {
+      return Tour.fromMap(result.first);
+    }
+    return null;
+  }
 }
 
 @riverpod

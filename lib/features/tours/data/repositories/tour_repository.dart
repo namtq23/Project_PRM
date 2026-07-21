@@ -13,6 +13,10 @@ class TourRepository {
 
   Future<List<Category>> getCategories() => localDataSource.getCategories();
   Future<List<Tour>> getFeaturedTours() => localDataSource.getFeaturedTours();
+  Future<List<Tour>> searchTours(String query) =>
+      localDataSource.searchTours(query);
+
+  Future<Tour?> getTourById(int id) => localDataSource.getTourById(id);
 }
 
 @riverpod

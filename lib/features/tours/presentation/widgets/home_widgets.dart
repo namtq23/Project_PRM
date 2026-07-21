@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../app/router/route_names.dart';
 
 class TourPreview {
   const TourPreview({
@@ -72,7 +74,7 @@ class HomeHero extends StatelessWidget {
           const SizedBox(height: 14),
           TextField(
             readOnly: true,
-            onTap: () {},
+            onTap: () => context.goNamed(RouteNames.search),
             decoration: InputDecoration(
               hintText: 'Bạn muốn đi đâu?',
               prefixIcon: const Icon(Icons.search),

@@ -5,6 +5,7 @@ abstract final class RouteNames {
   static const forgotPassword = 'forgotPassword';
   static const home = 'home';
   static const search = 'search';
+  static const searchResults = 'searchResults';
   static const wishlist = 'wishlist';
   static const tourDetail = 'tourDetail';
   static const bookings = 'bookings';

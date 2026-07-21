@@ -5,6 +5,7 @@ abstract final class RoutePaths {
   static const forgotPassword = '/forgot-password';
   static const home = '/home';
   static const search = '/search';
+  static const searchResults = '/search/results';
   static const wishlist = '/wishlist';
   static const tourDetail = '/tours/:tourId';
   static const bookings = '/bookings';
