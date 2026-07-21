@@ -39,6 +39,11 @@ List<RouteBase> adminRoutes() => [
     builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Reviews'),
   ),
   GoRoute(
+    path: RoutePaths.adminAnalytics,
+    name: RouteNames.adminAnalytics,
+    builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Analytics'),
+  ),
+  GoRoute(
     path: RoutePaths.adminSettings,
     name: RouteNames.adminSettings,
     builder: (_, _) => const SystemSettingsScreen(),

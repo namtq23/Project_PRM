@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../../app/router/route_paths.dart';
+import '../../../../core/widgets/admin_scaffold.dart';
 import '../../models/booking_management_model.dart';
 import '../view_models/booking_management_view_model.dart';
 
@@ -219,114 +221,117 @@ class _BookingManagementScreenState
   Widget build(BuildContext context) {
     final bookingsAsync = ref.watch(bookingManagementViewModelProvider);
 
-    return Scaffold(
-      backgroundColor: _StitchTokens.background,
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: _StitchTokens.primaryContainer.withValues(alpha: 0.4),
-              blurRadius: 20,
-              spreadRadius: 2,
-            ),
-          ],
+    return AdminScaffold(
+      currentPath: RoutePaths.adminBookings,
+      body: Scaffold(
+        backgroundColor: _StitchTokens.background,
+        floatingActionButton: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: _StitchTokens.primaryContainer.withValues(alpha: 0.4),
+                blurRadius: 20,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: FloatingActionButton(
+            onPressed: () => _showNewBookingDialog(context),
+            backgroundColor: _StitchTokens.primaryContainer,
+            foregroundColor: _StitchTokens.onPrimaryContainer,
+            elevation: 4,
+            child: const Icon(Icons.edit, size: 26),
+          ),
         ),
-        child: FloatingActionButton(
-          onPressed: () => _showNewBookingDialog(context),
-          backgroundColor: _StitchTokens.primaryContainer,
-          foregroundColor: _StitchTokens.onPrimaryContainer,
-          elevation: 4,
-          child: const Icon(Icons.edit, size: 26),
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildTopHeader(context),
-            Expanded(
-              child: bookingsAsync.when(
-                data: (bookings) {
-                  final filteredBookings = bookings.where((b) {
-                    final statusMatch =
-                        _selectedStatus == 'All Statuses' ||
-                        (_selectedStatus == 'Confirmed' &&
-                            (b.status == 'completed' ||
-                                b.status == 'approved')) ||
-                        (_selectedStatus == 'Pending' &&
-                            b.status == 'pending') ||
-                        (_selectedStatus == 'Cancelled' &&
-                            b.status == 'canceled');
+        body: SafeArea(
+          child: Column(
+            children: [
+              _buildTopHeader(context),
+              Expanded(
+                child: bookingsAsync.when(
+                  data: (bookings) {
+                    final filteredBookings = bookings.where((b) {
+                      final statusMatch =
+                          _selectedStatus == 'All Statuses' ||
+                          (_selectedStatus == 'Confirmed' &&
+                              (b.status == 'completed' ||
+                                  b.status == 'approved')) ||
+                          (_selectedStatus == 'Pending' &&
+                              b.status == 'pending') ||
+                          (_selectedStatus == 'Cancelled' &&
+                              b.status == 'canceled');
 
-                    final query = _searchController.text.toLowerCase();
-                    final searchMatch =
-                        b.customerName.toLowerCase().contains(query) ||
-                        b.customerEmail.toLowerCase().contains(query) ||
-                        b.tourTitle.toLowerCase().contains(query) ||
-                        '#VOY-${b.id}'.toLowerCase().contains(query);
+                      final query = _searchController.text.toLowerCase();
+                      final searchMatch =
+                          b.customerName.toLowerCase().contains(query) ||
+                          b.customerEmail.toLowerCase().contains(query) ||
+                          b.tourTitle.toLowerCase().contains(query) ||
+                          '#VOY-${b.id}'.toLowerCase().contains(query);
 
-                    return statusMatch && searchMatch;
-                  }).toList();
+                      return statusMatch && searchMatch;
+                    }).toList();
 
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 16,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildPageHeader(context),
+                          const SizedBox(height: 24),
+                          _buildBentoStats(bookings),
+                          const SizedBox(height: 24),
+                          _buildFilterSection(),
+                          const SizedBox(height: 16),
+                          _buildTableSection(filteredBookings),
+                          const SizedBox(height: 24),
+                        ],
+                      ),
+                    );
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(
+                      color: _StitchTokens.primaryContainer,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildPageHeader(context),
-                        const SizedBox(height: 24),
-                        _buildBentoStats(bookings),
-                        const SizedBox(height: 24),
-                        _buildFilterSection(),
-                        const SizedBox(height: 16),
-                        _buildTableSection(filteredBookings),
-                        const SizedBox(height: 24),
-                      ],
-                    ),
-                  );
-                },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: _StitchTokens.primaryContainer,
                   ),
-                ),
-                error: (error, stack) => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.error_outline,
-                          size: 48,
-                          color: _StitchTokens.error,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Lỗi tải dữ liệu: $error',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: _StitchTokens.onSurfaceVariant,
+                  error: (error, stack) => Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.error_outline,
+                            size: 48,
+                            color: _StitchTokens.error,
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton.icon(
-                          onPressed: () => ref.invalidate(
-                            bookingManagementViewModelProvider,
+                          const SizedBox(height: 12),
+                          Text(
+                            'Lỗi tải dữ liệu: $error',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: _StitchTokens.onSurfaceVariant,
+                            ),
                           ),
-                          icon: const Icon(Icons.refresh),
-                          label: const Text('Thử lại'),
-                        ),
-                      ],
+                          const SizedBox(height: 16),
+                          ElevatedButton.icon(
+                            onPressed: () => ref.invalidate(
+                              bookingManagementViewModelProvider,
+                            ),
+                            icon: const Icon(Icons.refresh),
+                            label: const Text('Thử lại'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -342,6 +347,13 @@ class _BookingManagementScreenState
       ),
       child: Row(
         children: [
+          if (MediaQuery.of(context).size.width < 900) ...[
+            IconButton(
+              icon: const Icon(Icons.menu, color: _StitchTokens.onSurface),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+            const SizedBox(width: 8),
+          ],
           const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

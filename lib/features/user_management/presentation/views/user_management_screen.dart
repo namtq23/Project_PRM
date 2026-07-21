@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../../app/router/route_paths.dart';
+import '../../../../core/widgets/admin_scaffold.dart';
 import '../../models/user_management_model.dart';
 import '../view_models/user_management_view_model.dart';
 
@@ -412,112 +414,115 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
   Widget build(BuildContext context) {
     final usersAsync = ref.watch(userManagementViewModelProvider);
 
-    return Scaffold(
-      backgroundColor: _StitchTokens.background,
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: _StitchTokens.primaryContainer.withValues(alpha: 0.4),
-              blurRadius: 30,
-              spreadRadius: 2,
-            ),
-          ],
+    return AdminScaffold(
+      currentPath: RoutePaths.adminUsers,
+      body: Scaffold(
+        backgroundColor: _StitchTokens.background,
+        floatingActionButton: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: _StitchTokens.primaryContainer.withValues(alpha: 0.4),
+                blurRadius: 30,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: FloatingActionButton(
+            onPressed: () => _showInviteUserDialog(context),
+            backgroundColor: _StitchTokens.primaryContainer,
+            foregroundColor: _StitchTokens.onPrimaryContainer,
+            elevation: 4,
+            child: const Icon(Icons.add, size: 28),
+          ),
         ),
-        child: FloatingActionButton(
-          onPressed: () => _showInviteUserDialog(context),
-          backgroundColor: _StitchTokens.primaryContainer,
-          foregroundColor: _StitchTokens.onPrimaryContainer,
-          elevation: 4,
-          child: const Icon(Icons.add, size: 28),
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildTopHeader(context),
-            Expanded(
-              child: usersAsync.when(
-                data: (users) {
-                  final filteredUsers = users.where((u) {
-                    final query = _searchController.text.toLowerCase();
-                    final searchMatch =
-                        u.fullName.toLowerCase().contains(query) ||
-                        u.email.toLowerCase().contains(query) ||
-                        u.role.toLowerCase().contains(query) ||
-                        u.status.toLowerCase().contains(query);
+        body: SafeArea(
+          child: Column(
+            children: [
+              _buildTopHeader(context),
+              Expanded(
+                child: usersAsync.when(
+                  data: (users) {
+                    final filteredUsers = users.where((u) {
+                      final query = _searchController.text.toLowerCase();
+                      final searchMatch =
+                          u.fullName.toLowerCase().contains(query) ||
+                          u.email.toLowerCase().contains(query) ||
+                          u.role.toLowerCase().contains(query) ||
+                          u.status.toLowerCase().contains(query);
 
-                    final roleMatch =
-                        _selectedRoleFilter == 'All Roles' ||
-                        u.role.toLowerCase() ==
-                            _selectedRoleFilter.toLowerCase();
+                      final roleMatch =
+                          _selectedRoleFilter == 'All Roles' ||
+                          u.role.toLowerCase() ==
+                              _selectedRoleFilter.toLowerCase();
 
-                    final statusMatch =
-                        _selectedStatusFilter == 'All Statuses' ||
-                        u.status.toLowerCase() ==
-                            _selectedStatusFilter.toLowerCase();
+                      final statusMatch =
+                          _selectedStatusFilter == 'All Statuses' ||
+                          u.status.toLowerCase() ==
+                              _selectedStatusFilter.toLowerCase();
 
-                    return searchMatch && roleMatch && statusMatch;
-                  }).toList();
+                      return searchMatch && roleMatch && statusMatch;
+                    }).toList();
 
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 20,
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 20,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildPageHeader(context),
+                          const SizedBox(height: 24),
+                          _buildBentoStats(users),
+                          const SizedBox(height: 24),
+                          _buildFilterBar(),
+                          const SizedBox(height: 16),
+                          _buildUserTable(filteredUsers),
+                          const SizedBox(height: 24),
+                        ],
+                      ),
+                    );
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(
+                      color: _StitchTokens.primaryContainer,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildPageHeader(context),
-                        const SizedBox(height: 24),
-                        _buildBentoStats(users),
-                        const SizedBox(height: 24),
-                        _buildFilterBar(),
-                        const SizedBox(height: 16),
-                        _buildUserTable(filteredUsers),
-                        const SizedBox(height: 24),
-                      ],
-                    ),
-                  );
-                },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: _StitchTokens.primaryContainer,
                   ),
-                ),
-                error: (error, stack) => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.error_outline,
-                          size: 48,
-                          color: _StitchTokens.error,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Error loading users: $error',
-                          style: const TextStyle(
-                            color: _StitchTokens.onSurfaceVariant,
+                  error: (error, stack) => Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.error_outline,
+                            size: 48,
+                            color: _StitchTokens.error,
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton.icon(
-                          onPressed: () =>
-                              ref.invalidate(userManagementViewModelProvider),
-                          icon: const Icon(Icons.refresh),
-                          label: const Text('Retry'),
-                        ),
-                      ],
+                          const SizedBox(height: 12),
+                          Text(
+                            'Error loading users: $error',
+                            style: const TextStyle(
+                              color: _StitchTokens.onSurfaceVariant,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton.icon(
+                            onPressed: () =>
+                                ref.invalidate(userManagementViewModelProvider),
+                            icon: const Icon(Icons.refresh),
+                            label: const Text('Retry'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -533,6 +538,13 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       ),
       child: Row(
         children: [
+          if (MediaQuery.of(context).size.width < 900) ...[
+            IconButton(
+              icon: const Icon(Icons.menu, color: _StitchTokens.onSurface),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+            const SizedBox(width: 8),
+          ],
           const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

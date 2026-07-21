@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import '../../../../app/router/route_paths.dart';
+import '../../../../core/widgets/admin_scaffold.dart';
 import '../../models/system_settings_model.dart';
 import '../view_models/system_settings_view_model.dart';
 
@@ -231,73 +232,76 @@ class _SystemSettingsScreenState extends ConsumerState<SystemSettingsScreen> {
   Widget build(BuildContext context) {
     final settingsAsync = ref.watch(systemSettingsViewModelProvider);
 
-    return Scaffold(
-      backgroundColor: _StitchTokens.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildTopHeader(context),
-            Expanded(
-              child: settingsAsync.when(
-                data: (settings) {
-                  _populateForm(settings);
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 20,
-                    ),
-                    child: Center(
-                      child: Container(
-                        constraints: const BoxConstraints(maxWidth: 1280),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildPageHeader(),
-                            const SizedBox(height: 24),
-                            _buildMainTabContainer(settings),
-                            const SizedBox(height: 24),
-                            _buildBentoAdvancedSection(),
-                            const SizedBox(height: 24),
-                          ],
+    return AdminScaffold(
+      currentPath: RoutePaths.adminSettings,
+      body: Scaffold(
+        backgroundColor: _StitchTokens.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              _buildTopHeader(context),
+              Expanded(
+                child: settingsAsync.when(
+                  data: (settings) {
+                    _populateForm(settings);
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 20,
+                      ),
+                      child: Center(
+                        child: Container(
+                          constraints: const BoxConstraints(maxWidth: 1280),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildPageHeader(),
+                              const SizedBox(height: 24),
+                              _buildMainTabContainer(settings),
+                              const SizedBox(height: 24),
+                              _buildBentoAdvancedSection(),
+                              const SizedBox(height: 24),
+                            ],
+                          ),
                         ),
                       ),
+                    );
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(
+                      color: _StitchTokens.primaryContainer,
                     ),
-                  );
-                },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: _StitchTokens.primaryContainer,
                   ),
-                ),
-                error: (error, stack) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
-                        color: _StitchTokens.error,
-                        size: 48,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Failed to load settings: $error',
-                        style: const TextStyle(
-                          color: _StitchTokens.onSurfaceVariant,
+                  error: (error, stack) => Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          color: _StitchTokens.error,
+                          size: 48,
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton.icon(
-                        onPressed: () =>
-                            ref.invalidate(systemSettingsViewModelProvider),
-                        icon: const Icon(Icons.refresh),
-                        label: const Text('Retry'),
-                      ),
-                    ],
+                        const SizedBox(height: 12),
+                        Text(
+                          'Failed to load settings: $error',
+                          style: const TextStyle(
+                            color: _StitchTokens.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton.icon(
+                          onPressed: () =>
+                              ref.invalidate(systemSettingsViewModelProvider),
+                          icon: const Icon(Icons.refresh),
+                          label: const Text('Retry'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -313,6 +317,13 @@ class _SystemSettingsScreenState extends ConsumerState<SystemSettingsScreen> {
       ),
       child: Row(
         children: [
+          if (MediaQuery.of(context).size.width < 900) ...[
+            IconButton(
+              icon: const Icon(Icons.menu, color: _StitchTokens.onSurface),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+            const SizedBox(width: 8),
+          ],
           const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
