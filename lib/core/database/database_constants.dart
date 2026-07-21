@@ -1,6 +1,6 @@
 abstract final class DatabaseConstants {
   static const databaseName = 'tour_booking.db';
-  static const databaseVersion = 2;
+  static const databaseVersion = 3;
 
   // Table Names
   static const usersTable = 'users';
