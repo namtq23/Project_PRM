@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as path;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sqflite/sqflite.dart' as mobile_sqflite;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
@@ -33,6 +34,14 @@ class AppDatabase {
     } else if (kIsWeb) {
       factory = databaseFactoryFfiWebNoWebWorker;
       databasePath = DatabaseConstants.databaseName;
+    } else if (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS) {
+      factory = mobile_sqflite.databaseFactory;
+      final databasesDirectory = await factory.getDatabasesPath();
+      databasePath = path.join(
+        databasesDirectory,
+        DatabaseConstants.databaseName,
+      );
     } else {
       sqfliteFfiInit();
       factory = databaseFactoryFfi;
