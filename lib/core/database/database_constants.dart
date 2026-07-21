@@ -1,6 +1,6 @@
 abstract final class DatabaseConstants {
   static const databaseName = 'tour_booking.db';
-  static const databaseVersion = 3;
+  static const databaseVersion = 6;
 
   // Table Names
   static const usersTable = 'users';
@@ -32,7 +32,11 @@ CREATE TABLE IF NOT EXISTS categories (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   title TEXT NOT NULL,
+  short_name TEXT,
   description TEXT,
+  icon TEXT,
+  image_url TEXT,
+  status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 )
@@ -87,6 +91,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   tour_id INTEGER NOT NULL,
   rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
   comment TEXT,
+  status TEXT NOT NULL DEFAULT 'pending',
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,

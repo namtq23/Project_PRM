@@ -4,6 +4,7 @@ import '../../../app/router/route_names.dart';
 import '../../../app/router/route_paths.dart';
 import '../../../core/widgets/route_placeholder_screen.dart';
 import '../presentation/views/home_screen.dart';
+import '../presentation/views/tour_management_screen.dart';
 
 List<RouteBase> tourRoutes() => [
   GoRoute(
@@ -28,5 +29,10 @@ List<RouteBase> tourRoutes() => [
       title: 'Tour Detail',
       details: 'Tour ID: ${state.pathParameters['tourId']}',
     ),
+  ),
+  GoRoute(
+    path: '/admin/tours',
+    name: 'tourManagement',
+    builder: (_, _) => const TourManagementScreen(),
   ),
 ];

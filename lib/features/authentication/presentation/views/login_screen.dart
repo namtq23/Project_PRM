@@ -37,7 +37,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
     final authState = ref.read(authViewModelProvider).value;
     if (authState is AuthAuthenticated) {
-      context.goNamed(RouteNames.home);
+      if (authState.user.role == 'admin') {
+        context.go('/admin/tours');
+      } else {
+        context.goNamed(RouteNames.home);
+      }
     }
   }
 
@@ -46,7 +50,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
     final authState = ref.read(authViewModelProvider).value;
     if (authState is AuthAuthenticated) {
-      context.goNamed(RouteNames.home);
+      if (authState.user.role == 'admin') {
+        context.go('/admin/tours');
+      } else {
+        context.goNamed(RouteNames.home);
+      }
     }
   }
 

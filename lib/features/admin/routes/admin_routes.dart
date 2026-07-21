@@ -3,6 +3,12 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router/route_names.dart';
 import '../../../app/router/route_paths.dart';
 import '../../../core/widgets/route_placeholder_screen.dart';
+
+import '../content_management/manage_categories/routes/manage_categories_routes.dart';
+import '../content_management/manage_tours/routes/manage_tours_routes.dart';
+import '../content_management/view_tour_stats/routes/tour_stats_routes.dart';
+import '../reviews/routes/review_routes.dart';
+
 import '../../booking_management/presentation/views/booking_management_screen.dart';
 import '../../user_management/presentation/views/user_management_screen.dart';
 
@@ -12,16 +18,10 @@ List<RouteBase> adminRoutes() => [
     name: RouteNames.adminDashboard,
     builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Dashboard'),
   ),
-  GoRoute(
-    path: RoutePaths.adminTours,
-    name: RouteNames.adminTours,
-    builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Tours'),
-  ),
-  GoRoute(
-    path: RoutePaths.adminCategories,
-    name: RouteNames.adminCategories,
-    builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Categories'),
-  ),
+  ...manageToursRoutes(),
+  ...manageCategoriesRoutes(),
+  ...tourStatsRoutes(),
+  ...reviewRoutes(),
   GoRoute(
     path: RoutePaths.adminBookings,
     name: RouteNames.adminBookings,
@@ -31,11 +31,6 @@ List<RouteBase> adminRoutes() => [
     path: RoutePaths.adminUsers,
     name: RouteNames.adminUsers,
     builder: (_, _) => const UserManagementScreen(),
-  ),
-  GoRoute(
-    path: RoutePaths.adminReviews,
-    name: RouteNames.adminReviews,
-    builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Reviews'),
   ),
   GoRoute(
     path: RoutePaths.adminSettings,
