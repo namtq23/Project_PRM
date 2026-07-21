@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/tour_model.dart';
+import '../../models/tours_state.dart';
 import '../../presentation/view_models/tours_viewmodel.dart';
 import '../theme/tours_theme.dart';
 import '../widgets/tour_data_table.dart';
@@ -20,7 +21,6 @@ class TourManagementScreen extends ConsumerStatefulWidget {
 }
 
 class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
-  String _searchQuery = '';
   bool _isGridView = false;
 
   void _showAddEditDialog([TourModel? tour]) {
@@ -116,14 +116,7 @@ class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(toursViewModelProvider);
 
-    // Apply local search filtering on top of selected filter
-    final displayedTours = state.filteredTours.where((tour) {
-      if (_searchQuery.trim().isEmpty) return true;
-      final query = _searchQuery.toLowerCase();
-      return tour.title.toLowerCase().contains(query) ||
-          (tour.description ?? '').toLowerCase().contains(query) ||
-          (tour.categoryId?.toString() ?? '').toLowerCase().contains(query);
-    }).toList();
+    final displayedTours = state.filteredTours;
 
     return Theme(
       data: ThemeData.dark().copyWith(
@@ -234,7 +227,7 @@ class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
                   children: [
                     Expanded(
                       child: TextField(
-                        onChanged: (val) => setState(() => _searchQuery = val),
+                        onChanged: (val) => ref.read(toursViewModelProvider.notifier).searchTours(val),
                         decoration: InputDecoration(
                           hintText: 'Tìm kiếm tour, danh mục, hoặc mô tả...',
                           hintStyle: const TextStyle(color: ToursTheme.onSurfaceVariant),
@@ -325,15 +318,100 @@ class _TourManagementScreenState extends ConsumerState<TourManagementScreen> {
                   onEdit: _showAddEditDialog,
                 ),
 
-                const SizedBox(height: ToursTheme.stackLg),
+              const SizedBox(height: 16),
+              // Pagination Footer
+              if (!state.isLoading && displayedTours.isNotEmpty)
+                _buildPaginationFooter(state),
 
-                // Quick Insights Bento Grid
-                const TourInsightCards(),
-              ],
-            ),
+              const SizedBox(height: ToursTheme.stackLg),
+
+              // Quick Insights Bento Grid
+              const TourInsightCards(),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
+
+  Widget _buildPaginationFooter(ToursState state) {
+    final startIdx = (state.currentPage - 1) * state.itemsPerPage + 1;
+    final endIdx = (startIdx + state.filteredTours.length - 1).clamp(0, state.totalCount);
+    final totalPages = (state.totalCount / state.itemsPerPage).ceil();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Hiển thị $startIdx-$endIdx trên tổng số ${state.totalCount} tours',
+            style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12),
+          ),
+          Row(
+            children: [
+              // Previous Page Button
+              IconButton(
+                onPressed: state.currentPage > 1
+                    ? () => ref.read(toursViewModelProvider.notifier).changePage(state.currentPage - 1)
+                    : null,
+                icon: const Icon(Icons.chevron_left),
+                style: IconButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                    side: const BorderSide(color: ToursTheme.outlineVariant),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Page Numbers List
+              Row(
+                children: List.generate(totalPages, (idx) {
+                  final pageNum = idx + 1;
+                  final isCurrent = pageNum == state.currentPage;
+                  return GestureDetector(
+                    onTap: () => ref.read(toursViewModelProvider.notifier).changePage(pageNum),
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        color: isCurrent ? ToursTheme.primary : Colors.transparent,
+                        borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                        border: isCurrent ? null : Border.all(color: ToursTheme.outlineVariant),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '$pageNum',
+                        style: TextStyle(
+                          color: isCurrent ? Colors.black : Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(width: 8),
+              // Next Page Button
+              IconButton(
+                onPressed: state.currentPage < totalPages
+                    ? () => ref.read(toursViewModelProvider.notifier).changePage(state.currentPage + 1)
+                    : null,
+                icon: const Icon(Icons.chevron_right),
+                style: IconButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                    side: const BorderSide(color: ToursTheme.outlineVariant),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -500,8 +578,10 @@ class _ToursGrid extends StatelessWidget {
                     _getTourImage(tour),
                     fit: BoxFit.cover,
                     width: double.infinity,
-                    errorBuilder: (context, error, stackTrace) => const Center(
-                      child: Icon(Icons.broken_image, size: 48, color: ToursTheme.outline),
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      color: ToursTheme.surfaceContainerHigh,
+                      alignment: Alignment.center,
+                      child: const Icon(Icons.image_not_supported_outlined, size: 40, color: ToursTheme.onSurfaceVariant),
                     ),
                   ),
                 ),

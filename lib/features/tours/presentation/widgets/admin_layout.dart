@@ -145,31 +145,40 @@ class AdminLayout extends StatelessWidget {
   Widget _buildMenuItem(BuildContext context, String title, IconData icon) {
     final isActive = title.toLowerCase() == currentMenu.toLowerCase();
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4),
-      decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Material(
         color: isActive ? ToursTheme.primary.withOpacity(0.15) : Colors.transparent,
         borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          color: isActive ? ToursTheme.primary : ToursTheme.onSurfaceVariant,
-          size: 20,
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: isActive ? Colors.white : ToursTheme.onSurfaceVariant,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-            fontSize: 14,
+        clipBehavior: Clip.antiAlias,
+        child: ListTile(
+          leading: Icon(
+            icon,
+            color: isActive ? ToursTheme.primary : ToursTheme.onSurfaceVariant,
+            size: 20,
           ),
+          title: Text(
+            title,
+            style: TextStyle(
+              color: isActive ? Colors.white : ToursTheme.onSurfaceVariant,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              fontSize: 14,
+            ),
+          ),
+          onTap: () {
+            if (title.toLowerCase() == 'tours') {
+              context.go('/admin/tours');
+            } else if (title.toLowerCase() == 'categories') {
+              context.go('/admin/categories');
+            } else if (title.toLowerCase() == 'analytics') {
+              context.go('/admin/analytics');
+            } else if (title.toLowerCase() == 'reviews') {
+              context.go('/admin/reviews');
+            } else if (title.toLowerCase() == 'dashboard') {
+              context.go('/admin');
+            }
+          },
         ),
-        onTap: () {
-          if (title.toLowerCase() == 'tours') {
-            context.go('/admin/tours');
-          }
-        },
       ),
     );
   }

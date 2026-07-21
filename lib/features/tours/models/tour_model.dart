@@ -4,6 +4,7 @@ class TourModel extends Equatable {
   final int? tourId;
   final String? firestoreId;
   final int? categoryId;
+  final String? categoryName;
   final String title;
   final String? description;
   final double price;
@@ -16,6 +17,7 @@ class TourModel extends Equatable {
     this.tourId,
     this.firestoreId,
     this.categoryId,
+    this.categoryName,
     required this.title,
     this.description,
     required this.price,
@@ -43,6 +45,7 @@ class TourModel extends Equatable {
       tourId: parsedTourId,
       firestoreId: map['firestore_id'] as String?,
       categoryId: parsedCategoryId,
+      categoryName: map['category_name'] as String? ?? map['categoryTitle'] as String?,
       title: map['title'] as String,
       description: map['description'] as String?,
       price: (map['price'] as num).toDouble(),
@@ -73,6 +76,7 @@ class TourModel extends Equatable {
     int? tourId,
     String? firestoreId,
     int? categoryId,
+    String? categoryName,
     String? title,
     String? description,
     double? price,
@@ -85,6 +89,7 @@ class TourModel extends Equatable {
       tourId: tourId ?? id ?? this.tourId,
       firestoreId: firestoreId ?? this.firestoreId,
       categoryId: categoryId ?? this.categoryId,
+      categoryName: categoryName ?? this.categoryName,
       title: title ?? this.title,
       description: description ?? this.description,
       price: price ?? this.price,
@@ -100,6 +105,7 @@ class TourModel extends Equatable {
         tourId,
         firestoreId,
         categoryId,
+        categoryName,
         title,
         description,
         price,
@@ -108,9 +114,4 @@ class TourModel extends Equatable {
         createdAt,
         updatedAt,
       ];
-
-  @override
-  String toString() {
-    return 'TourModel(tourId: $tourId, firestoreId: $firestoreId, categoryId: $categoryId, title: $title, price: $price, durationDays: $durationDays, status: $status)';
-  }
 }

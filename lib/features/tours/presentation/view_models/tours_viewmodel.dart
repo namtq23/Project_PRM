@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/database/app_database.dart';
 import '../../data/repositories/tour_repository.dart';
 import '../../models/tour_model.dart';
 import '../../models/tours_state.dart';
@@ -11,18 +12,66 @@ class ToursViewModel extends _$ToursViewModel {
   @override
   ToursState build() {
     Future.microtask(() => loadTours());
-    return const ToursState();
+    return const ToursState(isLoading: true);
   }
 
   Future<void> loadTours() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final tours = await ref.read(tourRepositoryProvider).getAllTours();
+      final db = await ref.read(appDatabaseProvider).database;
+
+      // 1. Build where clause based on status filter and search query
+      String whereClause = "";
+      final List<dynamic> whereArgs = [];
+      
+      final filter = state.selectedFilter.toLowerCase();
+      if (filter != 'all') {
+        whereClause += " AND t.status = ?";
+        whereArgs.add(filter);
+      }
+
+      final queryStr = state.searchQuery.toLowerCase().trim();
+      if (queryStr.isNotEmpty) {
+        whereClause += " AND (LOWER(t.title) LIKE ? OR LOWER(t.description) LIKE ? OR LOWER(t.category_id) LIKE ?)";
+        final likePattern = "%$queryStr%";
+        whereArgs.add(likePattern);
+        whereArgs.add(likePattern);
+        whereArgs.add(likePattern);
+      }
+
+      String sqlWhere = "";
+      if (whereClause.isNotEmpty) {
+        sqlWhere = " WHERE 1=1 $whereClause";
+      }
+
+      // 2. Count total matching tours for pagination
+      final countResult = await db.rawQuery(
+        "SELECT COUNT(*) as count FROM tours t$sqlWhere",
+        whereArgs,
+      );
+      final totalCount = countResult.first['count'] as int? ?? 0;
+
+      // 3. Fetch paginated tours matching the filter
+      final offset = (state.currentPage - 1) * state.itemsPerPage;
+      final query = '''
+        SELECT t.*, c.title as category_name
+        FROM tours t
+        LEFT JOIN categories c ON t.category_id = c.id
+        $sqlWhere
+        ORDER BY t.id DESC
+        LIMIT ? OFFSET ?
+      ''';
+      final List<dynamic> args = [...whereArgs, state.itemsPerPage, offset];
+      final rows = await db.rawQuery(query, args);
+
+      final tours = rows.map((row) => TourModel.fromMap(row)).toList();
+
       state = state.copyWith(
         isLoading: false,
         allTours: tours,
+        filteredTours: tours,
+        totalCount: totalCount,
       );
-      _applyFilter();
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
@@ -32,20 +81,19 @@ class ToursViewModel extends _$ToursViewModel {
   }
 
   void filterTours(String statusFilter) {
-    state = state.copyWith(selectedFilter: statusFilter);
-    _applyFilter();
+    state = state.copyWith(selectedFilter: statusFilter, currentPage: 1);
+    loadTours();
   }
 
-  void _applyFilter() {
-    final filter = state.selectedFilter.toLowerCase();
-    if (filter == 'all') {
-      state = state.copyWith(filteredTours: state.allTours);
-    } else {
-      final filtered = state.allTours.where((tour) {
-        return tour.status.toLowerCase() == filter;
-      }).toList();
-      state = state.copyWith(filteredTours: filtered);
-    }
+  void searchTours(String query) {
+    state = state.copyWith(searchQuery: query, currentPage: 1);
+    loadTours();
+  }
+
+  void changePage(int page) {
+    if (page < 1) return;
+    state = state.copyWith(currentPage: page);
+    loadTours();
   }
 
   int? _mapCategoryToId(String? category) {
