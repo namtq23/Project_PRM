@@ -675,8 +675,13 @@ class TourDetailPolicies extends StatelessWidget {
 
 class TourDetailBottomBar extends StatelessWidget {
   final double price;
+  final VoidCallback onBook;
 
-  const TourDetailBottomBar({super.key, required this.price});
+  const TourDetailBottomBar({
+    super.key,
+    required this.price,
+    required this.onBook,
+  });
 
   String _formatPrice(double val) {
     return val.toInt().toString().replaceAllMapped(
@@ -738,9 +743,7 @@ class TourDetailBottomBar extends StatelessWidget {
             ],
           ),
           FilledButton(
-            onPressed: () {
-              // TODO: Navigate to Booking flow
-            },
+            onPressed: onBook,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF006591),
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),

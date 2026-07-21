@@ -89,7 +89,7 @@ Reviews - Analytics - Settings
 19. Reviews
 
 ### Home
-
+    
 Sections: - Hero Banner - Search - Categories - Featured Tours - Popular
 Destinations - Recommended Tours - Promotions
 
