@@ -7,6 +7,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 import 'database_constants.dart';
+import 'database_seeder.dart';
 
 part 'app_database.g.dart';
 
@@ -76,6 +77,11 @@ class AppDatabase {
             await database.execute('DELETE FROM reviews');
             await database.execute('DELETE FROM tours');
             await database.execute('DELETE FROM categories');
+            for (final statement in DatabaseConstants.allIndexes) {
+              await database.execute(statement);
+            }
+          }
+        },
           }
         },
       ),
