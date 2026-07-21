@@ -42,7 +42,7 @@ class BookingManagementRepository {
     return db.insert(DatabaseConstants.bookingsTable, booking.toMap());
   }
 
-  // Seed some data for testing if empty
+  // Seed data from Stitch design if empty
   Future<void> seedIfEmpty() async {
     final db = await _db.database;
     final countResult = await db.rawQuery(
@@ -50,49 +50,62 @@ class BookingManagementRepository {
     );
     final count = countResult.first['count'] as int;
     if (count == 0) {
-      final now = DateTime.now();
       final bookings = [
         BookingManagementModel(
           id: 0,
           userId: 1,
-          tourId: 1,
-          customerName: 'Nguyễn Văn A',
-          customerEmail: 'vana@example.com',
-          tourTitle: 'Hà Nội - Hạ Long 2 ngày 1 đêm',
-          bookingDate: now.add(const Duration(days: 7)),
-          status: 'pending',
-          totalPrice: 2500000,
+          tourId: 101,
+          customerName: 'Elena Jensen',
+          customerEmail: 'elena.j@corporate.com',
+          tourTitle: 'Icelandic Northern Lights',
+          bookingDate: DateTime(2023, 10, 24),
+          status: 'completed', // Confirmed
+          totalPrice: 4250.00,
           passengers: 2,
-          createdAt: now,
-          updatedAt: now,
+          createdAt: DateTime(2023, 10, 20),
+          updatedAt: DateTime(2023, 10, 24),
         ),
         BookingManagementModel(
           id: 0,
           userId: 2,
-          tourId: 2,
-          customerName: 'Trần Thị B',
-          customerEmail: 'thib@example.com',
-          tourTitle: 'Đà Nẵng - Hội An - Bà Nà Hills',
-          bookingDate: now.add(const Duration(days: 14)),
-          status: 'approved',
-          totalPrice: 4500000,
-          passengers: 3,
-          createdAt: now.subtract(const Duration(days: 1)),
-          updatedAt: now.subtract(const Duration(days: 1)),
+          tourId: 102,
+          customerName: 'Robert Kincaid',
+          customerEmail: 'r.kincaid@globex.com',
+          tourTitle: 'Amalfi Coast Yacht Charter',
+          bookingDate: DateTime(2023, 10, 28),
+          status: 'pending', // Pending
+          totalPrice: 12800.00,
+          passengers: 4,
+          createdAt: DateTime(2023, 10, 22),
+          updatedAt: DateTime(2023, 10, 22),
         ),
         BookingManagementModel(
           id: 0,
           userId: 3,
-          tourId: 3,
-          customerName: 'Lê Văn C',
-          customerEmail: 'vanc@example.com',
-          tourTitle: 'Sapa - Fansipan Legend',
-          bookingDate: now.subtract(const Duration(days: 2)),
-          status: 'completed',
-          totalPrice: 3200000,
+          tourId: 103,
+          customerName: 'Sarah Connor',
+          customerEmail: 's.connor@cyber.net',
+          tourTitle: 'Kyoto Cherry Blossom Tour',
+          bookingDate: DateTime(2023, 11, 2),
+          status: 'canceled', // Cancelled
+          totalPrice: 6100.00,
+          passengers: 2,
+          createdAt: DateTime(2023, 10, 25),
+          updatedAt: DateTime(2023, 10, 26),
+        ),
+        BookingManagementModel(
+          id: 0,
+          userId: 4,
+          tourId: 104,
+          customerName: 'David Miller',
+          customerEmail: 'david.m@techflow.io',
+          tourTitle: 'Swiss Alps Heli-Skiing',
+          bookingDate: DateTime(2023, 11, 15),
+          status: 'approved', // Confirmed
+          totalPrice: 9400.00,
           passengers: 1,
-          createdAt: now.subtract(const Duration(days: 10)),
-          updatedAt: now.subtract(const Duration(days: 2)),
+          createdAt: DateTime(2023, 10, 27),
+          updatedAt: DateTime(2023, 10, 27),
         ),
       ];
 
