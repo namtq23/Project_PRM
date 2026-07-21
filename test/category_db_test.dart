@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:project_prm/core/database/app_database.dart';
-import 'package:project_prm/features/categories/data/data_sources/category_local_data_source.dart';
-import 'package:project_prm/features/categories/models/category_model.dart';
+import 'package:project_prm/features/admin/content_management/manage_categories/data/data_sources/category_local_data_source.dart';
+import 'package:project_prm/features/admin/content_management/manage_categories/models/category_model.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {

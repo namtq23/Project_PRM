@@ -4,11 +4,10 @@ import '../../../app/router/route_names.dart';
 import '../../../app/router/route_paths.dart';
 import '../../../core/widgets/route_placeholder_screen.dart';
 
-import '../../analytics/presentation/views/tour_statistics_screen.dart';
-import '../../categories/presentation/views/category_management_screen.dart';
-import '../../categories/presentation/views/create_category_screen.dart';
-import '../../categories/presentation/views/edit_category_screen.dart';
-import '../../reviews/presentation/views/review_management_screen.dart';
+import '../content_management/manage_categories/routes/manage_categories_routes.dart';
+import '../content_management/manage_tours/routes/manage_tours_routes.dart';
+import '../content_management/view_tour_stats/routes/tour_stats_routes.dart';
+import '../reviews/routes/review_routes.dart';
 
 import '../../booking_management/presentation/views/booking_management_screen.dart';
 import '../../user_management/presentation/views/user_management_screen.dart';
@@ -19,30 +18,10 @@ List<RouteBase> adminRoutes() => [
     name: RouteNames.adminDashboard,
     builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Dashboard'),
   ),
-  GoRoute(
-    path: RoutePaths.adminTours,
-    name: RouteNames.adminTours,
-    builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Tours'),
-  ),
-  GoRoute(
-    path: RoutePaths.adminCategories,
-    name: RouteNames.adminCategories,
-    builder: (_, _) => const CategoryManagementScreen(),
-  ),
-  GoRoute(
-    path: '/admin/categories/create',
-    name: 'adminCategoriesCreate',
-    builder: (_, _) => const CreateCategoryScreen(),
-  ),
-  GoRoute(
-    path: '/admin/categories/edit/:id',
-    name: 'adminCategoriesEdit',
-    builder: (_, state) {
-      final idStr = state.pathParameters['id'];
-      final id = int.tryParse(idStr ?? '');
-      return EditCategoryScreen(categoryId: id);
-    },
-  ),
+  ...manageToursRoutes(),
+  ...manageCategoriesRoutes(),
+  ...tourStatsRoutes(),
+  ...reviewRoutes(),
   GoRoute(
     path: RoutePaths.adminBookings,
     name: RouteNames.adminBookings,
@@ -54,18 +33,8 @@ List<RouteBase> adminRoutes() => [
     builder: (_, _) => const UserManagementScreen(),
   ),
   GoRoute(
-    path: RoutePaths.adminReviews,
-    name: RouteNames.adminReviews,
-    builder: (_, _) => const ReviewManagementScreen(),
-  ),
-  GoRoute(
     path: RoutePaths.adminSettings,
     name: RouteNames.adminSettings,
     builder: (_, _) => const RoutePlaceholderScreen(title: 'Admin Settings'),
-  ),
-  GoRoute(
-    path: RoutePaths.adminAnalytics,
-    name: RouteNames.adminAnalytics,
-    builder: (_, _) => const TourStatisticsScreen(),
   ),
 ];
