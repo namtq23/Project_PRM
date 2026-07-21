@@ -13,20 +13,15 @@ part of 'tour_repository.dart';
 final tourRepositoryProvider = TourRepositoryProvider._();
 
 final class TourRepositoryProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<TourRepository>,
-          TourRepository,
-          FutureOr<TourRepository>
-        >
-    with $FutureModifier<TourRepository>, $FutureProvider<TourRepository> {
+    extends $FunctionalProvider<TourRepository, TourRepository, TourRepository>
+    with $Provider<TourRepository> {
   TourRepositoryProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'tourRepositoryProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -36,14 +31,21 @@ final class TourRepositoryProvider
 
   @$internal
   @override
-  $FutureProviderElement<TourRepository> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
+  $ProviderElement<TourRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
-  FutureOr<TourRepository> create(Ref ref) {
+  TourRepository create(Ref ref) {
     return tourRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TourRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TourRepository>(value),
+    );
   }
 }
 
-String _$tourRepositoryHash() => r'4a0b92c149e4925936cdc4363296551cdc9c2faf';
+String _$tourRepositoryHash() => r'd037ea030fdb7389af48ecad89ae40c3828a82c7';

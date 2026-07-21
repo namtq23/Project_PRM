@@ -1,0 +1,392 @@
+<!DOCTYPE html><html class="light" lang="vi"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Khám phá Đà Nẵng - Hội An</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "on-background": "#171c20",
+                    "danger": "#EF4444",
+                    "on-primary-fixed": "#001e2f",
+                    "secondary": "#006b5f",
+                    "on-tertiary-fixed-variant": "#693c00",
+                    "on-secondary-fixed": "#00201c",
+                    "primary-fixed": "#c9e6ff",
+                    "tertiary-fixed-dim": "#ffb86e",
+                    "surface-tint": "#006591",
+                    "text-main": "#0F172A",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#0ea5e9",
+                    "on-secondary-fixed-variant": "#005048",
+                    "on-surface": "#171c20",
+                    "surface": "#FFFFFF",
+                    "tertiary": "#8a5100",
+                    "accent": "#F59E0B",
+                    "surface-bright": "#f6faff",
+                    "on-tertiary": "#ffffff",
+                    "outline": "#6e7881",
+                    "outline-variant": "#bec8d2",
+                    "on-primary-fixed-variant": "#004c6e",
+                    "text-muted": "#64748B",
+                    "secondary-fixed": "#71f8e4",
+                    "primary-fixed-dim": "#89ceff",
+                    "on-surface-variant": "#3e4850",
+                    "surface-container-low": "#f0f4fa",
+                    "background": "#F8FAFC",
+                    "surface-container-highest": "#dee3e9",
+                    "secondary-fixed-dim": "#4fdbc8",
+                    "on-error": "#ffffff",
+                    "warning": "#F59E0B",
+                    "inverse-primary": "#89ceff",
+                    "on-secondary-container": "#006f64",
+                    "inverse-surface": "#2c3135",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eaeef4",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#dee3e9",
+                    "secondary-container": "#6df5e1",
+                    "inverse-on-surface": "#edf1f7",
+                    "tertiary-fixed": "#ffdcbd",
+                    "on-tertiary-container": "#4d2b00",
+                    "success": "#22C55E",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#003751",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#2c1600",
+                    "tertiary-container": "#de8712",
+                    "surface-container-high": "#e4e8ee",
+                    "surface-dim": "#d6dae0",
+                    "primary": "#006591"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "1rem",
+                    "container-max": "1280px",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2.5rem",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-xl": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .image-gallery-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 40%);
+        }
+
+        .custom-shadow {
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        .sticky-action-bar {
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+            backdrop-filter: blur(8px);
+        }
+
+        .itinerary-line::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: 0;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #bec8d2, #bec8d2 4px, transparent 4px, transparent 8px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  <style type="text/css">#tudienjp * :not(svg,path){all:revert}#tudienjp svg{width:auto!important}#tudienjp{font-size:18px!important;font-family:Arial,ヒラギノ角ゴ Pro W3,Hiragino Kaku Gothic Pro,Osaka,メイリオ,Meiryo,ＭＳ Ｐゴシック,MS PGothic,sans-serif!important;color:#000!important;line-height:1.5!important;text-align:left!important}#tudienjp .o-result-item{line-height:1.5;display:block;margin-right:0;cursor:pointer}#tudienjp .o-result-item:hover{border-color:#c6d6ef!important}#tudienjp .o-selected-result{max-height:300px;overflow-y:scroll}#tudienjp .o-selected-result::-webkit-scrollbar{width:13px}#tudienjp .o-selected-result::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 3px 0 0 3px #fff;background:rgba(0,0,0,.2)}#tudienjp .o-pop-nav div{font-size:14px;padding:3.2px 8px}#tudienjp .o-pop-speak{margin-top:5px;margin-right:8px;font-size:16px;cursor:pointer}#tudienjp .o-search-mobile{z-index:2147483647;position:absolute;cursor:pointer;display:none}#tudienjp .o-popup-tag{z-index:99999;position:absolute;display:none;padding:10px 5px 10px 10px}#tudienjp .o-bg-white{background-color:#fff!important}#tudienjp .o-border{border:1px solid #dee2e6!important}#tudienjp .o-rounded{border-radius:4px!important}#tudienjp .o-shadow{box-shadow:0 8px 16px rgba(0,0,0,.15)!important}#tudienjp .o-btn-close{box-sizing:content-box;width:16px;height:16px;padding:4px 4px;color:#000;background:transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3E%3C/svg%3E") 50%/16px auto no-repeat;border:0;border-radius:4px;opacity:.5;cursor:pointer}#tudienjp .o-btn-close:hover{opacity:.75}#tudienjp .o-me-1{margin-right:4px!important}#tudienjp .o-end-0{right:0!important}#tudienjp .o-top-0{top:0!important}#tudienjp .o-position-absolute{position:absolute!important}#tudienjp ul{padding-left:32px;display:block;list-style-type:disc;-webkit-margin-before:16px;margin-block-start:16px;-webkit-margin-after:16px;margin-block-end:16px;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:0;margin-inline-end:0;-webkit-padding-start:40px;padding-inline-start:40px}#tudienjp .o-pt-1{padding-top:4px!important}#tudienjp .mark,#tudienjp mark{padding:0!important;background:linear-gradient(transparent 60%,#ff6 0)!important}#tudienjp .o-mt-1{margin-top:4px!important}#tudienjp .o-p-2{padding:8px!important}#tudienjp .o-mb-1{margin-bottom:4px!important}#tudienjp .o-border-3{border-width:3px!important}#tudienjp .o-text-secondary{color:#6c757d!important}#tudienjp .o-text-primary{cursor:pointer;color:#0d6efd}#tudienjp .o-text-primary:hover{text-decoration:underline}#tudienjp .o-w-100{width:100%!important}#tudienjp .o-link-danger{color:#dc3545}#tudienjp .o-link-danger:hover{color:#0d6efd}#tudienjp .o-link-ah:hover{color:#dc3545}#tudienjp .o-text-decoration-none{text-decoration:none!important}#tudienjp .o-fs-6,#tudienjp .o-small{font-size:16px!important}#tudienjp .o-ms-1{margin-left:4px!important}#tudienjp .o-mt-2{margin-top:8px!important}#tudienjp .o-float-start{float:left!important}#tudienjp label{display:inline-block}#tudienjp .o-float-end{float:right!important}#tudienjp .o-link-secondary{color:#6c757d!important}#tudienjp .o-result-item .o-inflect{font-size:14px;color:#666;overflow:hidden;text-overflow:ellipsis}#tudienjp .o-nav-tabs{border-bottom:1px solid #dee2e6}#tudienjp .o-nav{display:flex;flex-wrap:wrap;padding-left:0;margin-bottom:0;list-style:none}#tudienjp ul{margin-top:0;margin-bottom:16px}#tudienjp li{display:list-item;text-align:-webkit-match-parent}#tudienjp .o-nav-tabs .o-nav-item.show .o-nav-link,#tudienjp .o-nav-tabs .o-nav-link.o-active{color:#495057;background-color:#fff;border-color:#dee2e6 #dee2e6 #fff}#tudienjp .o-nav-link{display:block;padding:8px 16px;color:#0d6efd;text-decoration:none;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;cursor:pointer}#tudienjp .o-nav-tabs .o-nav-link{margin-bottom:-1px;background:0 0;border:1px solid transparent;border-top-left-radius:4px;border-top-right-radius:4px;line-height:1.5}#tudienjp svg:not(:host).o-svg-inline--fa,#tudienjp svg:not(:root).o-svg-inline--fa{overflow:visible;box-sizing:content-box}#tudienjp .o-svg-inline--fa{display:inline-block;height:16px;overflow:visible;vertical-align:-2px}#tudienjp .o-form-check{font-size:16px;font-weight:400;line-height:1.5;color:#212529;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;box-sizing:border-box;display:block;min-height:1.5rem;padding-left:1.5em;margin-bottom:0}#tudienjp .o-form-check-input{box-sizing:border-box;margin:0;font-family:inherit;font-size:inherit;line-height:inherit;width:1em;height:1em;margin-top:.25em;vertical-align:top;background-color:#fff;background-repeat:no-repeat;background-position:50%;background-size:contain;border:1px solid rgba(0,0,0,.25);-webkit-appearance:none;-moz-appearance:none;appearance:none;-webkit-print-color-adjust:exact;float:left;margin-left:-1.5em;border-radius:.25em}#tudienjp .o-form-check-input:before{content:""}#tudienjp .o-form-check-input:checked[type=checkbox]{background-color:#0d6efd;border-color:#0d6efd;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3 6-6'/%3E%3C/svg%3E")}#tudienjp del{color:#6c757d!important}</style></head>
+<body class="text-on-surface antialiased overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="w-full top-0 sticky bg-surface dark:bg-on-background shadow-sm z-40 flex justify-between items-center px-margin-mobile h-16">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm-mobile md:text-headline-sm text-primary dark:text-primary-fixed">Khám phá</h1>
+<div class="flex gap-2">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">share</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">favorite</span>
+</button>
+</div>
+</header>
+<main class="pb-32">
+<!-- Hero Gallery Carousel -->
+<section class="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden group">
+<div class="flex h-full w-full overflow-x-auto snap-x snap-mandatory hide-scrollbar">
+<div class="flex-shrink-0 w-full h-full snap-start relative">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-resolution shot of the Golden Bridge at Ba Na Hills, Da Nang, featuring the iconic giant stone hands holding the elegant bridge under a soft, golden sunrise. The atmosphere is ethereal with light morning mist and vibrant green mountains in the background. Professional architectural photography style with a premium travel aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCW6q3ToEe75F1OlpWA-ShlPaeMx6eajBD4t7r9m0CUWihr71yMvyPuk0f_qEbdVgnkfND72Dw5Jh1HVVjSjOnrqOEXUSUR9OhIU8jWHsFr7RMPRzhh-CVfZrimuwFvpNprPGb7f_VpQUwBGNjlIY4YOFbI0wsmBzizGZfDYKyAmV9mve-E3eHlj5EMPipaisgP6Z2131MTrhkQgdkIPYPC0nNvFQEGzhlH0CZd20Fx_fLjlOgGIZeL">
+</div>
+<div class="flex-shrink-0 w-full h-full snap-start relative">
+<img class="w-full h-full object-cover" data-alt="A serene evening view of Hoi An ancient town with colorful silk lanterns glowing intensely and reflecting in the Thu Bon river. Traditional wooden architecture lines the waterfront under a deep twilight sky. The lighting is warm and inviting, capturing a romantic and timeless atmosphere in a minimalist, high-end travel magazine style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVZWnCdKtzjVQ3YSddjOJxKekGWdTRceY-jty24w4UfQgZgmqL0zFZym4eawP_qDpJ3HNP1bnAF9cIGxq9EzxEUl4ZnSCY7gtSrsc9gvhWFjg9UDvI2OM7A1U_YpqAi-iAMSaKUrv4mJZB-pHrzO3gHlRyYDPCyRoXp88SbpAMXuBqC32bWefrJV5HBg1fG75kI0e6ZzMJgSeGrBrZfgi2BF9Qkzf0_EPAd0Am1FhB6G-KKfbThUvT">
+</div>
+<div class="flex-shrink-0 w-full h-full snap-start relative">
+<img class="w-full h-full object-cover" data-alt="The majestic Linh Ung Pagoda on Son Tra Peninsula, Da Nang, featuring the towering white Lady Buddha statue overlooking the turquoise East Sea. The scene is bright and airy with high-key lighting, emphasizing the spiritual tranquility and natural beauty of the Vietnamese coastline." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3JIqEdlEHJVf5j2TQc8a7A3zZ2qyolBxOt3_hw_HY2elWrMjVlIwoPRpJxNIjaxj0gRdu1OrVKXK7Fzy3awdxeGfytBpfkAPp5Z9i4RhEKYCZAeuQkQ4llaQ_odAwsLPGrRjTuleWRoDaidSljmcPdD01SA8CJe2oNLi2iqfm6Jk4HJZgHB9wCwIAOzRefLLbzQdTAvLdJYGmWgiPhWKkGFRZr_43QEWLHVm2tijWcHT7gvPzDDdX">
+</div>
+</div>
+<div class="absolute bottom-4 right-4 bg-on-background/60 backdrop-blur-md text-white px-3 py-1.5 rounded-full font-label-md text-label-sm">
+                1/5 Ảnh
+            </div>
+</section>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-8">
+<!-- Header Info -->
+<section class="mb-8">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm">Bán chạy nhất</span>
+<div class="flex items-center gap-1 text-accent">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.9</span>
+<span class="text-on-surface-variant font-body-sm">(120 đánh giá)</span>
+</div>
+</div>
+<h2 class="font-headline-lg text-[28px] md:text-headline-lg leading-tight mb-4 text-text-main">Kỳ quan Bà Nà Hills &amp; Phố Cổ Hội An</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-surface border border-outline-variant/30 rounded-xl custom-shadow">
+<div class="flex flex-col gap-1">
+<span class="text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[20px]">schedule</span> Thời gian
+                        </span>
+<p class="font-label-md text-label-md">3 Ngày 2 Đêm</p>
+</div>
+<div class="flex flex-col gap-1 border-l border-outline-variant/30 pl-4">
+<span class="text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[20px]">group</span> Nhóm tối đa
+                        </span>
+<p class="font-label-md text-label-md">15 người</p>
+</div>
+<div class="flex flex-col gap-1 border-l border-outline-variant/30 pl-4 max-md:hidden">
+<span class="text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[20px]">language</span> Ngôn ngữ
+                        </span>
+<p class="font-label-md text-label-md">Việt, Anh</p>
+</div>
+<div class="flex flex-col gap-1 border-l border-outline-variant/30 pl-4 max-md:hidden">
+<span class="text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[20px]">verified_user</span> Miễn phí hủy
+                        </span>
+<p class="font-label-md text-label-md">Trước 24h</p>
+</div>
+</div>
+</section>
+<!-- Overview -->
+<section class="mb-10">
+<h3 class="font-headline-sm text-headline-sm mb-4">Tổng quan hành trình</h3>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                    Trải nghiệm sự kết hợp hoàn hảo giữa vẻ đẹp hiện đại và nét cổ kính của miền Trung Việt Nam. Từ những công trình kiến trúc kỳ vĩ tại Bà Nà Hills, vẻ đẹp yên bình của Bán đảo Sơn Trà đến không gian hoài cổ, rực rỡ sắc đèn lồng của Phố cổ Hội An. Chuyến đi hứa hẹn mang lại những khoảnh khắc đáng nhớ và những bức ảnh triệu view.
+                </p>
+</section>
+<!-- Itinerary -->
+<section class="mb-10">
+<h3 class="font-headline-sm text-headline-sm mb-6">Lịch trình chi tiết</h3>
+<div class="space-y-4">
+<!-- Day 1 -->
+<div class="relative pl-8 itinerary-line">
+<div class="absolute left-0 top-0 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center z-10">
+<span class="font-label-md text-[10px]">1</span>
+</div>
+<div class="bg-surface p-4 rounded-xl border border-outline-variant/20 custom-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-label-md text-label-md">Ngày 1: Đà Nẵng - Bán Đảo Sơn Trà</h4>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<p class="text-on-surface-variant font-body-sm mb-3">Chào mừng bạn đến với Đà Nẵng. Đoàn khởi hành tham quan Linh Ứng Tự và ngắm hoàng hôn trên biển.</p>
+<div class="flex gap-2 overflow-x-auto hide-scrollbar">
+<div class="min-w-[120px] h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A vibrant street scene in Da Nang city during sunset, showing modern bridges across the Han River with a warm orange glow reflecting off the water. Professional urban landscape photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrJAlaxwv18BKKwWZigX8iRghVKJUaJwA9_onsDM9S18yENVc8OTVw3aAdALEWxaqyEqs7YTWrJLcg_bQsHzGBMZW9D1-qU-0KhsjO82ezGH0fpclzxL5Lr8-mb3wNlPtp32ETY57q5-uLor0M0qIRt_oj4NAAyjV0kfdRzsq1ZwvyIkFwlc-P6sd8JWS98FlST2xWPVgzllXVafPw3WHGJUc7EmjCeDBDsC0m_wvKzx0lAAWcTDAD">
+</div>
+<div class="min-w-[120px] h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close up of a delicious traditional Vietnamese seafood dish served in a modern restaurant setting in Da Nang, with artistic plating and natural morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxYAqpPdQUo-BIi7f9AdPpdXtMb-9hAU-Hr89UBGncFuyuIuHHbjyYyBD2PPq74YNHUIbDXR-VtxWuiowjA4yDAKdLXtGYhh5vvkFRZPEsA1_3QsEcDS1DKcf-SRyzmfwckMB_OAa4BNU6iij4taVIRDRSKyocJLNC0yNWyOz0EnpsHg8wMa8A3sFpey1Van0qJPo6dLcXrDHqf11tjWJIxov15RWVmrNb1iF_HEevd-R48bSb9e96">
+</div>
+</div>
+</div>
+</div>
+<!-- Day 2 -->
+<div class="relative pl-8 itinerary-line">
+<div class="absolute left-0 top-0 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center z-10">
+<span class="font-label-md text-[10px]">2</span>
+</div>
+<div class="bg-surface p-4 rounded-xl border border-outline-variant/20 custom-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-label-md text-label-md">Ngày 2: Bà Nà Hills - Cầu Vàng</h4>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<p class="text-on-surface-variant font-body-sm">Cả ngày khám phá "Chốn bồng lai tiên cảnh" Bà Nà. Trải nghiệm hệ thống cáp treo đạt nhiều kỷ lục thế giới.</p>
+</div>
+</div>
+<!-- Day 3 -->
+<div class="relative pl-8">
+<div class="absolute left-0 top-0 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center z-10">
+<span class="font-label-md text-[10px]">3</span>
+</div>
+<div class="bg-surface p-4 rounded-xl border border-outline-variant/20 custom-shadow">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-label-md text-label-md">Ngày 3: Hội An - Chia tay</h4>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<p class="text-on-surface-variant font-body-sm">Tham quan Chùa Cầu, nhà cổ Tấn Ký và thưởng thức đặc sản Hội An trước khi kết thúc hành trình.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Inclusion / Exclusion -->
+<section class="mb-10 grid md:grid-cols-2 gap-8">
+<div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Bao gồm</h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-success text-[20px]">check_circle</span>
+<span class="font-body-sm text-on-surface-variant">Xe du lịch đời mới đưa đón theo lịch trình</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-success text-[20px]">check_circle</span>
+<span class="font-body-sm text-on-surface-variant">Khách sạn 4 sao (2 người/phòng)</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-success text-[20px]">check_circle</span>
+<span class="font-body-sm text-on-surface-variant">Vé cáp treo Bà Nà Hills &amp; Ăn trưa buffet</span>
+</li>
+</ul>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm mb-4">Không bao gồm</h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-error text-[20px]">cancel</span>
+<span class="font-body-sm text-on-surface-variant">Chi phí cá nhân ngoài chương trình</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-error text-[20px]">cancel</span>
+<span class="font-body-sm text-on-surface-variant">Thuế VAT &amp; Tiền tip cho HDV</span>
+</li>
+</ul>
+</div>
+</section>
+<!-- Map View -->
+<section class="mb-10">
+<h3 class="font-headline-sm text-headline-sm mb-4">Vị trí điểm đến</h3>
+<div class="w-full h-64 rounded-2xl overflow-hidden relative border border-outline-variant/30">
+<div class="bg-cover bg-center w-full h-full grayscale-[0.5] contrast-[0.9]" data-alt="A clean, minimalist stylized map of the central coast of Vietnam, highlighting Da Nang, Ba Na Hills, and Hoi An with elegant location markers and a primary blue accent color. High-end UI design for a travel app map interface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAl-UJMT5XxWQsFMQBk5wA-ywT0RVhwUFjDc3efRB5feT47CKH9Hi8V9NVy2bdhKJMcwhryiv-OjmxdjENCem0PpSzpX6wRbrwO4C9Yx-YULXCtJXRLTV5SlP1_fxF_zypPaviQCtJwsLr9dK1UFZYkeXPsSclcZmRby8MjmsZW2t7XQKfcFD16vZhtSY7rKvwsGNTed6hT6wZdCNvzBwQP3bljiZlY7v7wDXl877Zal4Bi7CqkQQzH')"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-surface/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-white/50 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div>
+<p class="font-label-md text-label-md">TP. Đà Nẵng, Việt Nam</p>
+<p class="text-on-surface-variant font-body-sm">Khu vực Miền Trung</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Policies -->
+<section class="mb-10 p-6 bg-surface-container-low rounded-2xl border border-outline-variant/20">
+<h3 class="font-headline-sm text-headline-sm mb-4">Chính sách &amp; Quy định</h3>
+<div class="space-y-4">
+<details class="group">
+<summary class="flex justify-between items-center cursor-pointer list-none font-label-md text-label-md">
+                            Quy định hủy tour
+                            <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<p class="mt-2 text-on-surface-variant font-body-sm">
+                            Hoàn trả 100% nếu hủy trước 7 ngày. Hủy từ 3-6 ngày trước khởi hành phí 50%. Hủy trong vòng 48h không được hoàn trả.
+                        </p>
+</details>
+<div class="h-px bg-outline-variant/30"></div>
+<details class="group">
+<summary class="flex justify-between items-center cursor-pointer list-none font-label-md text-label-md">
+                            Lưu ý cho khách hàng
+                            <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<p class="mt-2 text-on-surface-variant font-body-sm">
+                            Vui lòng mang theo CMND/Hộ chiếu bản gốc. Trang phục phù hợp khi tham quan các điểm tâm linh.
+                        </p>
+</details>
+</div>
+</section>
+</div>
+</main>
+<!-- Sticky Bottom CTA -->
+<div class="fixed bottom-0 left-0 w-full z-50 bg-surface/80 sticky-action-bar border-t border-outline-variant/10 px-margin-mobile py-4 pb-safe-offset-4 flex items-center justify-between gap-4">
+<div class="flex flex-col">
+<span class="text-on-surface-variant font-label-sm text-label-sm">Chỉ từ</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-primary text-[22px]">3,500,000đ</span>
+<span class="text-on-surface-variant font-body-sm">/người</span>
+</div>
+</div>
+<button class="bg-primary text-white px-8 py-3.5 rounded-xl font-label-md text-label-md shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform flex-1 md:flex-none md:min-w-[200px]">
+            Đặt ngay
+        </button>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Simple scroll observer for gallery counter or header effect
+        const gallery = document.querySelector('.snap-x');
+        const counter = document.querySelector('.bottom-4.right-4');
+        
+        gallery.addEventListener('scroll', () => {
+            const index = Math.round(gallery.scrollLeft / gallery.clientWidth) + 1;
+            counter.innerText = `${index}/5 Ảnh`;
+        });
+
+        // Add visual feedback for buttons
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('touchstart', function() {
+                this.classList.add('opacity-80');
+            });
+            btn.addEventListener('touchend', function() {
+                this.classList.remove('opacity-80');
+            });
+        });
+    </script>
+</body></html>

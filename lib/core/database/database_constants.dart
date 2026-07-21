@@ -1,6 +1,6 @@
 abstract final class DatabaseConstants {
   static const databaseName = 'tour_booking.db';
-  static const databaseVersion = 1;
+  static const databaseVersion = 6;
 
   // Table Names
   static const usersTable = 'users';
@@ -11,7 +11,7 @@ abstract final class DatabaseConstants {
 
   // Create Table SQLs
   static const createUsersTable = '''
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firebase_uid TEXT UNIQUE,
   email TEXT NOT NULL UNIQUE,
@@ -20,7 +20,7 @@ CREATE TABLE users (
   phone TEXT,
   avatar_url TEXT,
   auth_provider TEXT NOT NULL DEFAULT 'local',
-  role TEXT NOT NULL DEFAULT 'user',
+  role TEXT NOT NULL DEFAULT 'customer',
   status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
@@ -28,18 +28,22 @@ CREATE TABLE users (
 ''';
 
   static const createCategoriesTable = '''
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   title TEXT NOT NULL,
+  short_name TEXT,
   description TEXT,
+  icon TEXT,
+  image_url TEXT,
+  status TEXT NOT NULL DEFAULT 'active',
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 )
 ''';
 
   static const createToursTable = '''
-CREATE TABLE tours (
+CREATE TABLE IF NOT EXISTS tours (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   category_id INTEGER,
@@ -48,14 +52,8 @@ CREATE TABLE tours (
   price REAL NOT NULL,
   duration_days INTEGER NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
-  max_group_size INTEGER DEFAULT 15,
-  languages TEXT DEFAULT 'Việt, Anh',
-  cancellation_policy TEXT DEFAULT 'Trước 24h',
-  location_name TEXT DEFAULT 'Việt Nam',
-  images TEXT,
-  inclusions TEXT,
-  exclusions TEXT,
-  itinerary TEXT,
+
+
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
   FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE SET NULL
@@ -63,34 +61,39 @@ CREATE TABLE tours (
 ''';
 
   static const createBookingsTable = '''
-CREATE TABLE bookings (
+CREATE TABLE IF NOT EXISTS bookings (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   user_id INTEGER NOT NULL,
   tour_id INTEGER NOT NULL,
+  customer_name TEXT NOT NULL DEFAULT '',
+  customer_email TEXT NOT NULL DEFAULT '',
+  tour_title TEXT NOT NULL DEFAULT '',
   booking_date TEXT NOT NULL,
-  total_cost REAL NOT NULL,
-  payment_method TEXT NOT NULL,
+  total_cost REAL NOT NULL DEFAULT 0.0,
+  total_price REAL NOT NULL DEFAULT 0.0,
+  payment_method TEXT NOT NULL DEFAULT 'Credit Card',
   status TEXT NOT NULL DEFAULT 'pending',
+  passengers INTEGER NOT NULL DEFAULT 1,
   passenger_quantity INTEGER NOT NULL DEFAULT 1,
   special_notes TEXT,
   promo_code TEXT,
   confirmation_code TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-  FOREIGN KEY (tour_id) REFERENCES tours (id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 )
 ''';
 
   static const createReviewsTable = '''
-CREATE TABLE reviews (
+CREATE TABLE IF NOT EXISTS reviews (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firestore_id TEXT UNIQUE,
   user_id INTEGER NOT NULL,
   tour_id INTEGER NOT NULL,
   rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
   comment TEXT,
+  status TEXT NOT NULL DEFAULT 'pending',
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
@@ -104,5 +107,33 @@ CREATE TABLE reviews (
     createToursTable,
     createBookingsTable,
     createReviewsTable,
+  ];
+
+  static const createBookingsUserIndex = '''
+CREATE INDEX IF NOT EXISTS idx_bookings_user_created
+ON bookings (user_id, created_at DESC)
+''';
+
+  static const createBookingsTourDateIndex = '''
+CREATE INDEX IF NOT EXISTS idx_bookings_tour_date
+ON bookings (tour_id, booking_date)
+''';
+
+  static const createConfirmationCodeIndex = '''
+CREATE UNIQUE INDEX IF NOT EXISTS idx_bookings_confirmation_code
+ON bookings (confirmation_code)
+WHERE confirmation_code IS NOT NULL
+''';
+
+  static const createReviewsUserTourIndex = '''
+CREATE INDEX IF NOT EXISTS idx_reviews_user_tour
+ON reviews (user_id, tour_id)
+''';
+
+  static const List<String> allIndexes = [
+    createBookingsUserIndex,
+    createBookingsTourDateIndex,
+    createConfirmationCodeIndex,
+    createReviewsUserTourIndex,
   ];
 }

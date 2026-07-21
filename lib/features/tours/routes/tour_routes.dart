@@ -4,6 +4,7 @@ import '../../../app/router/route_names.dart';
 import '../../../app/router/route_paths.dart';
 import '../../../core/widgets/route_placeholder_screen.dart';
 import '../presentation/views/home_screen.dart';
+import '../presentation/views/tour_management_screen.dart';
 import '../presentation/views/search_results_screen.dart';
 import '../presentation/views/search_screen.dart';
 import '../presentation/views/tour_detail_screen.dart';
@@ -35,5 +36,10 @@ List<RouteBase> tourRoutes() => [
     name: RouteNames.tourDetail,
     builder: (_, state) =>
         TourDetailScreen(tourId: int.parse(state.pathParameters['tourId']!)),
+  ),
+  GoRoute(
+    path: '/admin/tours',
+    name: 'tourManagement',
+    builder: (_, _) => const TourManagementScreen(),
   ),
 ];
