@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as path;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -105,6 +107,8 @@ class AppDatabase {
 
   Future<void> _seedAdmin(Database database) async {
     final nowString = DateTime.now().toUtc().toIso8601String();
+
+    // Seed hoanganh2k52@gmail.com (password: 123456)
     await database.execute('''
       INSERT OR IGNORE INTO users (
         email, password_hash, full_name, role, status, auth_provider, created_at, updated_at
@@ -119,8 +123,33 @@ class AppDatabase {
         '$nowString'
       )
     ''');
+
+    // Seed elena.vance@voyage.com (password: admin123)
     await database.execute('''
-      UPDATE users SET role = 'admin' WHERE email = 'hoanganh2k52@gmail.com'
+      INSERT OR IGNORE INTO users (
+        email, password_hash, full_name, role, status, auth_provider, created_at, updated_at
+      ) VALUES (
+        'elena.vance@voyage.com',
+        '${sha256.convert(utf8.encode('admin123')).toString()}',
+        'Elena Vance',
+        'admin',
+        'active',
+        'local',
+        '$nowString',
+        '$nowString'
+      )
+    ''');
+
+    // Ensure role is admin for both
+    await database.execute('''
+      UPDATE users SET role = 'admin' WHERE email IN ('hoanganh2k52@gmail.com', 'elena.vance@voyage.com')
+    ''');
+
+    // Ensure passwords are correct if they exist but were blank/empty
+    await database.execute('''
+      UPDATE users SET 
+        password_hash = '${sha256.convert(utf8.encode('admin123')).toString()}' 
+      WHERE email = 'elena.vance@voyage.com' AND (password_hash IS NULL OR password_hash = '')
     ''');
   }
 
