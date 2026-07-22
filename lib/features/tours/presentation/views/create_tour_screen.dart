@@ -53,17 +53,22 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
 
     final title = _titleCtrl.text;
     final desc = _descCtrl.text;
-    
+
     // Remove non-digit characters for formatted numeric inputs (e.g. 1.050.000.000 VNĐ)
     final priceCleaned = _priceCtrl.text.replaceAll(RegExp(r'[^0-9.]'), '');
     final price = double.tryParse(priceCleaned) ?? 0.0;
-    
-    final durationCleaned = _durationCtrl.text.replaceAll(RegExp(r'[^0-9]'), '');
+
+    final durationCleaned = _durationCtrl.text.replaceAll(
+      RegExp(r'[^0-9]'),
+      '',
+    );
     final duration = int.tryParse(durationCleaned) ?? 0;
-    
+
     final imageUrl = _imageCtrl.text.trim();
 
-    final success = await ref.read(toursViewModelProvider.notifier).addTour(
+    final success = await ref
+        .read(toursViewModelProvider.notifier)
+        .addTour(
           title: title,
           description: desc,
           price: price,
@@ -108,10 +113,10 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
         border: Border.all(color: ToursTheme.outlineVariant, width: 0.8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -150,10 +155,15 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
               labelText: 'Tên tour',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.title, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.title,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             style: const TextStyle(color: Colors.white),
-            validator: (val) => val == null || val.isEmpty ? 'Vui lòng nhập tên tour' : null,
+            validator: (val) =>
+                val == null || val.isEmpty ? 'Vui lòng nhập tên tour' : null,
           ),
           const SizedBox(height: 16),
           TextFormField(
@@ -166,7 +176,8 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
             ),
             style: const TextStyle(color: Colors.white),
             maxLines: 4,
-            validator: (val) => val == null || val.isEmpty ? 'Vui lòng nhập mô tả' : null,
+            validator: (val) =>
+                val == null || val.isEmpty ? 'Vui lòng nhập mô tả' : null,
           ),
         ],
       ),
@@ -185,7 +196,11 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
               labelText: 'Thời lượng (Ngày)',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.today, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.today,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             keyboardType: TextInputType.number,
             style: const TextStyle(color: Colors.white),
@@ -197,20 +212,30 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
-            value: _category,
+            initialValue: _category,
             decoration: const InputDecoration(
               labelText: 'Danh mục du lịch',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.category, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.category,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             dropdownColor: ToursTheme.surfaceContainerHigh,
             style: const TextStyle(color: Colors.white),
             items: const [
               DropdownMenuItem(value: '1', child: Text('Thám Hiểm Sang Trọng')),
               DropdownMenuItem(value: '2', child: Text('Thành Thị Thượng Lưu')),
-              DropdownMenuItem(value: 'Bắc Âu Xa Hoa', child: Text('Bắc Âu Xa Hoa')),
-              DropdownMenuItem(value: 'Hải Trình Thượng Lưu', child: Text('Hải Trình Thượng Lưu')),
+              DropdownMenuItem(
+                value: 'Bắc Âu Xa Hoa',
+                child: Text('Bắc Âu Xa Hoa'),
+              ),
+              DropdownMenuItem(
+                value: 'Hải Trình Thượng Lưu',
+                child: Text('Hải Trình Thượng Lưu'),
+              ),
             ],
             onChanged: (val) {
               if (val != null) setState(() => _category = val);
@@ -233,32 +258,48 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
               labelText: 'Giá (VNĐ)',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.money, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.money,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             keyboardType: TextInputType.number,
             style: const TextStyle(color: Colors.white),
             validator: (val) {
               if (val == null || val.isEmpty) return 'Vui lòng nhập giá';
               final priceCleaned = val.replaceAll(RegExp(r'[^0-9.]'), '');
-              if (double.tryParse(priceCleaned) == null) return 'Giá trị phải là số';
+              if (double.tryParse(priceCleaned) == null) {
+                return 'Giá trị phải là số';
+              }
               return null;
             },
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
-            value: _status,
+            initialValue: _status,
             decoration: const InputDecoration(
               labelText: 'Trạng thái phát hành',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.visibility, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.visibility,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             dropdownColor: ToursTheme.surfaceContainerHigh,
             style: const TextStyle(color: Colors.white),
             items: const [
-              DropdownMenuItem(value: 'active', child: Text('Hoạt động (Active)')),
+              DropdownMenuItem(
+                value: 'active',
+                child: Text('Hoạt động (Active)'),
+              ),
               DropdownMenuItem(value: 'draft', child: Text('Nháp (Draft)')),
-              DropdownMenuItem(value: 'inactive', child: Text('Không hoạt động (Inactive)')),
+              DropdownMenuItem(
+                value: 'inactive',
+                child: Text('Không hoạt động (Inactive)'),
+              ),
             ],
             onChanged: (val) {
               if (val != null) setState(() => _status = val);
@@ -285,7 +326,11 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               hintText: 'https://...',
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.link, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.link,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             style: const TextStyle(color: Colors.white),
           ),
@@ -299,7 +344,9 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
               color: ToursTheme.surface,
               borderRadius: BorderRadius.circular(ToursTheme.radiusDefault),
               border: Border.all(
-                color: hasImage ? Colors.transparent : ToursTheme.outlineVariant,
+                color: hasImage
+                    ? Colors.transparent
+                    : ToursTheme.outlineVariant,
                 width: 1,
                 style: hasImage ? BorderStyle.none : BorderStyle.solid,
               ),
@@ -313,11 +360,18 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.broken_image, size: 40, color: ToursTheme.danger),
+                          Icon(
+                            Icons.broken_image,
+                            size: 40,
+                            color: ToursTheme.danger,
+                          ),
                           SizedBox(height: 8),
                           Text(
                             'Không thể tải ảnh, vui lòng kiểm tra lại URL',
-                            style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12),
+                            style: TextStyle(
+                              color: ToursTheme.onSurfaceVariant,
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
@@ -327,11 +381,18 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add_photo_alternate_outlined, size: 36, color: ToursTheme.outline),
+                        Icon(
+                          Icons.add_photo_alternate_outlined,
+                          size: 36,
+                          color: ToursTheme.outline,
+                        ),
                         SizedBox(height: 8),
                         Text(
                           'Xem trước hình ảnh hiển thị ở đây',
-                          style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12),
+                          style: TextStyle(
+                            color: ToursTheme.onSurfaceVariant,
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),
@@ -374,14 +435,23 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
                     const SizedBox(width: 8),
                     Text(
                       'Quản lý Tour',
-                      style: ToursTheme.textBodySm.copyWith(color: ToursTheme.onSurfaceVariant),
+                      style: ToursTheme.textBodySm.copyWith(
+                        color: ToursTheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(Icons.chevron_right, size: 16, color: ToursTheme.onSurfaceVariant),
+                    const Icon(
+                      Icons.chevron_right,
+                      size: 16,
+                      color: ToursTheme.onSurfaceVariant,
+                    ),
                     const SizedBox(width: 8),
                     const Text(
                       'Thêm Tour Mới',
-                      style: TextStyle(color: ToursTheme.primary, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: ToursTheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -437,7 +507,9 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
                       foregroundColor: Colors.black,
                       elevation: 4,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                        borderRadius: BorderRadius.circular(
+                          ToursTheme.radiusLg,
+                        ),
                       ),
                     ),
                     onPressed: _isSaving ? null : _submit,
@@ -450,7 +522,10 @@ class _CreateTourScreenState extends ConsumerState<CreateTourScreen> {
                               SizedBox(width: 8),
                               Text(
                                 'Phát hành Tour',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),

@@ -6,6 +6,7 @@ part of 'review_local_data_source.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(reviewLocalDataSource)
@@ -54,4 +55,4 @@ final class ReviewLocalDataSourceProvider
 }
 
 String _$reviewLocalDataSourceHash() =>
-    r'0a98b172a6b2c8928371984a8c9192bc09187ab3';
+    r'9858ae2d8f85bfffbcd85a0fc4fa7cdb4be8d181';

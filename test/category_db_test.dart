@@ -11,7 +11,10 @@ void main() {
   });
 
   test('Verify Category CRUD operations in SQLite', () async {
-    final appDb = AppDatabase(databasePath: inMemoryDatabasePath, seedDemoData: false);
+    final appDb = AppDatabase(
+      databasePath: inMemoryDatabasePath,
+      seedDemoData: false,
+    );
     final dataSource = CategoryLocalDataSource(appDb);
 
     // 1. Fetch initially (should be empty because seedDemoData is false)
@@ -61,7 +64,5 @@ void main() {
     // Verify deletion
     final finalCategories = await dataSource.fetchAllCategories();
     expect(finalCategories.length, equals(0));
-
-    await appDb.close();
   });
 }

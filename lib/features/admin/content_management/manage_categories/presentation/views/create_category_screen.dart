@@ -10,7 +10,8 @@ class CreateCategoryScreen extends ConsumerStatefulWidget {
   const CreateCategoryScreen({super.key});
 
   @override
-  ConsumerState<CreateCategoryScreen> createState() => _CreateCategoryScreenState();
+  ConsumerState<CreateCategoryScreen> createState() =>
+      _CreateCategoryScreenState();
 }
 
 class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
@@ -55,7 +56,9 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
     final desc = _descCtrl.text;
     final imageUrl = _imageCtrl.text.trim();
 
-    final success = await ref.read(categoriesViewModelProvider.notifier).addCategory(
+    final success = await ref
+        .read(categoriesViewModelProvider.notifier)
+        .addCategory(
           title: title,
           shortName: shortName.isNotEmpty ? shortName : null,
           description: desc.isNotEmpty ? desc : null,
@@ -99,10 +102,10 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
         border: Border.all(color: ToursTheme.outlineVariant, width: 0.8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -141,10 +144,16 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
               labelText: 'Tên danh mục *',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.title, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.title,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             style: const TextStyle(color: Colors.white),
-            validator: (val) => val == null || val.isEmpty ? 'Vui lòng nhập tên danh mục' : null,
+            validator: (val) => val == null || val.isEmpty
+                ? 'Vui lòng nhập tên danh mục'
+                : null,
           ),
           const SizedBox(height: 16),
           TextFormField(
@@ -153,7 +162,11 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
               labelText: 'Tên hiển thị ngắn',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.short_text, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.short_text,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             style: const TextStyle(color: Colors.white),
           ),
@@ -185,22 +198,104 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
         children: [
           // Select Icon
           DropdownButtonFormField<String>(
-            value: _icon,
+            initialValue: _icon,
             decoration: const InputDecoration(
               labelText: 'Chọn Icon đại diện',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.palette_outlined, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.palette_outlined,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             dropdownColor: ToursTheme.surfaceContainerHigh,
             style: const TextStyle(color: Colors.white),
             items: const [
-              DropdownMenuItem(value: 'explore', child: Row(children: [Icon(Icons.explore_outlined, color: ToursTheme.primary, size: 20), SizedBox(width: 8), Text('La bàn (Explore)')])),
-              DropdownMenuItem(value: 'location_city', child: Row(children: [Icon(Icons.location_city_outlined, color: ToursTheme.primary, size: 20), SizedBox(width: 8), Text('Thành phố (City)')])),
-              DropdownMenuItem(value: 'beach', child: Row(children: [Icon(Icons.beach_access_outlined, color: ToursTheme.primary, size: 20), SizedBox(width: 8), Text('Bãi biển (Beach)')])),
-              DropdownMenuItem(value: 'directions_boat', child: Row(children: [Icon(Icons.directions_boat_outlined, color: ToursTheme.primary, size: 20), SizedBox(width: 8), Text('Du thuyền (Boat)')])),
-              DropdownMenuItem(value: 'landscape', child: Row(children: [Icon(Icons.landscape_outlined, color: ToursTheme.primary, size: 20), SizedBox(width: 8), Text('Núi non (Mountain)')])),
-              DropdownMenuItem(value: 'forest', child: Row(children: [Icon(Icons.park_outlined, color: ToursTheme.primary, size: 20), SizedBox(width: 8), Text('Rừng cây (Forest)')])),
+              DropdownMenuItem(
+                value: 'explore',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.explore_outlined,
+                      color: ToursTheme.primary,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text('La bàn (Explore)'),
+                  ],
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'location_city',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.location_city_outlined,
+                      color: ToursTheme.primary,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text('Thành phố (City)'),
+                  ],
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'beach',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.beach_access_outlined,
+                      color: ToursTheme.primary,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text('Bãi biển (Beach)'),
+                  ],
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'directions_boat',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.directions_boat_outlined,
+                      color: ToursTheme.primary,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text('Du thuyền (Boat)'),
+                  ],
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'landscape',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.landscape_outlined,
+                      color: ToursTheme.primary,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text('Núi non (Mountain)'),
+                  ],
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'forest',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.park_outlined,
+                      color: ToursTheme.primary,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text('Rừng cây (Forest)'),
+                  ],
+                ),
+              ),
             ],
             onChanged: (val) {
               if (val != null) setState(() => _icon = val);
@@ -216,7 +311,11 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               hintText: 'https://...',
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.link, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.link,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             style: const TextStyle(color: Colors.white),
           ),
@@ -231,7 +330,9 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
               color: ToursTheme.surface,
               borderRadius: BorderRadius.circular(ToursTheme.radiusDefault),
               border: Border.all(
-                color: hasImage ? Colors.transparent : ToursTheme.outlineVariant,
+                color: hasImage
+                    ? Colors.transparent
+                    : ToursTheme.outlineVariant,
                 width: 1,
                 style: hasImage ? BorderStyle.none : BorderStyle.solid,
               ),
@@ -245,11 +346,18 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.broken_image, size: 30, color: ToursTheme.danger),
+                          Icon(
+                            Icons.broken_image,
+                            size: 30,
+                            color: ToursTheme.danger,
+                          ),
                           SizedBox(height: 4),
                           Text(
                             'Không thể tải ảnh',
-                            style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11),
+                            style: TextStyle(
+                              color: ToursTheme.onSurfaceVariant,
+                              fontSize: 11,
+                            ),
                           ),
                         ],
                       ),
@@ -259,11 +367,18 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add_photo_alternate_outlined, size: 30, color: ToursTheme.outline),
+                        Icon(
+                          Icons.add_photo_alternate_outlined,
+                          size: 30,
+                          color: ToursTheme.outline,
+                        ),
                         SizedBox(height: 4),
                         Text(
                           'Xem trước hình ảnh hiển thị ở đây',
-                          style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11),
+                          style: TextStyle(
+                            color: ToursTheme.onSurfaceVariant,
+                            fontSize: 11,
+                          ),
                         ),
                       ],
                     ),
@@ -273,18 +388,28 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
 
           // Publication Status
           DropdownButtonFormField<String>(
-            value: _status,
+            initialValue: _status,
             decoration: const InputDecoration(
               labelText: 'Trạng thái hoạt động',
               labelStyle: TextStyle(color: ToursTheme.onSurfaceVariant),
               border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.visibility, size: 20, color: ToursTheme.onSurfaceVariant),
+              prefixIcon: Icon(
+                Icons.visibility,
+                size: 20,
+                color: ToursTheme.onSurfaceVariant,
+              ),
             ),
             dropdownColor: ToursTheme.surfaceContainerHigh,
             style: const TextStyle(color: Colors.white),
             items: const [
-              DropdownMenuItem(value: 'active', child: Text('Hoạt động (Active)')),
-              DropdownMenuItem(value: 'inactive', child: Text('Ngưng hoạt động (Inactive)')),
+              DropdownMenuItem(
+                value: 'active',
+                child: Text('Hoạt động (Active)'),
+              ),
+              DropdownMenuItem(
+                value: 'inactive',
+                child: Text('Ngưng hoạt động (Inactive)'),
+              ),
             ],
             onChanged: (val) {
               if (val != null) setState(() => _status = val);
@@ -327,14 +452,23 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
                     const SizedBox(width: 8),
                     Text(
                       'Quản lý Danh mục',
-                      style: ToursTheme.textBodySm.copyWith(color: ToursTheme.onSurfaceVariant),
+                      style: ToursTheme.textBodySm.copyWith(
+                        color: ToursTheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(Icons.chevron_right, size: 16, color: ToursTheme.onSurfaceVariant),
+                    const Icon(
+                      Icons.chevron_right,
+                      size: 16,
+                      color: ToursTheme.onSurfaceVariant,
+                    ),
                     const SizedBox(width: 8),
                     const Text(
                       'Thêm Danh Mục Mới',
-                      style: TextStyle(color: ToursTheme.primary, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: ToursTheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -346,16 +480,10 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Left Column: Basic Info
-                      Expanded(
-                        flex: 3,
-                        child: _buildBasicInfoCard(),
-                      ),
+                      Expanded(flex: 3, child: _buildBasicInfoCard()),
                       const SizedBox(width: 20),
                       // Right Column: Configs
-                      Expanded(
-                        flex: 2,
-                        child: _buildConfigCard(),
-                      ),
+                      Expanded(flex: 2, child: _buildConfigCard()),
                     ],
                   )
                 else
@@ -378,7 +506,9 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
                       foregroundColor: Colors.black,
                       elevation: 4,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                        borderRadius: BorderRadius.circular(
+                          ToursTheme.radiusLg,
+                        ),
                       ),
                     ),
                     onPressed: _isSaving ? null : _submit,
@@ -391,7 +521,10 @@ class _CreateCategoryScreenState extends ConsumerState<CreateCategoryScreen> {
                               SizedBox(width: 8),
                               Text(
                                 'Tạo Danh Mục',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),

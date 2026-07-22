@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS tours (
   price REAL NOT NULL,
   duration_days INTEGER NOT NULL,
   status TEXT NOT NULL DEFAULT 'active',
+
+
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
   FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE SET NULL

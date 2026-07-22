@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../tours/presentation/theme/tours_theme.dart';
@@ -12,10 +11,12 @@ class ReviewManagementScreen extends ConsumerStatefulWidget {
   const ReviewManagementScreen({super.key});
 
   @override
-  ConsumerState<ReviewManagementScreen> createState() => _ReviewManagementScreenState();
+  ConsumerState<ReviewManagementScreen> createState() =>
+      _ReviewManagementScreenState();
 }
 
-class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen> {
+class _ReviewManagementScreenState
+    extends ConsumerState<ReviewManagementScreen> {
   String _selectedRating = 'All Ratings';
   String _selectedTour = 'All Tours';
 
@@ -33,7 +34,9 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: ToursTheme.surfaceContainerHigh,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ToursTheme.radiusXl)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ToursTheme.radiusXl),
+        ),
         title: const Text(
           'Xác nhận từ chối / xóa',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -45,12 +48,17 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Hủy', style: TextStyle(color: ToursTheme.onSurfaceVariant)),
+            child: const Text(
+              'Hủy',
+              style: TextStyle(color: ToursTheme.onSurfaceVariant),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: ToursTheme.danger,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ToursTheme.radiusLg)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+              ),
             ),
             onPressed: () async {
               Navigator.of(context).pop();
@@ -60,15 +68,24 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(success ? 'Đã từ chối và xóa đánh giá thành công!' : 'Có lỗi xảy ra khi xóa đánh giá!'),
-                    backgroundColor: success ? ToursTheme.success : ToursTheme.danger,
+                    content: Text(
+                      success
+                          ? 'Đã từ chối và xóa đánh giá thành công!'
+                          : 'Có lỗi xảy ra khi xóa đánh giá!',
+                    ),
+                    backgroundColor: success
+                        ? ToursTheme.success
+                        : ToursTheme.danger,
                   ),
                 );
               }
             },
             child: const Text(
               'Từ chối / Xóa',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -85,15 +102,18 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
-        color: ToursTheme.surfaceContainerLow.withOpacity(0.6),
+        color: ToursTheme.surfaceContainerLow.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-        border: Border.all(color: ToursTheme.outlineVariant.withOpacity(0.5), width: 0.8),
+        border: Border.all(
+          color: ToursTheme.outlineVariant.withValues(alpha: 0.5),
+          width: 0.8,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Row(
@@ -102,7 +122,7 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 20),
@@ -212,13 +232,22 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: ToursTheme.surfaceContainerLow.withOpacity(0.6),
+                    color: ToursTheme.surfaceContainerLow.withValues(
+                      alpha: 0.6,
+                    ),
                     borderRadius: BorderRadius.circular(ToursTheme.radiusXl),
-                    border: Border.all(color: ToursTheme.outlineVariant.withOpacity(0.5), width: 1),
+                    border: Border.all(
+                      color: ToursTheme.outlineVariant.withValues(alpha: 0.5),
+                      width: 1,
+                    ),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.filter_list, color: ToursTheme.onSurfaceVariant, size: 20),
+                      const Icon(
+                        Icons.filter_list,
+                        color: ToursTheme.onSurfaceVariant,
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       const Text(
                         'BỘ LỌC:',
@@ -235,19 +264,39 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
                           color: ToursTheme.surfaceContainerHighest,
-                          borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                          borderRadius: BorderRadius.circular(
+                            ToursTheme.radiusLg,
+                          ),
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             value: _selectedRating,
                             dropdownColor: ToursTheme.surfaceContainerHighest,
-                            style: const TextStyle(color: Colors.white, fontSize: 13),
-                            icon: const Icon(Icons.keyboard_arrow_down, color: ToursTheme.onSurfaceVariant),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                            ),
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: ToursTheme.onSurfaceVariant,
+                            ),
                             items: const [
-                              DropdownMenuItem(value: 'All Ratings', child: Text('Tất cả sao')),
-                              DropdownMenuItem(value: '5 Stars', child: Text('5 Sao')),
-                              DropdownMenuItem(value: '4 Stars', child: Text('4 Sao')),
-                              DropdownMenuItem(value: '3 Stars & Below', child: Text('3 Sao trở xuống')),
+                              DropdownMenuItem(
+                                value: 'All Ratings',
+                                child: Text('Tất cả sao'),
+                              ),
+                              DropdownMenuItem(
+                                value: '5 Stars',
+                                child: Text('5 Sao'),
+                              ),
+                              DropdownMenuItem(
+                                value: '4 Stars',
+                                child: Text('4 Sao'),
+                              ),
+                              DropdownMenuItem(
+                                value: '3 Stars & Below',
+                                child: Text('3 Sao trở xuống'),
+                              ),
                             ],
                             onChanged: (val) {
                               if (val != null) {
@@ -265,18 +314,32 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
                           color: ToursTheme.surfaceContainerHighest,
-                          borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+                          borderRadius: BorderRadius.circular(
+                            ToursTheme.radiusLg,
+                          ),
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             value: _selectedTour,
                             dropdownColor: ToursTheme.surfaceContainerHighest,
-                            style: const TextStyle(color: Colors.white, fontSize: 13),
-                            icon: const Icon(Icons.keyboard_arrow_down, color: ToursTheme.onSurfaceVariant),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                            ),
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: ToursTheme.onSurfaceVariant,
+                            ),
                             items: [
-                              const DropdownMenuItem(value: 'All Tours', child: Text('Tất cả Tours')),
+                              const DropdownMenuItem(
+                                value: 'All Tours',
+                                child: Text('Tất cả Tours'),
+                              ),
                               ...state.tourTitles.map(
-                                (title) => DropdownMenuItem(value: title, child: Text(title)),
+                                (title) => DropdownMenuItem(
+                                  value: title,
+                                  child: Text(title),
+                                ),
                               ),
                             ],
                             onChanged: (val) {
@@ -297,11 +360,17 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                             _selectedRating = 'All Ratings';
                             _selectedTour = 'All Tours';
                           });
-                          ref.read(reviewsViewModelProvider.notifier).clearFilters();
+                          ref
+                              .read(reviewsViewModelProvider.notifier)
+                              .clearFilters();
                         },
                         child: const Text(
                           'Xóa Bộ Lọc',
-                          style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: ToursTheme.onSurfaceVariant,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -309,18 +378,30 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ToursTheme.primary,
                           foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ToursTheme.radiusLg)),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              ToursTheme.radiusLg,
+                            ),
+                          ),
                         ),
                         onPressed: () {
-                          ref.read(reviewsViewModelProvider.notifier).applyFilters(
-                            ratingFilter: _selectedRating,
-                            tourFilter: _selectedTour,
-                          );
+                          ref
+                              .read(reviewsViewModelProvider.notifier)
+                              .applyFilters(
+                                ratingFilter: _selectedRating,
+                                tourFilter: _selectedTour,
+                              );
                         },
                         child: const Text(
                           'Áp Dụng',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
@@ -333,10 +414,13 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                   const SizedBox(
                     height: 300,
                     child: Center(
-                      child: CircularProgressIndicator(color: ToursTheme.primary),
+                      child: CircularProgressIndicator(
+                        color: ToursTheme.primary,
+                      ),
                     ),
                   )
-                else if (state.filteredReviews.isEmpty || state.errorMessage != null)
+                else if (state.filteredReviews.isEmpty ||
+                    state.errorMessage != null)
                   _buildEmptyState(state.errorMessage)
                 else
                   ListView.builder(
@@ -363,7 +447,7 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
 
   Widget _buildReviewBentoCard(ReviewModel review) {
     final isFlagged = review.status.toLowerCase() == 'flagged';
-    
+
     // Format creation date
     String dateStr = 'Chưa xác định';
     try {
@@ -373,14 +457,14 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
-        color: isFlagged 
-            ? ToursTheme.danger.withOpacity(0.05) 
-            : ToursTheme.surfaceContainerLow.withOpacity(0.6),
+        color: isFlagged
+            ? ToursTheme.danger.withValues(alpha: 0.05)
+            : ToursTheme.surfaceContainerLow.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(ToursTheme.radiusXl),
         border: Border.all(
-          color: isFlagged 
-              ? ToursTheme.danger.withOpacity(0.2) 
-              : ToursTheme.outlineVariant.withOpacity(0.3), 
+          color: isFlagged
+              ? ToursTheme.danger.withValues(alpha: 0.2)
+              : ToursTheme.outlineVariant.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -395,25 +479,37 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  review.tourImageUrl != null && review.tourImageUrl!.startsWith('http')
+                  review.tourImageUrl != null &&
+                          review.tourImageUrl!.startsWith('http')
                       ? Image.network(
                           review.tourImageUrl!,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => Container(
-                            color: ToursTheme.surface,
-                            child: const Icon(Icons.broken_image, color: ToursTheme.onSurfaceVariant),
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                                color: ToursTheme.surface,
+                                child: const Icon(
+                                  Icons.broken_image,
+                                  color: ToursTheme.onSurfaceVariant,
+                                ),
+                              ),
                         )
                       : Container(
                           color: ToursTheme.surface,
-                          child: const Icon(Icons.explore_outlined, color: ToursTheme.primary, size: 36),
+                          child: const Icon(
+                            Icons.explore_outlined,
+                            color: ToursTheme.primary,
+                            size: 36,
+                          ),
                         ),
                   // Dark overlay gradient
                   Positioned.fill(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withValues(alpha: 0.7),
+                          ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
@@ -428,11 +524,19 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: ToursTheme.primary.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(ToursTheme.radiusDefault),
-                          border: Border.all(color: ToursTheme.primary.withOpacity(0.3), width: 0.8),
+                          color: ToursTheme.primary.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(
+                            ToursTheme.radiusDefault,
+                          ),
+                          border: Border.all(
+                            color: ToursTheme.primary.withValues(alpha: 0.3),
+                            width: 0.8,
+                          ),
                         ),
                         child: Text(
                           review.tourTitle ?? 'Chưa xác định',
@@ -470,33 +574,51 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: isFlagged ? ToursTheme.danger : ToursTheme.outlineVariant, 
+                                  color: isFlagged
+                                      ? ToursTheme.danger
+                                      : ToursTheme.outlineVariant,
                                   width: 1.5,
                                 ),
                               ),
                               clipBehavior: Clip.antiAlias,
-                              child: review.userAvatarUrl != null && review.userAvatarUrl!.startsWith('http')
+                              child:
+                                  review.userAvatarUrl != null &&
+                                      review.userAvatarUrl!.startsWith('http')
                                   ? Image.network(
                                       review.userAvatarUrl!,
                                       fit: BoxFit.cover,
                                       errorBuilder: (c, e, s) => Container(
                                         color: ToursTheme.surfaceContainerHigh,
                                         alignment: Alignment.center,
-                                        child: const Icon(Icons.person, color: ToursTheme.onSurfaceVariant),
+                                        child: const Icon(
+                                          Icons.person,
+                                          color: ToursTheme.onSurfaceVariant,
+                                        ),
                                       ),
                                     )
                                   : isFlagged
-                                      ? const Icon(Icons.person_off, color: ToursTheme.danger, size: 18)
-                                      : const Icon(Icons.person, color: ToursTheme.onSurfaceVariant),
+                                  ? const Icon(
+                                      Icons.person_off,
+                                      color: ToursTheme.danger,
+                                      size: 18,
+                                    )
+                                  : const Icon(
+                                      Icons.person,
+                                      color: ToursTheme.onSurfaceVariant,
+                                    ),
                             ),
                             const SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  isFlagged ? 'Người dùng ẩn danh' : (review.userName ?? 'Thành viên'),
+                                  isFlagged
+                                      ? 'Người dùng ẩn danh'
+                                      : (review.userName ?? 'Thành viên'),
                                   style: TextStyle(
-                                    color: isFlagged ? Colors.white.withOpacity(0.6) : Colors.white,
+                                    color: isFlagged
+                                        ? Colors.white.withValues(alpha: 0.6)
+                                        : Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                   ),
@@ -504,21 +626,36 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                                 const SizedBox(height: 2),
                                 Row(
                                   children: [
-                                    const Icon(Icons.calendar_month, size: 12, color: ToursTheme.onSurfaceVariant),
+                                    const Icon(
+                                      Icons.calendar_month,
+                                      size: 12,
+                                      color: ToursTheme.onSurfaceVariant,
+                                    ),
                                     const SizedBox(width: 4),
                                     Text(
                                       dateStr,
-                                      style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11),
+                                      style: const TextStyle(
+                                        color: ToursTheme.onSurfaceVariant,
+                                        fontSize: 11,
+                                      ),
                                     ),
                                     if (isFlagged) ...[
                                       const SizedBox(width: 8),
-                                      const Icon(Icons.warning, size: 12, color: ToursTheme.danger),
+                                      const Icon(
+                                        Icons.warning,
+                                        size: 12,
+                                        color: ToursTheme.danger,
+                                      ),
                                       const SizedBox(width: 4),
                                       const Text(
                                         'Có dấu hiệu vi phạm',
-                                        style: TextStyle(color: ToursTheme.danger, fontSize: 11, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                          color: ToursTheme.danger,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ]
+                                    ],
                                   ],
                                 ),
                               ],
@@ -531,7 +668,9 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                             final isFilled = index < review.rating;
                             return Icon(
                               isFilled ? Icons.star : Icons.star_border,
-                              color: isFilled ? Colors.amber : ToursTheme.onSurfaceVariant,
+                              color: isFilled
+                                  ? Colors.amber
+                                  : ToursTheme.onSurfaceVariant,
                               size: 18,
                             );
                           }),
@@ -543,13 +682,17 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                     // Quote review comment (with thick left border line)
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.only(left: 14, top: 4, bottom: 4),
+                      padding: const EdgeInsets.only(
+                        left: 14,
+                        top: 4,
+                        bottom: 4,
+                      ),
                       decoration: BoxDecoration(
                         border: Border(
                           left: BorderSide(
-                            color: isFlagged 
-                                ? ToursTheme.danger.withOpacity(0.4) 
-                                : ToursTheme.primary.withOpacity(0.3), 
+                            color: isFlagged
+                                ? ToursTheme.danger.withValues(alpha: 0.4)
+                                : ToursTheme.primary.withValues(alpha: 0.3),
                             width: 2.5,
                           ),
                         ),
@@ -557,8 +700,8 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                       child: Text(
                         '"${review.comment ?? 'Không có bình luận.'}"',
                         style: TextStyle(
-                          color: isFlagged 
-                              ? ToursTheme.onSurface.withOpacity(0.5) 
+                          color: isFlagged
+                              ? ToursTheme.onSurface.withValues(alpha: 0.5)
                               : ToursTheme.onSurface,
                           fontSize: 13,
                           fontStyle: FontStyle.italic,
@@ -577,41 +720,69 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                           children: [
                             if (isFlagged)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: ToursTheme.danger.withOpacity(0.12),
+                                  color: ToursTheme.danger.withValues(
+                                    alpha: 0.12,
+                                  ),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: const Text(
                                   'SPAM / CẢNH BÁO',
-                                  style: TextStyle(color: ToursTheme.danger, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                                  style: TextStyle(
+                                    color: ToursTheme.danger,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.5,
+                                  ),
                                 ),
                               )
                             else ...[
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
                                 decoration: BoxDecoration(
                                   color: ToursTheme.surfaceContainerHighest,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: const Text(
                                   'VERIFIED BOOKING',
-                                  style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                                  style: TextStyle(
+                                    color: ToursTheme.onSurfaceVariant,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.5,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
                                 decoration: BoxDecoration(
                                   color: ToursTheme.surfaceContainerHighest,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
-                                  review.rating >= 5 ? 'FIRST CLASS' : 'SOLO TRAVELER',
-                                  style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                                  review.rating >= 5
+                                      ? 'FIRST CLASS'
+                                      : 'SOLO TRAVELER',
+                                  style: const TextStyle(
+                                    color: ToursTheme.onSurfaceVariant,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.5,
+                                  ),
                                 ),
                               ),
-                            ]
+                            ],
                           ],
                         ),
                         // Action buttons
@@ -621,44 +792,91 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                             OutlinedButton.icon(
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: ToursTheme.danger,
-                                side: BorderSide(color: ToursTheme.danger.withOpacity(0.3)),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ToursTheme.radiusLg)),
-                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                side: BorderSide(
+                                  color: ToursTheme.danger.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    ToursTheme.radiusLg,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 8,
+                                ),
                               ),
                               onPressed: () => _rejectReview(review),
-                              icon: Icon(isFlagged ? Icons.delete_forever : Icons.flag_outlined, size: 14),
+                              icon: Icon(
+                                isFlagged
+                                    ? Icons.delete_forever
+                                    : Icons.flag_outlined,
+                                size: 14,
+                              ),
                               label: Text(
                                 isFlagged ? 'Xác Nhận Xóa' : 'Từ Chối / Xóa',
-                                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 10),
                             // Approve / restore action
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: isFlagged ? ToursTheme.surfaceContainerHighest : ToursTheme.primary,
-                                foregroundColor: isFlagged ? Colors.white : Colors.black,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ToursTheme.radiusLg)),
-                                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                                backgroundColor: isFlagged
+                                    ? ToursTheme.surfaceContainerHighest
+                                    : ToursTheme.primary,
+                                foregroundColor: isFlagged
+                                    ? Colors.white
+                                    : Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    ToursTheme.radiusLg,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 8,
+                                ),
                                 elevation: 2,
                               ),
                               onPressed: () async {
                                 final success = await ref
                                     .read(reviewsViewModelProvider.notifier)
-                                    .updateReviewStatus(review.reviewId!, 'approved');
+                                    .updateReviewStatus(
+                                      review.reviewId!,
+                                      'approved',
+                                    );
                                 if (mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(success ? 'Duyệt đánh giá thành công!' : 'Có lỗi xảy ra!'),
-                                      backgroundColor: success ? ToursTheme.success : ToursTheme.danger,
+                                      content: Text(
+                                        success
+                                            ? 'Duyệt đánh giá thành công!'
+                                            : 'Có lỗi xảy ra!',
+                                      ),
+                                      backgroundColor: success
+                                          ? ToursTheme.success
+                                          : ToursTheme.danger,
                                     ),
                                   );
                                 }
                               },
-                              icon: Icon(isFlagged ? Icons.restore : Icons.check_circle_outline, size: 14),
+                              icon: Icon(
+                                isFlagged
+                                    ? Icons.restore
+                                    : Icons.check_circle_outline,
+                                size: 14,
+                              ),
                               label: Text(
                                 isFlagged ? 'Khôi Phục' : 'Phê Duyệt',
-                                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ],
@@ -677,7 +895,10 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
 
   Widget _buildPaginationFooter(ReviewsState state) {
     final startIdx = (state.currentPage - 1) * state.pageSize + 1;
-    final endIdx = (startIdx + state.filteredReviews.length - 1).clamp(0, state.totalCount);
+    final endIdx = (startIdx + state.filteredReviews.length - 1).clamp(
+      0,
+      state.totalCount,
+    );
     final totalPages = (state.totalCount / state.pageSize).ceil();
 
     return Padding(
@@ -687,14 +908,19 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
         children: [
           Text(
             'Hiển thị $startIdx-$endIdx trong tổng số ${state.totalCount} đánh giá',
-            style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12),
+            style: const TextStyle(
+              color: ToursTheme.onSurfaceVariant,
+              fontSize: 12,
+            ),
           ),
           Row(
             children: [
               // Previous Page Button
               IconButton(
                 onPressed: state.currentPage > 1
-                    ? () => ref.read(reviewsViewModelProvider.notifier).changePage(state.currentPage - 1)
+                    ? () => ref
+                          .read(reviewsViewModelProvider.notifier)
+                          .changePage(state.currentPage - 1)
                     : null,
                 icon: const Icon(Icons.chevron_left),
                 style: IconButton.styleFrom(
@@ -711,15 +937,23 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
                   final pageNum = idx + 1;
                   final isCurrent = pageNum == state.currentPage;
                   return GestureDetector(
-                    onTap: () => ref.read(reviewsViewModelProvider.notifier).changePage(pageNum),
+                    onTap: () => ref
+                        .read(reviewsViewModelProvider.notifier)
+                        .changePage(pageNum),
                     child: Container(
                       width: 36,
                       height: 36,
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
-                        color: isCurrent ? ToursTheme.primary : Colors.transparent,
-                        borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-                        border: isCurrent ? null : Border.all(color: ToursTheme.outlineVariant),
+                        color: isCurrent
+                            ? ToursTheme.primary
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(
+                          ToursTheme.radiusLg,
+                        ),
+                        border: isCurrent
+                            ? null
+                            : Border.all(color: ToursTheme.outlineVariant),
                       ),
                       alignment: Alignment.center,
                       child: Text(
@@ -738,7 +972,9 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
               // Next Page Button
               IconButton(
                 onPressed: state.currentPage < totalPages
-                    ? () => ref.read(reviewsViewModelProvider.notifier).changePage(state.currentPage + 1)
+                    ? () => ref
+                          .read(reviewsViewModelProvider.notifier)
+                          .changePage(state.currentPage + 1)
                     : null,
                 icon: const Icon(Icons.chevron_right),
                 style: IconButton.styleFrom(
@@ -768,21 +1004,34 @@ class _ReviewManagementScreenState extends ConsumerState<ReviewManagementScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            errorMessage != null ? Icons.error_outline : Icons.rate_review_outlined, 
-            size: 64, 
-            color: errorMessage != null ? ToursTheme.danger : ToursTheme.outline
+            errorMessage != null
+                ? Icons.error_outline
+                : Icons.rate_review_outlined,
+            size: 64,
+            color: errorMessage != null
+                ? ToursTheme.danger
+                : ToursTheme.outline,
           ),
           const SizedBox(height: 16),
           Text(
-            errorMessage != null ? 'Lỗi tải dữ liệu' : 'Không tìm thấy đánh giá nào',
-            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            errorMessage != null
+                ? 'Lỗi tải dữ liệu'
+                : 'Không tìm thấy đánh giá nào',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               errorMessage ?? 'Hãy thử thay đổi tiêu chí bộ lọc của bạn.',
-              style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 14),
+              style: const TextStyle(
+                color: ToursTheme.onSurfaceVariant,
+                fontSize: 14,
+              ),
               textAlign: TextAlign.center,
             ),
           ),

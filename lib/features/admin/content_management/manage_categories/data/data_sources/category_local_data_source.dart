@@ -63,7 +63,8 @@ class CategoryLocalDataSource {
 
     final queryStr = searchQuery.toLowerCase().trim();
     if (queryStr.isNotEmpty) {
-      whereClause += " AND (LOWER(c.title) LIKE ? OR LOWER(c.short_name) LIKE ? OR LOWER(c.description) LIKE ?)";
+      whereClause +=
+          " AND (LOWER(c.title) LIKE ? OR LOWER(c.short_name) LIKE ? OR LOWER(c.description) LIKE ?)";
       final likePattern = "%$queryStr%";
       whereArgs.add(likePattern);
       whereArgs.add(likePattern);
@@ -80,7 +81,8 @@ class CategoryLocalDataSource {
 
     // 2. Fetch paginated categories with tour count
     final offset = (currentPage - 1) * itemsPerPage;
-    final fetchQuery = '''
+    final fetchQuery =
+        '''
       SELECT c.*, COUNT(t.id) as tours_count
       FROM categories c
       LEFT JOIN tours t ON c.id = t.category_id
@@ -128,11 +130,7 @@ class CategoryLocalDataSource {
 
   Future<int> deleteCategory(int id) async {
     final db = await _getDb();
-    return await db.delete(
-      'categories',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return await db.delete('categories', where: 'id = ?', whereArgs: [id]);
   }
 }
 

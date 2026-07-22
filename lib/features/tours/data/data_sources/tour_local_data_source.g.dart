@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tour_data_source.dart';
+part of 'tour_local_data_source.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -15,18 +15,20 @@ final tourLocalDataSourceProvider = TourLocalDataSourceProvider._();
 final class TourLocalDataSourceProvider
     extends
         $FunctionalProvider<
+          AsyncValue<TourLocalDataSource>,
           TourLocalDataSource,
-          TourLocalDataSource,
-          TourLocalDataSource
+          FutureOr<TourLocalDataSource>
         >
-    with $Provider<TourLocalDataSource> {
+    with
+        $FutureModifier<TourLocalDataSource>,
+        $FutureProvider<TourLocalDataSource> {
   TourLocalDataSourceProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
         name: r'tourLocalDataSourceProvider',
-        isAutoDispose: false,
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -36,23 +38,15 @@ final class TourLocalDataSourceProvider
 
   @$internal
   @override
-  $ProviderElement<TourLocalDataSource> $createElement(
+  $FutureProviderElement<TourLocalDataSource> $createElement(
     $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
+  ) => $FutureProviderElement(pointer);
 
   @override
-  TourLocalDataSource create(Ref ref) {
+  FutureOr<TourLocalDataSource> create(Ref ref) {
     return tourLocalDataSource(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(TourLocalDataSource value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<TourLocalDataSource>(value),
-    );
   }
 }
 
 String _$tourLocalDataSourceHash() =>
-    r'1f5e33743a16813138347784b52f9dc576544365';
+    r'cbac9e022de2a94af24195c2d01ae2a26a62a2ff';

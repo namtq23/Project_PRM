@@ -6,6 +6,7 @@ part of 'tour_stats_data_source.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(tourStatsDataSource)
@@ -54,4 +55,4 @@ final class TourStatsDataSourceProvider
 }
 
 String _$tourStatsDataSourceHash() =>
-    r'0a98b172a6b2c8928371984a8c9192bc09187ab1';
+    r'87dbcbe43438fd45180b7093563d2fe04b4251af';

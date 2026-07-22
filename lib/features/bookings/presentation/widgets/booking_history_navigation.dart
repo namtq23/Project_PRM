@@ -258,20 +258,22 @@ class _DrawerDestination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      selected: selected,
-      selectedTileColor: const Color(0xFF082C3C),
-      leading: Icon(
-        icon,
-        color: selected ? BookingDesign.primary : BookingDesign.mutedText,
-      ),
-      title: Text(
-        label,
-        style: TextStyle(
-          color: selected ? BookingDesign.primary : BookingDesign.text,
+    return Material(
+      color: selected ? const Color(0xFF082C3C) : Colors.transparent,
+      child: ListTile(
+        selected: selected,
+        leading: Icon(
+          icon,
+          color: selected ? BookingDesign.primary : BookingDesign.mutedText,
         ),
+        title: Text(
+          label,
+          style: TextStyle(
+            color: selected ? BookingDesign.primary : BookingDesign.text,
+          ),
+        ),
+        onTap: onTap,
       ),
-      onTap: onTap,
     );
   }
 }

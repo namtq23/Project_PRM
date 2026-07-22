@@ -6,6 +6,7 @@ part of 'categories_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(CategoriesViewModel)
@@ -41,7 +42,7 @@ final class CategoriesViewModelProvider
 }
 
 String _$categoriesViewModelHash() =>
-    r'9ef67a96a66295644c8ec4a2d29469916ef10ecc';
+    r'cec137524ee0ff646b0342caeaae634beaffbdb4';
 
 abstract class _$CategoriesViewModel extends $Notifier<CategoriesState> {
   CategoriesState build();

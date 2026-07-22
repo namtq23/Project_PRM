@@ -11,20 +11,26 @@ class TourInsightCards extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(toursViewModelProvider);
-    
+
     // Dynamic calculations
-    final totalValue = state.allTours.fold<double>(0.0, (sum, tour) => sum + tour.price);
+    final totalValue = state.allTours.fold<double>(
+      0.0,
+      (sum, tour) => sum + tour.price,
+    );
     final priceFormat = NumberFormat('#,###', 'en_US');
-    final valueString = '${priceFormat.format(totalValue).replaceAll(',', '.')} đ';
-    
+    final valueString =
+        '${priceFormat.format(totalValue).replaceAll(',', '.')} đ';
+
     final mostPopularTour = state.allTours.isNotEmpty
-        ? state.allTours.reduce((curr, next) => curr.price > next.price ? curr : next).title
+        ? state.allTours
+              .reduce((curr, next) => curr.price > next.price ? curr : next)
+              .title
         : 'Serengeti Sky Safari';
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 800;
-        
+
         final card1 = _InsightCard(
           title: 'Tổng giá trị kho tour',
           value: valueString,
@@ -33,7 +39,10 @@ class TourInsightCards extends ConsumerWidget {
             children: [
               const Icon(Icons.trending_up, color: Color(0xFF10B981), size: 14),
               const SizedBox(width: 4),
-              const Text('+12% tháng này', style: TextStyle(color: Color(0xFF34D399), fontSize: 12)),
+              const Text(
+                '+12% tháng này',
+                style: TextStyle(color: Color(0xFF34D399), fontSize: 12),
+              ),
             ],
           ),
           icon: Icons.payments_outlined,
@@ -47,7 +56,13 @@ class TourInsightCards extends ConsumerWidget {
             children: [
               Icon(Icons.star, color: ToursTheme.accent, size: 14),
               SizedBox(width: 4),
-              Text('Đánh giá 4.9/5.0', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12)),
+              Text(
+                'Đánh giá 4.9/5.0',
+                style: TextStyle(
+                  color: ToursTheme.onSurfaceVariant,
+                  fontSize: 12,
+                ),
+              ),
             ],
           ),
           icon: Icons.workspace_premium_outlined,
@@ -115,7 +130,7 @@ class _InsightCard extends StatelessWidget {
             child: Icon(
               icon,
               size: 96,
-              color: Colors.white.withOpacity(0.03),
+              color: Colors.white.withValues(alpha: 0.03),
             ),
           ),
           // Content
@@ -180,7 +195,7 @@ class _OpportunityCard extends StatelessWidget {
         Text(
           'Xu hướng thị trường gợi ý mức tăng trưởng 24% đối với các chuyến thám hiểm cực địa riêng tư. Hãy cân nhắc tạo gói tour mới.',
           style: TextStyle(
-            color: ToursTheme.onSurface.withOpacity(0.8),
+            color: ToursTheme.onSurface.withValues(alpha: 0.8),
             fontSize: 14,
             height: 1.4,
           ),
@@ -192,14 +207,18 @@ class _OpportunityCard extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: ToursTheme.primary,
         foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ToursTheme.radiusLg)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         elevation: 4,
       ),
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Đang khám phá xu hướng thị trường du lịch mới nhất...'),
+            content: Text(
+              'Đang khám phá xu hướng thị trường du lịch mới nhất...',
+            ),
             backgroundColor: ToursTheme.primary,
           ),
         );
@@ -207,7 +226,10 @@ class _OpportunityCard extends StatelessWidget {
       child: const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Khám Phá Xu Hướng', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(
+            'Khám Phá Xu Hướng',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           SizedBox(width: 8),
           Icon(Icons.arrow_forward, size: 16),
         ],
@@ -217,9 +239,12 @@ class _OpportunityCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: ToursTheme.primary.withOpacity(0.05),
+        color: ToursTheme.primary.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(ToursTheme.radiusXl),
-        border: Border.all(color: ToursTheme.primary.withOpacity(0.2), width: 1),
+        border: Border.all(
+          color: ToursTheme.primary.withValues(alpha: 0.2),
+          width: 1,
+        ),
       ),
       child: isMobile
           ? Column(

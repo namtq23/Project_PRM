@@ -96,10 +96,7 @@ class ReviewsViewModel extends _$ReviewsViewModel {
         errorMessage: null,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 
@@ -109,7 +106,10 @@ class ReviewsViewModel extends _$ReviewsViewModel {
     loadReviews();
   }
 
-  void applyFilters({required String ratingFilter, required String tourFilter}) {
+  void applyFilters({
+    required String ratingFilter,
+    required String tourFilter,
+  }) {
     state = state.copyWith(
       selectedRatingFilter: ratingFilter,
       selectedTourFilter: tourFilter,
@@ -128,7 +128,9 @@ class ReviewsViewModel extends _$ReviewsViewModel {
   }
 
   Future<bool> updateReviewStatus(int reviewId, String status) async {
-    final success = await ref.read(reviewRepositoryProvider).updateReviewStatus(reviewId, status);
+    final success = await ref
+        .read(reviewRepositoryProvider)
+        .updateReviewStatus(reviewId, status);
     if (success) {
       await loadReviews();
     }
@@ -136,7 +138,9 @@ class ReviewsViewModel extends _$ReviewsViewModel {
   }
 
   Future<bool> deleteReview(int reviewId) async {
-    final success = await ref.read(reviewRepositoryProvider).deleteReview(reviewId);
+    final success = await ref
+        .read(reviewRepositoryProvider)
+        .deleteReview(reviewId);
     if (success) {
       await loadReviews();
     }

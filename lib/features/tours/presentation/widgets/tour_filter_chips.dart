@@ -13,12 +13,19 @@ class TourFilterChips extends ConsumerWidget {
     final notifier = ref.read(toursViewModelProvider.notifier);
 
     final allCount = state.allTours.length;
-    final activeCount = state.allTours.where((t) => t.status.toLowerCase() == 'active').length;
-    final draftCount = state.allTours.where((t) => t.status.toLowerCase() == 'draft').length;
-    final inactiveCount = state.allTours.where((t) => t.status.toLowerCase() == 'inactive').length;
+    final activeCount = state.allTours
+        .where((t) => t.status.toLowerCase() == 'active')
+        .length;
+    final draftCount = state.allTours
+        .where((t) => t.status.toLowerCase() == 'draft')
+        .length;
+    final inactiveCount = state.allTours
+        .where((t) => t.status.toLowerCase() == 'inactive')
+        .length;
 
     Widget buildChip(String label, String filterValue, int count) {
-      final isSelected = state.selectedFilter.toLowerCase() == filterValue.toLowerCase();
+      final isSelected =
+          state.selectedFilter.toLowerCase() == filterValue.toLowerCase();
 
       return GestureDetector(
         onTap: () => notifier.filterTours(filterValue),
@@ -26,10 +33,14 @@ class TourFilterChips extends ConsumerWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: isSelected ? ToursTheme.primary : ToursTheme.surfaceContainerHighest,
+            color: isSelected
+                ? ToursTheme.primary
+                : ToursTheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(ToursTheme.radiusFull),
             border: Border.all(
-              color: isSelected ? Colors.transparent : ToursTheme.outlineVariant,
+              color: isSelected
+                  ? Colors.transparent
+                  : ToursTheme.outlineVariant,
               width: 1,
             ),
           ),

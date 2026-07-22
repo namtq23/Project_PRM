@@ -39,7 +39,9 @@ class ReviewLocalDataSource {
       await db.execute("SELECT status FROM reviews LIMIT 1");
     } catch (_) {
       try {
-        await db.execute("ALTER TABLE reviews ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'");
+        await db.execute(
+          "ALTER TABLE reviews ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'",
+        );
       } catch (_) {
         await db.execute('''
           CREATE TABLE IF NOT EXISTS reviews (
@@ -61,18 +63,18 @@ class ReviewLocalDataSource {
 
     // 1. Fetch pending & flagged counters
     final pendingRes = await db.rawQuery(
-      "SELECT COUNT(*) as count FROM reviews WHERE status = 'pending'"
+      "SELECT COUNT(*) as count FROM reviews WHERE status = 'pending'",
     );
     final pendingCount = pendingRes.first['count'] as int? ?? 0;
 
     final flaggedRes = await db.rawQuery(
-      "SELECT COUNT(*) as count FROM reviews WHERE status = 'flagged'"
+      "SELECT COUNT(*) as count FROM reviews WHERE status = 'flagged'",
     );
     final flaggedCount = flaggedRes.first['count'] as int? ?? 0;
 
     // 2. Fetch distinct tour titles for filter dropdown
     final tourRows = await db.rawQuery(
-      "SELECT DISTINCT title FROM tours ORDER BY title ASC"
+      "SELECT DISTINCT title FROM tours ORDER BY title ASC",
     );
     final tourTitles = tourRows.map((r) => r['title'] as String).toList();
 
@@ -96,7 +98,8 @@ class ReviewLocalDataSource {
     }
 
     // Count total matches
-    final countQuery = '''
+    final countQuery =
+        '''
       SELECT COUNT(*) as count
       FROM reviews r
       LEFT JOIN tours t ON r.tour_id = t.id
@@ -108,7 +111,8 @@ class ReviewLocalDataSource {
 
     // Fetch matching items paginated
     final offset = (currentPage - 1) * pageSize;
-    final query = '''
+    final query =
+        '''
       SELECT r.*, t.title as tour_title, t.firestore_id as tour_image_url, u.full_name as user_name, u.avatar_url as user_avatar_url
       FROM reviews r
       LEFT JOIN tours t ON r.tour_id = t.id
@@ -120,7 +124,9 @@ class ReviewLocalDataSource {
     final List<dynamic> args = [...whereArgs, pageSize, offset];
     final rows = await db.rawQuery(query, args);
 
-    final List<ReviewModel> reviews = rows.map((row) => ReviewModel.fromMap(row)).toList();
+    final List<ReviewModel> reviews = rows
+        .map((row) => ReviewModel.fromMap(row))
+        .toList();
 
     return ReviewQueryResult(
       reviews: reviews,
@@ -137,10 +143,7 @@ class ReviewLocalDataSource {
       final now = DateTime.now().toUtc().toIso8601String();
       await db.update(
         'reviews',
-        {
-          'status': status,
-          'updated_at': now,
-        },
+        {'status': status, 'updated_at': now},
         where: 'id = ?',
         whereArgs: [reviewId],
       );
@@ -153,11 +156,7 @@ class ReviewLocalDataSource {
   Future<bool> deleteReview(int reviewId) async {
     try {
       final db = await database.database;
-      await db.delete(
-        'reviews',
-        where: 'id = ?',
-        whereArgs: [reviewId],
-      );
+      await db.delete('reviews', where: 'id = ?', whereArgs: [reviewId]);
       return true;
     } catch (_) {
       return false;

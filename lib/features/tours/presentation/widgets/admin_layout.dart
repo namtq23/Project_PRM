@@ -22,18 +22,12 @@ class AdminLayout extends StatelessWidget {
       backgroundColor: ToursTheme.background,
       body: Row(
         children: [
-          if (isWide)
-            SizedBox(
-              width: 256,
-              child: _buildSidebar(context),
-            ),
+          if (isWide) SizedBox(width: 256, child: _buildSidebar(context)),
           Expanded(
             child: Column(
               children: [
                 _buildTopHeader(context, !isWide),
-                Expanded(
-                  child: child,
-                ),
+                Expanded(child: child),
               ],
             ),
           ),
@@ -52,7 +46,10 @@ class AdminLayout extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             decoration: const BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: ToursTheme.outlineVariant, width: 0.5),
+                bottom: BorderSide(
+                  color: ToursTheme.outlineVariant,
+                  width: 0.5,
+                ),
               ),
             ),
             child: Row(
@@ -60,10 +57,14 @@ class AdminLayout extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: ToursTheme.primary.withOpacity(0.1),
+                    color: ToursTheme.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.explore, color: ToursTheme.primary, size: 24),
+                  child: const Icon(
+                    Icons.explore,
+                    color: ToursTheme.primary,
+                    size: 24,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -148,7 +149,9 @@ class AdminLayout extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Material(
-        color: isActive ? ToursTheme.primary.withOpacity(0.15) : Colors.transparent,
+        color: isActive
+            ? ToursTheme.primary.withValues(alpha: 0.15)
+            : Colors.transparent,
         borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
         clipBehavior: Clip.antiAlias,
         child: ListTile(
@@ -212,13 +215,23 @@ class AdminLayout extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: ToursTheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-                  border: Border.all(color: ToursTheme.outlineVariant, width: 0.5),
+                  border: Border.all(
+                    color: ToursTheme.outlineVariant,
+                    width: 0.5,
+                  ),
                 ),
                 child: const TextField(
                   decoration: InputDecoration(
                     hintText: 'Tìm kiếm nhanh...',
-                    hintStyle: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 13),
-                    prefixIcon: Icon(Icons.search, size: 18, color: ToursTheme.onSurfaceVariant),
+                    hintStyle: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 13,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      size: 18,
+                      color: ToursTheme.onSurfaceVariant,
+                    ),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(vertical: 10),
                   ),
@@ -230,14 +243,20 @@ class AdminLayout extends StatelessWidget {
           const SizedBox(width: 16),
           // Actions
           IconButton(
-            icon: const Icon(Icons.help_outline, color: ToursTheme.onSurfaceVariant),
+            icon: const Icon(
+              Icons.help_outline,
+              color: ToursTheme.onSurfaceVariant,
+            ),
             onPressed: () {},
           ),
           const SizedBox(width: 8),
           Stack(
             children: [
               IconButton(
-                icon: const Icon(Icons.notifications_outlined, color: ToursTheme.onSurfaceVariant),
+                icon: const Icon(
+                  Icons.notifications_outlined,
+                  color: ToursTheme.onSurfaceVariant,
+                ),
                 onPressed: () {},
               ),
               Positioned(
@@ -251,7 +270,7 @@ class AdminLayout extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(width: 16),

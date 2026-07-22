@@ -6,6 +6,7 @@ part of 'review_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(reviewRepository)
@@ -35,9 +36,8 @@ final class ReviewRepositoryProvider
 
   @$internal
   @override
-  $ProviderElement<ReviewRepository> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
+  $ProviderElement<ReviewRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   ReviewRepository create(Ref ref) {
@@ -53,5 +53,4 @@ final class ReviewRepositoryProvider
   }
 }
 
-String _$reviewRepositoryHash() =>
-    r'0a98b172a6b2c8928371984a8c9192bc09187ab4';
+String _$reviewRepositoryHash() => r'763b4cd9d3b16a999cfc011289c8f8170c3fa7c9';

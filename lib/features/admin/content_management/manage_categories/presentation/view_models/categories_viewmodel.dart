@@ -32,10 +32,7 @@ class CategoriesViewModel extends _$CategoriesViewModel {
         totalCount: result.totalCount,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
 
@@ -79,10 +76,7 @@ class CategoriesViewModel extends _$CategoriesViewModel {
       await loadCategories();
       return true;
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
       return false;
     }
   }
@@ -110,14 +104,13 @@ class CategoriesViewModel extends _$CategoriesViewModel {
         createdAt: createdAt ?? DateTime.now(),
         updatedAt: DateTime.now(),
       );
-      await ref.read(categoryRepositoryProvider).updateCategory(updatedCategory);
+      await ref
+          .read(categoryRepositoryProvider)
+          .updateCategory(updatedCategory);
       await loadCategories();
       return true;
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
       return false;
     }
   }
@@ -129,10 +122,7 @@ class CategoriesViewModel extends _$CategoriesViewModel {
       await loadCategories();
       return true;
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
       return false;
     }
   }

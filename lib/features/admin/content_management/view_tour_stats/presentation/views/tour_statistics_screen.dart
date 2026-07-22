@@ -12,7 +12,8 @@ class TourStatisticsScreen extends ConsumerStatefulWidget {
   const TourStatisticsScreen({super.key});
 
   @override
-  ConsumerState<TourStatisticsScreen> createState() => _TourStatisticsScreenState();
+  ConsumerState<TourStatisticsScreen> createState() =>
+      _TourStatisticsScreenState();
 }
 
 class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
@@ -43,10 +44,10 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
           border: Border.all(color: ToursTheme.outlineVariant, width: 0.8),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 4),
-            )
+            ),
           ],
         ),
         child: Row(
@@ -79,7 +80,7 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                   Text(
                     subtitle,
                     style: TextStyle(
-                      color: ToursTheme.onSurfaceVariant.withOpacity(0.7),
+                      color: ToursTheme.onSurfaceVariant.withValues(alpha: 0.7),
                       fontSize: 11,
                     ),
                     maxLines: 1,
@@ -92,7 +93,7 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 24),
@@ -147,149 +148,167 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
         currentMenu: 'Analytics',
         child: SafeArea(
           child: state.isLoading
-              ? const Center(child: CircularProgressIndicator(color: ToursTheme.primary))
+              ? const Center(
+                  child: CircularProgressIndicator(color: ToursTheme.primary),
+                )
               : state.errorMessage != null
-                  ? Center(child: Text('Lỗi: ${state.errorMessage}', style: const TextStyle(color: ToursTheme.danger)))
-                  : SingleChildScrollView(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              ? Center(
+                  child: Text(
+                    'Lỗi: ${state.errorMessage}',
+                    style: const TextStyle(color: ToursTheme.danger),
+                  ),
+                )
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header Section
+                      const Text(
+                        'Phân Tích & Thống Kê',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      const Text(
+                        'Theo dõi doanh thu, số lượng đơn hàng, và hiệu năng bán hàng của các tour du lịch.',
+                        style: TextStyle(
+                          color: ToursTheme.onSurfaceVariant,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // 4 KPI Stat Cards
+                      Row(
                         children: [
-                          // Header Section
-                          const Text(
-                            'Phân Tích & Thống Kê',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: -0.5,
-                            ),
+                          _buildStatCard(
+                            title: 'TỔNG DOANH THU',
+                            value: _currencyFormat.format(state.grossRevenue),
+                            subtitle: 'Đã thanh toán & xác nhận',
+                            icon: Icons.monetization_on_outlined,
+                            color: ToursTheme.primary,
                           ),
-                          const SizedBox(height: 4),
-                          const Text(
-                            'Theo dõi doanh thu, số lượng đơn hàng, và hiệu năng bán hàng của các tour du lịch.',
-                            style: TextStyle(
-                              color: ToursTheme.onSurfaceVariant,
-                              fontSize: 14,
-                            ),
+                          const SizedBox(width: 16),
+                          _buildStatCard(
+                            title: 'ĐƠN ĐẶT HOẠT ĐỘNG',
+                            value: '${state.activeBookings}',
+                            subtitle: 'Chờ xử lý / Đã xác nhận',
+                            icon: Icons.receipt_long_outlined,
+                            color: Colors.blue,
                           ),
-                          const SizedBox(height: 24),
-
-                          // 4 KPI Stat Cards
-                          Row(
-                            children: [
-                              _buildStatCard(
-                                title: 'TỔNG DOANH THU',
-                                value: _currencyFormat.format(state.grossRevenue),
-                                subtitle: 'Đã thanh toán & xác nhận',
-                                icon: Icons.monetization_on_outlined,
-                                color: ToursTheme.primary,
-                              ),
-                              const SizedBox(width: 16),
-                              _buildStatCard(
-                                title: 'ĐƠN ĐẶT HOẠT ĐỘNG',
-                                value: '${state.activeBookings}',
-                                subtitle: 'Chờ xử lý / Đã xác nhận',
-                                icon: Icons.receipt_long_outlined,
-                                color: Colors.blue,
-                              ),
-                              const SizedBox(width: 16),
-                              _buildStatCard(
-                                title: 'ĐƠN HÀNG TRUNG BÌNH',
-                                value: _currencyFormat.format(state.avgTicketSize),
-                                subtitle: 'Giá trị trung bình mỗi đơn',
-                                icon: Icons.analytics_outlined,
-                                color: Colors.purple,
-                              ),
-                              const SizedBox(width: 16),
-                              _buildStatCard(
-                                title: 'GIÁ TRỊ VÒNG ĐỜI (LTV)',
-                                value: _currencyFormat.format(state.customerLtv),
-                                subtitle: 'Doanh thu bình quân mỗi khách',
-                                icon: Icons.supervised_user_circle_outlined,
-                                color: Colors.orange,
-                              ),
-                            ],
+                          const SizedBox(width: 16),
+                          _buildStatCard(
+                            title: 'ĐƠN HÀNG TRUNG BÌNH',
+                            value: _currencyFormat.format(state.avgTicketSize),
+                            subtitle: 'Giá trị trung bình mỗi đơn',
+                            icon: Icons.analytics_outlined,
+                            color: Colors.purple,
                           ),
-                          const SizedBox(height: 24),
-
-                          // Bento Grid Charts & Lists
-                          LayoutBuilder(
-                            builder: (context, constraints) {
-                              final double blockHeight = 320;
-                              return Column(
-                                children: [
-                                  // Row 1: Bar Chart (Monthly Revenue) & Doughnut Chart (Acquisition Source)
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 7,
-                                        child: SizedBox(
-                                          height: blockHeight,
-                                          child: _buildCardContainer(
-                                            title: 'Doanh Thu Hàng Tháng (VNĐ)',
-                                            child: _buildBarChart(state.monthlyRevenue),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                      Expanded(
-                                        flex: 5,
-                                        child: SizedBox(
-                                          height: blockHeight,
-                                          child: _buildCardContainer(
-                                            title: 'Nguồn Tiếp Cận Khách Hàng',
-                                            child: _buildDoughnutChart(state.acquisitionSources),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 24),
-
-                                  // Row 2: Area Chart (Booking Trends) & Top Performing Tours List
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 6,
-                                        child: SizedBox(
-                                          height: blockHeight,
-                                          child: _buildCardContainer(
-                                            title: 'Xu Hướng Đơn Đặt (Theo Tuần)',
-                                            child: _buildAreaChart(state.weeklyBookings),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                      Expanded(
-                                        flex: 6,
-                                        child: SizedBox(
-                                          height: blockHeight,
-                                          child: _buildCardContainer(
-                                            title: 'Top Tour Bán Chạy Nhất',
-                                            child: _buildTopToursList(state.topTours),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 24),
-
-                                  // Row 3: Realtime Booking Feed (Full width)
-                                  SizedBox(
-                                    height: 400,
-                                    child: _buildCardContainer(
-                                      title: 'Luồng Đơn Đặt Tour Mới Nhất (Realtime Feed)',
-                                      child: _buildBookingFeedTable(state.recentBookings),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
+                          const SizedBox(width: 16),
+                          _buildStatCard(
+                            title: 'GIÁ TRỊ VÒNG ĐỜI (LTV)',
+                            value: _currencyFormat.format(state.customerLtv),
+                            subtitle: 'Doanh thu bình quân mỗi khách',
+                            icon: Icons.supervised_user_circle_outlined,
+                            color: Colors.orange,
                           ),
                         ],
                       ),
-                    ),
+                      const SizedBox(height: 24),
+
+                      // Bento Grid Charts & Lists
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          final double blockHeight = 320;
+                          return Column(
+                            children: [
+                              // Row 1: Bar Chart (Monthly Revenue) & Doughnut Chart (Acquisition Source)
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 7,
+                                    child: SizedBox(
+                                      height: blockHeight,
+                                      child: _buildCardContainer(
+                                        title: 'Doanh Thu Hàng Tháng (VNĐ)',
+                                        child: _buildBarChart(
+                                          state.monthlyRevenue,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    flex: 5,
+                                    child: SizedBox(
+                                      height: blockHeight,
+                                      child: _buildCardContainer(
+                                        title: 'Nguồn Tiếp Cận Khách Hàng',
+                                        child: _buildDoughnutChart(
+                                          state.acquisitionSources,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+
+                              // Row 2: Area Chart (Booking Trends) & Top Performing Tours List
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 6,
+                                    child: SizedBox(
+                                      height: blockHeight,
+                                      child: _buildCardContainer(
+                                        title: 'Xu Hướng Đơn Đặt (Theo Tuần)',
+                                        child: _buildAreaChart(
+                                          state.weeklyBookings,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    flex: 6,
+                                    child: SizedBox(
+                                      height: blockHeight,
+                                      child: _buildCardContainer(
+                                        title: 'Top Tour Bán Chạy Nhất',
+                                        child: _buildTopToursList(
+                                          state.topTours,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+
+                              // Row 3: Realtime Booking Feed (Full width)
+                              SizedBox(
+                                height: 400,
+                                child: _buildCardContainer(
+                                  title:
+                                      'Luồng Đơn Đặt Tour Mới Nhất (Realtime Feed)',
+                                  child: _buildBookingFeedTable(
+                                    state.recentBookings,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ),
     );
@@ -312,7 +331,11 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               return BarTooltipItem(
                 _currencyFormat.format(rod.toY),
-                const TextStyle(color: ToursTheme.primary, fontWeight: FontWeight.bold, fontSize: 11),
+                const TextStyle(
+                  color: ToursTheme.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11,
+                ),
               );
             },
           ),
@@ -323,20 +346,45 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (double value, TitleMeta meta) {
-                const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+                const months = [
+                  'T1',
+                  'T2',
+                  'T3',
+                  'T4',
+                  'T5',
+                  'T6',
+                  'T7',
+                  'T8',
+                  'T9',
+                  'T10',
+                  'T11',
+                  'T12',
+                ];
                 if (value >= 0 && value < 12) {
                   return SideTitleWidget(
                     meta: meta,
-                    child: Text(months[value.toInt()], style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 10)),
+                    child: Text(
+                      months[value.toInt()],
+                      style: const TextStyle(
+                        color: ToursTheme.onSurfaceVariant,
+                        fontSize: 10,
+                      ),
+                    ),
                   );
                 }
                 return const SizedBox();
               },
             ),
           ),
-          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         gridData: const FlGridData(show: false),
         borderData: FlBorderData(show: false),
@@ -348,11 +396,13 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
               BarChartRodData(
                 toY: val,
                 width: 14,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(4),
+                ),
                 gradient: LinearGradient(
                   colors: [
                     ToursTheme.primary,
-                    ToursTheme.primary.withOpacity(0.4),
+                    ToursTheme.primary.withValues(alpha: 0.4),
                   ],
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
@@ -367,7 +417,14 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
 
   // Acquisition Sources Doughnut Chart
   Widget _buildDoughnutChart(Map<String, double> sources) {
-    if (sources.isEmpty) return const Center(child: Text('Không có dữ liệu', style: TextStyle(color: ToursTheme.onSurfaceVariant)));
+    if (sources.isEmpty) {
+      return const Center(
+        child: Text(
+          'Không có dữ liệu',
+          style: TextStyle(color: ToursTheme.onSurfaceVariant),
+        ),
+      );
+    }
 
     final entries = sources.entries.toList();
     final colors = [ToursTheme.primary, Colors.blue, Colors.orange];
@@ -388,7 +445,11 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                   title: '${entry.value.toStringAsFixed(0)}%',
                   color: col,
                   radius: 24,
-                  titleStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
+                  titleStyle: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 );
               }),
             ),
@@ -407,12 +468,22 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 child: Row(
                   children: [
-                    Container(width: 10, height: 10, decoration: BoxDecoration(color: col, shape: BoxShape.circle)),
+                    Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: col,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         entry.key,
-                        style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11),
+                        style: const TextStyle(
+                          color: ToursTheme.onSurfaceVariant,
+                          fontSize: 11,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -420,7 +491,11 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                     const SizedBox(width: 4),
                     Text(
                       '${entry.value.toStringAsFixed(1)}%',
-                      style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -451,16 +526,28 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                 if (value >= 0 && value < 4) {
                   return SideTitleWidget(
                     meta: meta,
-                    child: Text('Tuần ${value.toInt() + 1}', style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 10)),
+                    child: Text(
+                      'Tuần ${value.toInt() + 1}',
+                      style: const TextStyle(
+                        color: ToursTheme.onSurfaceVariant,
+                        fontSize: 10,
+                      ),
+                    ),
                   );
                 }
                 return const SizedBox();
               },
             ),
           ),
-          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         borderData: FlBorderData(show: false),
         lineBarsData: [
@@ -478,8 +565,8 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  ToursTheme.primary.withOpacity(0.2),
-                  ToursTheme.primary.withOpacity(0.0),
+                  ToursTheme.primary.withValues(alpha: 0.2),
+                  ToursTheme.primary.withValues(alpha: 0.0),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -493,7 +580,14 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
 
   // Top Performing Tours list
   Widget _buildTopToursList(List<TopTourData> tours) {
-    if (tours.isEmpty) return const Center(child: Text('Không có dữ liệu', style: TextStyle(color: ToursTheme.onSurfaceVariant)));
+    if (tours.isEmpty) {
+      return const Center(
+        child: Text(
+          'Không có dữ liệu',
+          style: TextStyle(color: ToursTheme.onSurfaceVariant),
+        ),
+      );
+    }
 
     return ListView.builder(
       itemCount: tours.length,
@@ -510,7 +604,11 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                   Expanded(
                     child: Text(
                       tour.title,
-                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -518,7 +616,11 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                   const SizedBox(width: 8),
                   Text(
                     '${tour.salesCount} lượt bán',
-                    style: const TextStyle(color: ToursTheme.primary, fontSize: 12, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      color: ToursTheme.primary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -533,7 +635,9 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                         child: LinearProgressIndicator(
                           value: tour.progress,
                           backgroundColor: ToursTheme.surfaceContainerHigh,
-                          valueColor: const AlwaysStoppedAnimation<Color>(ToursTheme.primary),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            ToursTheme.primary,
+                          ),
                         ),
                       ),
                     ),
@@ -541,7 +645,10 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                   const SizedBox(width: 12),
                   Text(
                     _currencyFormat.format(tour.totalSales),
-                    style: TextStyle(color: ToursTheme.onSurfaceVariant.withOpacity(0.8), fontSize: 11),
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant.withValues(alpha: 0.8),
+                      fontSize: 11,
+                    ),
                   ),
                 ],
               ),
@@ -561,7 +668,10 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
           children: [
             Icon(Icons.feed_outlined, size: 48, color: ToursTheme.outline),
             SizedBox(height: 12),
-            Text('Chưa có lịch sử giao dịch nào.', style: TextStyle(color: ToursTheme.onSurfaceVariant)),
+            Text(
+              'Chưa có lịch sử giao dịch nào.',
+              style: TextStyle(color: ToursTheme.onSurfaceVariant),
+            ),
           ],
         ),
       );
@@ -582,11 +692,64 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: const Row(
               children: [
-                Expanded(flex: 3, child: Text('TOUR / TRẢI NGHIỆM', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold))),
-                Expanded(flex: 2, child: Text('KHÁCH HÀNG', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold))),
-                Expanded(flex: 2, child: Text('THỜI GIAN', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold))),
-                Expanded(flex: 2, child: Text('TỔNG TIỀN', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold))),
-                Expanded(flex: 2, child: Align(alignment: Alignment.centerRight, child: Text('TRẠNG THÁI', style: TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold)))),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'TOUR / TRẢI NGHIỆM',
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'KHÁCH HÀNG',
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'THỜI GIAN',
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'TỔNG TIỀN',
+                    style: TextStyle(
+                      color: ToursTheme.onSurfaceVariant,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'TRẠNG THÁI',
+                      style: TextStyle(
+                        color: ToursTheme.onSurfaceVariant,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -620,10 +783,20 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                 } catch (_) {}
 
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
-                    color: isEven ? Colors.transparent : ToursTheme.surfaceContainerLow.withOpacity(0.3),
-                    border: const Border(bottom: BorderSide(color: ToursTheme.outlineVariant, width: 0.5)),
+                    color: isEven
+                        ? Colors.transparent
+                        : ToursTheme.surfaceContainerLow.withValues(alpha: 0.3),
+                    border: const Border(
+                      bottom: BorderSide(
+                        color: ToursTheme.outlineVariant,
+                        width: 0.5,
+                      ),
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -631,7 +804,11 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                         flex: 3,
                         child: Text(
                           feed.tourTitle,
-                          style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -640,7 +817,10 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                         flex: 2,
                         child: Text(
                           feed.userName,
-                          style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12),
+                          style: const TextStyle(
+                            color: ToursTheme.onSurfaceVariant,
+                            fontSize: 12,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -649,7 +829,10 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                         flex: 2,
                         child: Text(
                           dateStr,
-                          style: const TextStyle(color: ToursTheme.onSurfaceVariant, fontSize: 12),
+                          style: const TextStyle(
+                            color: ToursTheme.onSurfaceVariant,
+                            fontSize: 12,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -658,7 +841,11 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                         flex: 2,
                         child: Text(
                           _currencyFormat.format(feed.totalCost),
-                          style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -668,15 +855,25 @@ class _TourStatisticsScreenState extends ConsumerState<TourStatisticsScreen> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
-                              color: statusColor.withOpacity(0.12),
+                              color: statusColor.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(4),
-                              border: Border.all(color: statusColor.withOpacity(0.4), width: 0.8),
+                              border: Border.all(
+                                color: statusColor.withValues(alpha: 0.4),
+                                width: 0.8,
+                              ),
                             ),
                             child: Text(
                               statusLabel,
-                              style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                color: statusColor,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
