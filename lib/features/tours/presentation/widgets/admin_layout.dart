@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../theme/tours_theme.dart';
 import '../views/create_tour_screen.dart';
+import '../../../../core/widgets/admin_sidebar.dart';
+import '../../../../app/router/route_paths.dart';
 
 class AdminLayout extends StatelessWidget {
   const AdminLayout({
@@ -37,153 +38,37 @@ class AdminLayout extends StatelessWidget {
   }
 
   Widget _buildSidebar(BuildContext context) {
-    return Container(
-      color: ToursTheme.surfaceContainerLow,
-      child: Column(
-        children: [
-          // Logo / Header
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: ToursTheme.outlineVariant,
-                  width: 0.5,
-                ),
-              ),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: ToursTheme.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.explore,
-                    color: ToursTheme.primary,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Voyage Admin',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Executive Suite',
-                        style: TextStyle(
-                          color: ToursTheme.onSurfaceVariant,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Menu Items
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-              children: [
-                _buildMenuItem(context, 'Dashboard', Icons.dashboard_outlined),
-                _buildMenuItem(context, 'Tours', Icons.tour_outlined),
-                _buildMenuItem(context, 'Categories', Icons.category_outlined),
-                _buildMenuItem(context, 'Bookings', Icons.book_online_outlined),
-                _buildMenuItem(context, 'Users', Icons.people_outline),
-                _buildMenuItem(context, 'Reviews', Icons.star_outline),
-                _buildMenuItem(context, 'Analytics', Icons.analytics_outlined),
-                _buildMenuItem(context, 'Settings', Icons.settings_outlined),
-              ],
-            ),
-          ),
-          // Footer Add Tour Button
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ToursTheme.primary,
-                  foregroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-                  ),
-                  elevation: 2,
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const CreateTourScreen(),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.add, size: 20),
-                label: const Text(
-                  'Thêm Tour Mới',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+    return AdminSidebar(
+      currentPath: _currentPathFor(currentMenu),
+      onCreateTourPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const CreateTourScreen()),
+        );
+      },
     );
   }
 
-  Widget _buildMenuItem(BuildContext context, String title, IconData icon) {
-    final isActive = title.toLowerCase() == currentMenu.toLowerCase();
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: Material(
-        color: isActive
-            ? ToursTheme.primary.withValues(alpha: 0.15)
-            : Colors.transparent,
-        borderRadius: BorderRadius.circular(ToursTheme.radiusLg),
-        clipBehavior: Clip.antiAlias,
-        child: ListTile(
-          leading: Icon(
-            icon,
-            color: isActive ? ToursTheme.primary : ToursTheme.onSurfaceVariant,
-            size: 20,
-          ),
-          title: Text(
-            title,
-            style: TextStyle(
-              color: isActive ? Colors.white : ToursTheme.onSurfaceVariant,
-              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-              fontSize: 14,
-            ),
-          ),
-          onTap: () {
-            if (title.toLowerCase() == 'tours') {
-              context.go('/admin/tours');
-            } else if (title.toLowerCase() == 'categories') {
-              context.go('/admin/categories');
-            } else if (title.toLowerCase() == 'analytics') {
-              context.go('/admin/analytics');
-            } else if (title.toLowerCase() == 'reviews') {
-              context.go('/admin/reviews');
-            } else if (title.toLowerCase() == 'dashboard') {
-              context.go('/admin');
-            }
-          },
-        ),
-      ),
-    );
+  String _currentPathFor(String menu) {
+    switch (menu.toLowerCase()) {
+      case 'dashboard':
+        return RoutePaths.adminDashboard;
+      case 'tours':
+        return RoutePaths.adminTours;
+      case 'categories':
+        return RoutePaths.adminCategories;
+      case 'bookings':
+        return RoutePaths.adminBookings;
+      case 'users':
+        return RoutePaths.adminUsers;
+      case 'reviews':
+        return RoutePaths.adminReviews;
+      case 'analytics':
+        return RoutePaths.adminAnalytics;
+      case 'settings':
+        return RoutePaths.adminSettings;
+      default:
+        return RoutePaths.adminTours;
+    }
   }
 
   Widget _buildTopHeader(BuildContext context, bool showMenuButton) {

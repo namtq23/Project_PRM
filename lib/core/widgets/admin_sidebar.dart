@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app/router/route_paths.dart';
+import '../../features/authentication/presentation/view_models/auth_view_model.dart';
 
 abstract class _SidebarTokens {
   static const Color background = Color(0xFF151B2D); // surface-container-low
@@ -25,7 +27,7 @@ class AdminSidebarItem {
   });
 }
 
-class AdminSidebar extends StatelessWidget {
+class AdminSidebar extends ConsumerWidget {
   final String currentPath;
   final VoidCallback? onCreateTourPressed;
 
@@ -79,7 +81,7 @@ class AdminSidebar extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       width: 250,
       color: _SidebarTokens.background,
@@ -194,9 +196,52 @@ class AdminSidebar extends StatelessWidget {
             ),
           ),
 
+          const Divider(
+            color: _SidebarTokens.outlineVariant,
+            height: 1,
+            indent: 16,
+            endIndent: 16,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: () => _handleLogout(context, ref),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.logout_rounded,
+                        size: 20,
+                        color: _SidebarTokens.onSurfaceVariant,
+                      ),
+                      SizedBox(width: 14),
+                      Text(
+                        'Logout',
+                        style: TextStyle(
+                          color: _SidebarTokens.onSurfaceVariant,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           // Bottom Action Button: + Create New Tour
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
             child: SizedBox(
               width: double.infinity,
               height: 44,
@@ -225,6 +270,57 @@ class AdminSidebar extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _handleLogout(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: const Color(0xFF191F31),
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: Color(0xFF3E484F)),
+        ),
+        title: const Text(
+          'Xác nhận đăng xuất',
+          style: TextStyle(
+            color: Color(0xFFDCE1FB),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: const Text(
+          'Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?',
+          style: TextStyle(color: Color(0xFFBDC8D1)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text(
+              'Hủy',
+              style: TextStyle(color: Color(0xFFBDC8D1)),
+            ),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              ref.read(authViewModelProvider.notifier).logout();
+            },
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFFFFB4AB),
+              foregroundColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: const Text(
+              'Đăng xuất',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ],

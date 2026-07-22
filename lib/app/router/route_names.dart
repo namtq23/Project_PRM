@@ -21,5 +21,4 @@ abstract final class RouteNames {
   static const adminReviews = 'adminReviews';
   static const adminAnalytics = 'adminAnalytics';
   static const adminSettings = 'adminSettings';
-  static const adminAnalytics = 'adminAnalytics';
 }

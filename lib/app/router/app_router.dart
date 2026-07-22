@@ -47,7 +47,6 @@ GoRouter appRouter(Ref ref) {
       final isAdminRoute =
           location == RoutePaths.adminDashboard ||
           location.startsWith('${RoutePaths.adminDashboard}/');
-      if (isAdmin && !isAdminRoute) return RoutePaths.adminDashboard;
       if (!isAdmin && isAdminRoute) return RoutePaths.home;
       if (isAuthenticationRoute || location == RoutePaths.splash) {
         return isAdmin ? RoutePaths.adminDashboard : RoutePaths.home;

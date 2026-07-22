@@ -172,7 +172,10 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                 },
               ),
               hintText: 'Tìm kiếm tour...',
-              hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
+              hintStyle: const TextStyle(
+                color: Color(0xFF94A3B8),
+                fontSize: 14,
+              ),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12,

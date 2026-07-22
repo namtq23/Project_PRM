@@ -9,9 +9,9 @@ import '../content_management/manage_tours/routes/manage_tours_routes.dart';
 import '../content_management/view_tour_stats/routes/tour_stats_routes.dart';
 import '../reviews/routes/review_routes.dart';
 
-import '../../booking_management/presentation/views/booking_management_screen.dart';
-import '../../system_settings/presentation/views/system_settings_screen.dart';
-import '../../user_management/presentation/views/user_management_screen.dart';
+import '../../booking_management/routes/booking_management_routes.dart';
+import '../../system_settings/routes/system_settings_routes.dart';
+import '../../user_management/routes/user_management_routes.dart';
 
 List<RouteBase> adminRoutes() => [
   GoRoute(
@@ -23,19 +23,7 @@ List<RouteBase> adminRoutes() => [
   ...manageCategoriesRoutes(),
   ...tourStatsRoutes(),
   ...reviewRoutes(),
-  GoRoute(
-    path: RoutePaths.adminBookings,
-    name: RouteNames.adminBookings,
-    builder: (_, _) => const BookingManagementScreen(),
-  ),
-  GoRoute(
-    path: RoutePaths.adminUsers,
-    name: RouteNames.adminUsers,
-    builder: (_, _) => const UserManagementScreen(),
-  ),
-  GoRoute(
-    path: RoutePaths.adminSettings,
-    name: RouteNames.adminSettings,
-    builder: (_, _) => const SystemSettingsScreen(),
-  ),
+  ...bookingManagementRoutes(),
+  ...userManagementRoutes(),
+  ...systemSettingsRoutes(),
 ];
