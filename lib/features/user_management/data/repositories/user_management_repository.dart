@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/database/app_database.dart';
 import '../../../../core/database/database_constants.dart';
@@ -99,7 +101,32 @@ class UserManagementRepository {
       ];
 
       for (final u in users) {
-        await db.insert(DatabaseConstants.usersTable, u.toMap());
+        final map = u.toMap();
+        final password = u.role == 'admin'
+            ? 'admin123'
+            : u.role == 'support'
+            ? 'support123'
+            : 'user123';
+        map['password_hash'] = sha256.convert(utf8.encode(password)).toString();
+        await db.insert(DatabaseConstants.usersTable, map);
+      }
+    } else {
+      final defaultPasswords = {
+        'elena.vance@voyage.com': 'admin123',
+        'm.thorne@explorer.net': 'user123',
+        'k.sato@voyage-support.com': 'support123',
+      };
+      for (final entry in defaultPasswords.entries) {
+        await db.update(
+          DatabaseConstants.usersTable,
+          {
+            'password_hash': sha256
+                .convert(utf8.encode(entry.value))
+                .toString(),
+          },
+          where: 'email = ? AND (password_hash IS NULL OR password_hash = ?)',
+          whereArgs: [entry.key, ''],
+        );
       }
     }
   }
