@@ -149,20 +149,23 @@ class _CategoryChip extends StatelessWidget {
   final IconData icon;
   final bool selected;
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(right: 10),
-    child: FilterChip(
-      selected: selected,
-      onSelected: (_) {},
-      avatar: Icon(icon, size: 18),
-      label: Text(label),
-      selectedColor: const Color(0xFF036B99),
-      checkmarkColor: Colors.white,
-      labelStyle: TextStyle(
-        color: selected ? Colors.white : const Color(0xFF334155),
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: FilterChip(
+        selected: selected,
+        onSelected: (_) {},
+        avatar: Icon(icon, size: 18),
+        label: Text(label),
+        selectedColor: colors.primary,
+        checkmarkColor: colors.onPrimary,
+        labelStyle: TextStyle(
+          color: selected ? colors.onPrimary : colors.onSurfaceVariant,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class TourCard extends StatelessWidget {
@@ -170,85 +173,91 @@ class TourCard extends StatelessWidget {
   final TourPreview tour;
   final VoidCallback onBook;
   @override
-  Widget build(BuildContext context) => Card(
-    elevation: 0,
-    clipBehavior: Clip.antiAlias,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
-      side: const BorderSide(color: Color(0xFFE2E8F0)),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          children: [
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Image.asset(tour.image, fit: BoxFit.cover),
-            ),
-            const Positioned(
-              top: 10,
-              right: 10,
-              child: CircleAvatar(
-                backgroundColor: Color(0xE6FFFFFF),
-                child: Icon(Icons.favorite_border, color: Color(0xFFEF4444)),
-              ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Card(
+      elevation: 0,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: colors.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
             children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on_outlined,
-                    size: 16,
-                    color: Color(0xFF64748B),
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    tour.location,
-                    style: const TextStyle(
-                      color: Color(0xFF64748B),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.asset(tour.image, fit: BoxFit.cover),
               ),
-              const SizedBox(height: 8),
-              Text(
-                tour.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+              const Positioned(
+                top: 10,
+                right: 10,
+                child: CircleAvatar(
+                  backgroundColor: Color(0xE6FFFFFF),
+                  child: Icon(Icons.favorite_border, color: Color(0xFFEF4444)),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      tour.price,
-                      style: const TextStyle(
-                        color: Color(0xFF036B99),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  TextButton(onPressed: onBook, child: const Text('Đặt ngay')),
-                ],
               ),
             ],
           ),
-        ),
-      ],
-    ),
-  );
+          Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_on_outlined,
+                      size: 16,
+                      color: colors.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      tour.location,
+                      style: TextStyle(
+                        color: colors.onSurfaceVariant,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  tour.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        tour.price,
+                        style: TextStyle(
+                          color: colors.primary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: onBook,
+                      child: const Text('Đặt ngay'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class DestinationGrid extends StatelessWidget {

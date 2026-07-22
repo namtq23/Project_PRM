@@ -82,4 +82,9 @@ class AuthViewModel extends _$AuthViewModel {
       state = const AsyncData(AuthUnauthenticated());
     }
   }
+
+  Future<void> refreshCurrentUser() async {
+    final user = await ref.read(authRepositoryProvider).getCurrentUser();
+    if (user != null) state = AsyncData(AuthAuthenticated(user));
+  }
 }

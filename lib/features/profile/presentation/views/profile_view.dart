@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/route_names.dart';
-import '../../../authentication/domain/models/app_user.dart';
-import '../../../authentication/presentation/states/auth_state.dart';
 import '../../../authentication/presentation/view_models/auth_view_model.dart';
+import '../../models/profile_model.dart';
+import '../view_models/profile_view_model.dart';
 import '../widgets/profile_widget.dart';
 
 class ProfileView extends ConsumerWidget {
@@ -13,14 +13,9 @@ class ProfileView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch(authViewModelProvider);
-    final authState = auth.value;
-
+    final profile = ref.watch(profileViewModelProvider);
     return Scaffold(
-      backgroundColor: ProfilePalette.background,
       appBar: AppBar(
-        backgroundColor: ProfilePalette.surface,
-        surfaceTintColor: Colors.transparent,
         title: const Text('Hồ sơ cá nhân'),
         centerTitle: true,
         actions: [
@@ -31,26 +26,30 @@ class ProfileView extends ConsumerWidget {
           ),
         ],
       ),
-      body: auth.isLoading
-          ? const ProfileSkeleton()
-          : authState is AuthAuthenticated
-          ? _ProfileContent(user: authState.user)
-          : const Center(child: Text('Không thể tải thông tin hồ sơ.')),
+      body: profile.when(
+        loading: () => const ProfileSkeleton(),
+        error: (error, _) => _ProfileError(
+          onRetry: () => ref.invalidate(profileViewModelProvider),
+        ),
+        data: (value) => value == null
+            ? const Center(child: Text('Không tìm thấy thông tin hồ sơ.'))
+            : _ProfileContent(profile: value),
+      ),
       bottomNavigationBar: const ProfileBottomNavigation(),
     );
   }
 }
 
 class _ProfileContent extends ConsumerWidget {
-  const _ProfileContent({required this.user});
+  const _ProfileContent({required this.profile});
 
-  final AppUser user;
+  final ProfileModel profile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => ListView(
     padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
     children: [
-      ProfileHeader(user: user),
+      ProfileHeader(profile: profile),
       const SizedBox(height: 28),
       ProfileMenuSection(
         title: 'Tài khoản',
@@ -98,8 +97,8 @@ class _ProfileContent extends ConsumerWidget {
         icon: const Icon(Icons.logout_rounded),
         label: const Text('Đăng xuất'),
         style: OutlinedButton.styleFrom(
-          foregroundColor: ProfilePalette.danger,
-          side: const BorderSide(color: ProfilePalette.dangerBorder),
+          foregroundColor: Theme.of(context).colorScheme.error,
+          side: BorderSide(color: Theme.of(context).colorScheme.error),
           minimumSize: const Size.fromHeight(52),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(ProfileRadii.medium),
@@ -107,5 +106,28 @@ class _ProfileContent extends ConsumerWidget {
         ),
       ),
     ],
+  );
+}
+
+class _ProfileError extends StatelessWidget {
+  const _ProfileError({required this.onRetry});
+
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.cloud_off_outlined, size: 48),
+          const SizedBox(height: 12),
+          const Text('Không thể tải thông tin hồ sơ.'),
+          const SizedBox(height: 16),
+          FilledButton(onPressed: onRetry, child: const Text('Thử lại')),
+        ],
+      ),
+    ),
   );
 }

@@ -16,21 +16,15 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authViewModelProvider).value;
+    final colors = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
       drawer: authState is AuthAuthenticated
           ? _UserDrawer(user: authState.user)
           : const _GuestDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF0F172A),
-        surfaceTintColor: Colors.transparent,
-        title: const Text(
+        title: Text(
           'Khám phá',
-          style: TextStyle(
-            color: Color(0xFF036B99),
-            fontWeight: FontWeight.w700,
-          ),
+          style: TextStyle(color: colors.primary, fontWeight: FontWeight.w700),
         ),
         actions: [
           IconButton(

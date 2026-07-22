@@ -59,6 +59,7 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter_svg: ^2.3.0
   shimmer: ^3.0.0
+  file_selector: ^1.0.3
   riverpod_annotation: ^4.0.3
   path: ^1.9.1
   crypto: ^3.0.7

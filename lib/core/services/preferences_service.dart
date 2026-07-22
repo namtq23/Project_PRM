@@ -5,6 +5,7 @@ part 'preferences_service.g.dart';
 
 class PreferencesService {
   static const _currentUserIdKey = 'current_user_id';
+  static const _themeModeKey = 'theme_mode';
 
   Future<void> saveCurrentUserId(int userId) async {
     final preferences = await SharedPreferences.getInstance();
@@ -19,6 +20,16 @@ class PreferencesService {
   Future<void> clearCurrentUser() async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.remove(_currentUserIdKey);
+  }
+
+  Future<String?> getThemeMode() async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getString(_themeModeKey);
+  }
+
+  Future<void> saveThemeMode(String themeMode) async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString(_themeModeKey, themeMode);
   }
 }
 

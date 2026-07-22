@@ -1,71 +1,107 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/router/route_names.dart';
-import '../../../authentication/domain/models/app_user.dart';
-
-abstract final class ProfilePalette {
-  static const primary = Color(0xFF0EA5E9);
-  static const primaryDark = Color(0xFF036B99);
-  static const primarySoft = Color(0xFFE0F2FE);
-  static const background = Color(0xFFF8FAFC);
-  static const surface = Colors.white;
-  static const text = Color(0xFF0F172A);
-  static const muted = Color(0xFF64748B);
-  static const border = Color(0xFFE2E8F0);
-  static const danger = Color(0xFFDC2626);
-  static const dangerBorder = Color(0xFFFECACA);
-}
+import '../../models/profile_model.dart';
 
 abstract final class ProfileRadii {
   static const medium = 14.0;
   static const large = 16.0;
 }
 
-class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({required this.user, super.key});
+ImageProvider<Object>? profileAvatarProvider(String? avatarUrl) {
+  final value = avatarUrl?.trim();
+  if (value == null || value.isEmpty) return null;
+  if (value.startsWith('data:image/')) {
+    try {
+      return MemoryImage(base64Decode(value.substring(value.indexOf(',') + 1)));
+    } on FormatException {
+      return null;
+    }
+  }
+  if (value.startsWith('http://') || value.startsWith('https://')) {
+    return NetworkImage(value);
+  }
+  return null;
+}
 
-  final AppUser user;
+class ProfileAvatar extends StatelessWidget {
+  const ProfileAvatar({
+    required this.fullName,
+    this.avatarUrl,
+    this.radius = 52,
+    super.key,
+  });
+
+  final String fullName;
+  final String? avatarUrl;
+  final double radius;
 
   @override
   Widget build(BuildContext context) {
-    final avatarUrl = user.avatarUrl?.trim();
+    final colors = Theme.of(context).colorScheme;
+    final image = profileAvatarProvider(avatarUrl);
+    return CircleAvatar(
+      radius: radius,
+      backgroundColor: colors.primaryContainer,
+      foregroundImage: image,
+      child: image == null
+          ? Text(
+              _initials(fullName),
+              style: TextStyle(
+                color: colors.onPrimaryContainer,
+                fontSize: radius * 0.58,
+                fontWeight: FontWeight.w700,
+              ),
+            )
+          : null,
+    );
+  }
+
+  String _initials(String name) {
+    final words = name.trim().split(RegExp(r'\s+'));
+    if (words.isEmpty || words.first.isEmpty) return '?';
+    return words.length == 1
+        ? words.first[0].toUpperCase()
+        : '${words.first[0]}${words.last[0]}'.toUpperCase();
+  }
+}
+
+class ProfileHeader extends StatelessWidget {
+  const ProfileHeader({required this.profile, super.key});
+
+  final ProfileModel profile;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return Column(
       children: [
         Stack(
           clipBehavior: Clip.none,
           children: [
-            CircleAvatar(
-              radius: 52,
-              backgroundColor: ProfilePalette.primarySoft,
-              foregroundImage: avatarUrl == null || avatarUrl.isEmpty
-                  ? null
-                  : NetworkImage(avatarUrl),
-              child: Text(
-                _initials(user.fullName),
-                style: const TextStyle(
-                  color: ProfilePalette.primaryDark,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+            ProfileAvatar(
+              fullName: profile.fullName,
+              avatarUrl: profile.avatarUrl,
             ),
             Positioned(
               right: -2,
               bottom: 2,
               child: Material(
-                color: ProfilePalette.primary,
-                shape: const CircleBorder(
-                  side: BorderSide(color: Colors.white, width: 3),
+                color: colors.primary,
+                shape: CircleBorder(
+                  side: BorderSide(color: colors.surface, width: 3),
                 ),
                 child: InkWell(
                   customBorder: const CircleBorder(),
                   onTap: () => context.pushNamed(RouteNames.editProfile),
-                  child: const Padding(
-                    padding: EdgeInsets.all(9),
+                  child: Padding(
+                    padding: const EdgeInsets.all(9),
                     child: Icon(
                       Icons.edit_outlined,
-                      color: Colors.white,
+                      color: colors.onPrimary,
                       size: 18,
                     ),
                   ),
@@ -76,28 +112,30 @@ class ProfileHeader extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          user.fullName,
-          style: const TextStyle(
-            color: ProfilePalette.text,
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-          ),
+          profile.fullName,
+          textAlign: TextAlign.center,
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 6),
         Text(
-          user.email,
-          style: const TextStyle(color: ProfilePalette.muted, fontSize: 15),
+          profile.email,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: colors.onSurfaceVariant),
         ),
+        if (profile.phone?.isNotEmpty == true) ...[
+          const SizedBox(height: 5),
+          Text(
+            profile.phone!,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: colors.onSurfaceVariant),
+          ),
+        ],
       ],
     );
-  }
-
-  String _initials(String name) {
-    final words = name.trim().split(RegExp(r'\s+'));
-    if (words.isEmpty || words.first.isEmpty) return '?';
-    return words.length == 1
-        ? words.first[0].toUpperCase()
-        : '${words.first[0]}${words.last[0]}'.toUpperCase();
   }
 }
 
@@ -112,31 +150,33 @@ class ProfileMenuSection extends StatelessWidget {
   final List<Widget> children;
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 4, bottom: 10),
-        child: Text(
-          title.toUpperCase(),
-          style: const TextStyle(
-            color: ProfilePalette.muted,
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0.8,
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 10),
+          child: Text(
+            title.toUpperCase(),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: colors.onSurfaceVariant,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.8,
+            ),
           ),
         ),
-      ),
-      Container(
-        decoration: BoxDecoration(
-          color: ProfilePalette.surface,
-          borderRadius: BorderRadius.circular(ProfileRadii.large),
-          border: Border.all(color: ProfilePalette.border),
+        Container(
+          decoration: BoxDecoration(
+            color: colors.surface,
+            borderRadius: BorderRadius.circular(ProfileRadii.large),
+            border: Border.all(color: colors.outlineVariant),
+          ),
+          child: Column(children: children),
         ),
-        child: Column(children: children),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
 
 class ProfileMenuTile extends StatelessWidget {
@@ -154,37 +194,34 @@ class ProfileMenuTile extends StatelessWidget {
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => ListTile(
-    onTap: onTap,
-    minTileHeight: 72,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-    leading: Container(
-      width: 42,
-      height: 42,
-      decoration: BoxDecoration(
-        color: ProfilePalette.primarySoft,
-        borderRadius: BorderRadius.circular(12),
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return ListTile(
+      onTap: onTap,
+      minTileHeight: 72,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      leading: Container(
+        width: 42,
+        height: 42,
+        decoration: BoxDecoration(
+          color: colors.primaryContainer,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Icon(icon, color: colors.onPrimaryContainer, size: 22),
       ),
-      child: Icon(icon, color: ProfilePalette.primaryDark, size: 22),
-    ),
-    title: Text(
-      title,
-      style: const TextStyle(
-        fontWeight: FontWeight.w600,
-        color: ProfilePalette.text,
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+      subtitle: Text(
+        subtitle,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: colors.onSurfaceVariant, fontSize: 12),
       ),
-    ),
-    subtitle: Text(
-      subtitle,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: const TextStyle(color: ProfilePalette.muted, fontSize: 12),
-    ),
-    trailing: const Icon(
-      Icons.chevron_right_rounded,
-      color: ProfilePalette.muted,
-    ),
-  );
+      trailing: Icon(
+        Icons.chevron_right_rounded,
+        color: colors.onSurfaceVariant,
+      ),
+    );
+  }
 }
 
 class ProfileBottomNavigation extends StatelessWidget {
@@ -235,24 +272,30 @@ class ProfileSkeleton extends StatelessWidget {
   const ProfileSkeleton({super.key});
 
   @override
-  Widget build(BuildContext context) => ListView(
-    padding: const EdgeInsets.all(20),
-    children: [
-      const Center(
-        child: CircleAvatar(radius: 52, backgroundColor: ProfilePalette.border),
-      ),
-      const SizedBox(height: 20),
-      ...List.generate(
-        5,
-        (_) => Container(
-          height: 72,
-          margin: const EdgeInsets.only(bottom: 12),
-          decoration: BoxDecoration(
-            color: ProfilePalette.surface,
-            borderRadius: BorderRadius.circular(ProfileRadii.large),
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        Center(
+          child: CircleAvatar(
+            radius: 52,
+            backgroundColor: colors.surfaceContainerHighest,
           ),
         ),
-      ),
-    ],
-  );
+        const SizedBox(height: 20),
+        ...List.generate(
+          5,
+          (_) => Container(
+            height: 72,
+            margin: const EdgeInsets.only(bottom: 12),
+            decoration: BoxDecoration(
+              color: colors.surface,
+              borderRadius: BorderRadius.circular(ProfileRadii.large),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
