@@ -20,6 +20,19 @@ class AuthRepositoryImpl implements AuthRepository {
   final PreferencesService preferencesService;
 
   @override
+  Future<AppUser?> getCurrentUser() async {
+    final userId = await preferencesService.getCurrentUserId();
+    if (userId == null) return null;
+
+    final user = await localDataSource.getUserById(userId);
+    if (user == null || user.status.toLowerCase() != 'active') {
+      await preferencesService.clearCurrentUser();
+      return null;
+    }
+    return user;
+  }
+
+  @override
   Future<AppUser> loginWithEmail({
     required String email,
     required String password,
@@ -93,8 +106,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> logout() =>
-      throw UnimplementedError('Logout will be implemented later.');
+  Future<void> logout() async {
+    try {
+      await googleDataSource.signOut();
+    } finally {
+      await preferencesService.clearCurrentUser();
+    }
+  }
 }
 
 @Riverpod(keepAlive: true)

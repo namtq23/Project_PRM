@@ -14,6 +14,17 @@ class UserLocalDataSource {
 
   final AppDatabase database;
 
+  Future<AppUser?> getUserById(int userId) async {
+    final db = await database.database;
+    final rows = await db.query(
+      DatabaseConstants.usersTable,
+      where: 'id = ?',
+      whereArgs: [userId],
+      limit: 1,
+    );
+    return rows.isEmpty ? null : AppUser.fromMap(rows.single);
+  }
+
   Future<AppUser> loginWithEmail({
     required String email,
     required String password,

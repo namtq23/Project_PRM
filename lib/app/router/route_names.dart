@@ -5,11 +5,13 @@ abstract final class RouteNames {
   static const forgotPassword = 'forgotPassword';
   static const home = 'home';
   static const search = 'search';
+  static const searchResults = 'searchResults';
   static const wishlist = 'wishlist';
   static const tourDetail = 'tourDetail';
   static const bookings = 'bookings';
   static const bookingDetail = 'bookingDetail';
   static const profile = 'profile';
+  static const editProfile = 'editProfile';
   static const settings = 'settings';
   static const adminDashboard = 'adminDashboard';
   static const adminTours = 'adminTours';
@@ -19,4 +21,5 @@ abstract final class RouteNames {
   static const adminReviews = 'adminReviews';
   static const adminAnalytics = 'adminAnalytics';
   static const adminSettings = 'adminSettings';
+  static const adminAnalytics = 'adminAnalytics';
 }
