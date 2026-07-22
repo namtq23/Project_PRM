@@ -55,4 +55,4 @@ final class SystemSettingsRepositoryProvider
 }
 
 String _$systemSettingsRepositoryHash() =>
-    r'49c5bb018ae3d99e09d57a9f733eb71ee3165b4c';
+    r'ada336b27fe0f669544dd009bf9282b35e5f84de';

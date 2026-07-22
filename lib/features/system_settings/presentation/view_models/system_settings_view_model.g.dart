@@ -35,7 +35,7 @@ final class SystemSettingsViewModelProvider
 }
 
 String _$systemSettingsViewModelHash() =>
-    r'a5c78bbcae2ff5ec5ecb498f79f2257d9b0ef093';
+    r'46d167a116cede03fddf2f56baba77e75203e7c1';
 
 abstract class _$SystemSettingsViewModel
     extends $AsyncNotifier<SystemSettingsModel> {

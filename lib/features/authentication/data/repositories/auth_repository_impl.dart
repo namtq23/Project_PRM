@@ -24,8 +24,16 @@ class AuthRepositoryImpl implements AuthRepository {
     final userId = await preferencesService.getCurrentUserId();
     if (userId == null) return null;
 
+    final sessionEmail = await preferencesService.getCurrentUserEmail();
+    if (sessionEmail == null || sessionEmail.isEmpty) {
+      await preferencesService.clearCurrentUser();
+      return null;
+    }
+
     final user = await localDataSource.getUserById(userId);
-    if (user == null || user.status.toLowerCase() != 'active') {
+    if (user == null ||
+        user.status.toLowerCase() != 'active' ||
+        user.email.toLowerCase() != sessionEmail.toLowerCase()) {
       await preferencesService.clearCurrentUser();
       return null;
     }
@@ -42,7 +50,10 @@ class AuthRepositoryImpl implements AuthRepository {
         email: email,
         password: password,
       );
-      await preferencesService.saveCurrentUserId(user.id);
+      await preferencesService.saveCurrentUserSession(
+        userId: user.id,
+        email: user.email,
+      );
       return user;
     } on LocalAuthException catch (error) {
       throw AuthException(switch (error.error) {
@@ -89,7 +100,10 @@ class AuthRepositoryImpl implements AuthRepository {
             : googleUser.email.split('@').first,
         photoUrl: googleUser.photoUrl,
       );
-      await preferencesService.saveCurrentUserId(user.id);
+      await preferencesService.saveCurrentUserSession(
+        userId: user.id,
+        email: user.email,
+      );
       return user;
     } on GoogleAuthException catch (error) {
       throw AuthException(error.message);
